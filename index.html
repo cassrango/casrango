@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رادیوتلویزیون هوشمند | انجمن ترویج فرهنگ مسئولیت اجتماعی</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #005a9c;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .news-item {
+            background: #f9f9f9;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-right: 4px solid #005a9c;
+        }
+        .news-item .date {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        .contact {
+            background: #eef3f8;
+            padding: 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📻 رادیوتلویزیون هوشمند</h1>
+        <h2>انجمن ترویج فرهنگ مسئولیت اجتماعی</h2>
 
+        <div class="section" id="about">
+            <h3>درباره انجمن</h3>
+            <p id="about-text">در حال بارگذاری...</p>
+        </div>
+
+        <div class="section" id="goals">
+            <h3>اهداف</h3>
+            <ul id="goals-list"></ul>
+        </div>
+
+        <div class="section" id="structure">
+            <h3>ساختار سازمانی</h3>
+            <div id="structure-content"></div>
+        </div>
+
+        <div class="section" id="groups">
+            <h3>گروه‌های تخصصی</h3>
+            <ul id="groups-list"></ul>
+        </div>
+
+        <div class="section" id="news">
+            <h3>اخبار و رویدادها</h3>
+            <div id="news-container"></div>
+        </div>
+
+        <div class="section contact" id="contact">
+            <h3>تماس با ما</h3>
+            <div id="contact-info"></div>
+        </div>
+    </div>
+
+    <script>
+        // بارگذاری اطلاعات از فایل library.json
+        fetch('library.json')
+            .then(response => response.json())
+            .then(data => {
+                const org = data.organization;
+
+                // درباره انجمن
+                document.getElementById('about-text').textContent = org.about;
+
+                // اهداف
+                const goalsList = document.getElementById('goals-list');
+                org.goals.forEach(goal => {
+                    const li = document.createElement('li');
+                    li.textContent = goal;
+                    goalsList.appendChild(li);
+                });
+
+                // ساختار سازمانی
+                const structureDiv = document.getElementById('structure-content');
+                structureDiv.innerHTML = `
+                    <p><strong>هیات موسس:</strong> ${org.structure.board.join('، ')}</p>
+                    <p><strong>معاونت‌ها:</strong> ${org.structure.departments.join('، ')}</p>
+                `;
+
+                // گروه‌های تخصصی
+                const groupsList = document.getElementById('groups-list');
+                org.groups.forEach(group => {
+                    const li = document.createElement('li');
+                    li.textContent = group;
+                    groupsList.appendChild(li);
+                });
+
+                // اخبار
+                const newsContainer = document.getElementById('news-container');
+                org.news.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'news-item';
+                    div.innerHTML = `<span class="date">${item.date}</span> - ${item.title}`;
+                    newsContainer.appendChild(div);
+                });
+
+                // اطلاعات تماس
+                const contactDiv = document.getElementById('contact-info');
+                contactDiv.innerHTML = `
+                    <p><strong>ایمیل:</strong> ${org.contact.email}</p>
+                    <p><strong>تلفن:</strong> ${org.contact.phone}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('خطا در بارگذاری اطلاعات:', error);
+                document.getElementById('about-text').textContent = 'خطا در بارگذاری اطلاعات.';
+            });
+    </script>
+</body>
+</html>
