@@ -20,13 +20,50 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        h1, h2, h3 {
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #005a9c;
+            margin-bottom: 30px;
+        }
+        .logo-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 4px solid #f7c948;
+            box-shadow: 0 8px 25px rgba(0, 90, 156, 0.25);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #0b3d5c;
+        }
+        .logo-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 90, 156, 0.35);
+        }
+        .logo-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        h1 {
             color: #005a9c;
+            margin: 0 0 5px 0;
+        }
+        h2 {
+            color: #005a9c;
+            margin: 0 0 5px 0;
+            font-weight: 300;
+        }
+        h3 {
+            color: #005a9c;
+            border-bottom: 2px solid #f7c948;
+            padding-bottom: 8px;
+            margin-top: 30px;
         }
         .section {
             margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
         }
         .news-item {
             background: #f9f9f9;
@@ -43,13 +80,36 @@
             background: #eef3f8;
             padding: 16px;
             border-radius: 8px;
+            margin-top: 30px;
+        }
+        ul {
+            padding-right: 20px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #777;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📻 رادیوتلویزیون هوشمند</h1>
-        <h2>انجمن ترویج فرهنگ مسئولیت اجتماعی</h2>
+        <div class="header">
+            <div class="logo-container">
+                <video autoplay muted loop playsinline>
+                    <source src="images/video_2024-12-16_23-54-20.mp4" type="video/mp4">
+                    مرورگر شما از نمایش ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+            <h1>📻 رادیوتلویزیون هوشمند</h1>
+            <h2>انجمن ترویج فرهنگ مسئولیت اجتماعی</h2>
+        </div>
 
         <div class="section" id="about">
             <h3>درباره انجمن</h3>
@@ -76,23 +136,25 @@
             <div id="news-container"></div>
         </div>
 
-        <div class="section contact" id="contact">
+        <div class="contact" id="contact">
             <h3>تماس با ما</h3>
             <div id="contact-info"></div>
+        </div>
+
+        <div class="footer">
+            <p>🔄 این سایت به‌صورت خودکار از اطلاعات کتابخانه دانش به‌روزرسانی می‌شود.</p>
+            <p>توسعه‌یافته بر اساس معماری رادیوتلویزیون هوشمند</p>
         </div>
     </div>
 
     <script>
-        // بارگذاری اطلاعات از فایل library.json
         fetch('library.json')
             .then(response => response.json())
             .then(data => {
                 const org = data.organization;
 
-                // درباره انجمن
                 document.getElementById('about-text').textContent = org.about;
 
-                // اهداف
                 const goalsList = document.getElementById('goals-list');
                 org.goals.forEach(goal => {
                     const li = document.createElement('li');
@@ -100,14 +162,12 @@
                     goalsList.appendChild(li);
                 });
 
-                // ساختار سازمانی
                 const structureDiv = document.getElementById('structure-content');
                 structureDiv.innerHTML = `
                     <p><strong>هیات موسس:</strong> ${org.structure.board.join('، ')}</p>
                     <p><strong>معاونت‌ها:</strong> ${org.structure.departments.join('، ')}</p>
                 `;
 
-                // گروه‌های تخصصی
                 const groupsList = document.getElementById('groups-list');
                 org.groups.forEach(group => {
                     const li = document.createElement('li');
@@ -115,7 +175,6 @@
                     groupsList.appendChild(li);
                 });
 
-                // اخبار
                 const newsContainer = document.getElementById('news-container');
                 org.news.forEach(item => {
                     const div = document.createElement('div');
@@ -124,7 +183,6 @@
                     newsContainer.appendChild(div);
                 });
 
-                // اطلاعات تماس
                 const contactDiv = document.getElementById('contact-info');
                 contactDiv.innerHTML = `
                     <p><strong>ایمیل:</strong> ${org.contact.email}</p>
