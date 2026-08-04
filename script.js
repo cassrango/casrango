@@ -1,4 +1,4 @@
-// ===== script.js - نسخه اصلاح‌شده برای جلوگیری از رفرش دائم =====
+// ===== script.js - نسخه اصلاح‌شده نهایی =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
@@ -57,7 +57,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     loadRadioTrack(radioData[0]);
                 }
             })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری رادیو:', error));
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری رادیو:', error);
+                // داده‌های پیش‌فرض برای نمایش
+                radioData = [
+                    { id: 'r1', title: 'برنامه اول - مسئولیت اجتماعی', file: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3', date: '۱۴۰۵/۰۴/۲۵' },
+                    { id: 'r2', title: 'برنامه دوم - توسعه پایدار', file: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3', date: '۱۴۰۵/۰۴/۲۰' }
+                ];
+                renderRadioPlaylist(radioData);
+                loadRadioTrack(radioData[0]);
+            });
     }
 
     function renderRadioPlaylist(tracks) {
@@ -81,10 +90,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!radioPlayer || !track) return;
         radioPlayer.src = track.file || '';
         radioPlayer.load();
-        radioPlayer.play().catch(e => console.log('پخش خودکار نیاز به تعامل دارد.'));
+        // تلاش برای پخش خودکار با مدیریت خطا
+        radioPlayer.play().catch(e => {
+            console.log('پخش خودکار نیاز به تعامل دارد. کاربر باید دکمه پخش را بزند.');
+            // نمایش پیام راهنما
+            const message = '🎵 برای شروع پخش، روی دکمه پخش (▶) کلیک کنید.';
+            console.log(message);
+        });
     }
 
-    window.playRadio = function() { if (radioPlayer) radioPlayer.play(); };
+    window.playRadio = function() { if (radioPlayer) { radioPlayer.play().catch(e => console.log('خطا در پخش:', e)); } };
     window.stopRadio = function() { if (radioPlayer) { radioPlayer.pause(); radioPlayer.currentTime = 0; } };
     window.nextRadio = function() { if (radioData.length === 0) return; currentRadioIndex = (currentRadioIndex + 1) % radioData.length; loadRadioTrack(radioData[currentRadioIndex]); renderRadioPlaylist(radioData); };
     window.prevRadio = function() { if (radioData.length === 0) return; currentRadioIndex = (currentRadioIndex - 1 + radioData.length) % radioData.length; loadRadioTrack(radioData[currentRadioIndex]); renderRadioPlaylist(radioData); };
@@ -108,7 +123,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     loadTvChannel(tvData[0]);
                 }
             })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری تلویزیون:', error));
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری تلویزیون:', error);
+                tvData = [
+                    { id: 't1', title: 'کانال اول - معرفی انجمن', video: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/video1.mp4.mp4' },
+                    { id: 't2', title: 'کانال دوم - نشست تخصصی', video: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/video1.mp4.mp4' }
+                ];
+                renderTvPlaylist(tvData);
+                loadTvChannel(tvData[0]);
+            });
     }
 
     function renderTvPlaylist(channels) {
@@ -132,10 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!tvPlayer || !channel) return;
         tvPlayer.src = channel.video || '';
         tvPlayer.load();
-        tvPlayer.play().catch(e => console.log('پخش خودکار نیاز به تعامل دارد.'));
+        tvPlayer.play().catch(e => {
+            console.log('پخش خودکار نیاز به تعامل دارد.');
+        });
     }
 
-    window.playTv = function() { if (tvPlayer) tvPlayer.play(); };
+    window.playTv = function() { if (tvPlayer) { tvPlayer.play().catch(e => console.log('خطا در پخش:', e)); } };
     window.stopTv = function() { if (tvPlayer) { tvPlayer.pause(); tvPlayer.currentTime = 0; } };
     window.nextTv = function() { if (tvData.length === 0) return; currentTvIndex = (currentTvIndex + 1) % tvData.length; loadTvChannel(tvData[currentTvIndex]); renderTvPlaylist(tvData); };
     window.prevTv = function() { if (tvData.length === 0) return; currentTvIndex = (currentTvIndex - 1 + tvData.length) % tvData.length; loadTvChannel(tvData[currentTvIndex]); renderTvPlaylist(tvData); };
@@ -160,7 +185,16 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری اخبار:', error);
-                newsData = [{ id: 'n1', title: 'افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی', date: '۲۹ تیر ۱۴۰۵', summary: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» برگزار شد.', text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد برگزار شد...', image: 'data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg' }];
+                newsData = [
+                    { 
+                        id: 'n1', 
+                        title: 'افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی', 
+                        date: '۲۹ تیر ۱۴۰۵', 
+                        summary: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» برگزار شد.', 
+                        text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد برگزار شد...', 
+                        image: 'images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg' 
+                    }
+                ];
                 renderNewsList(newsData);
                 loadNews(newsData[0]);
             });
@@ -187,7 +221,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadNews(news) {
         if (!news) return;
         const img = document.getElementById('news-player-image');
-        if (img) img.src = news.image || '';
+        if (img) {
+            img.src = news.image ? 'data/' + news.image : 'data/images/placeholder.jpg';
+            img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
+        }
         const title = document.getElementById('news-player-title');
         if (title) title.textContent = news.title || '';
         const date = document.getElementById('news-player-date');
@@ -224,7 +261,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     startAutoSlide();
                 }
             })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری مانیفست:', error));
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری مانیفست:', error);
+                // داده‌های پیش‌فرض
+                manifestData = [
+                    { id: 'm1', title: 'مسئولیت اجتماعی', image: 'images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg' },
+                    { id: 'm2', title: 'همیاری اجتماعی', image: 'images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' }
+                ];
+                renderManifestSlides(manifestData);
+                showSlide(0);
+                startAutoSlide();
+            });
     }
 
     function renderManifestSlides(manifestItems) {
@@ -237,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
             div.style.background = '#f5efe8';
             div.style.padding = '15px';
             div.style.textAlign = 'center';
-            div.innerHTML = `<img src="${item.image}" alt="${item.title}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 12px;">`;
+            div.innerHTML = `<img src="${item.image ? 'data/' + item.image : 'data/images/placeholder.jpg'}" alt="${item.title}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 12px;" onerror="this.src='data/images/placeholder.jpg'">`;
             container.appendChild(div);
         });
         const dotsContainer = document.getElementById('manifest-dots');
@@ -284,9 +331,16 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const img = document.getElementById('poem-image');
-                if (img && data.image) { img.src = data.image; }
+                if (img && data.image) {
+                    img.src = 'data/' + data.image;
+                    img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
+                }
             })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری شعر:', error));
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری شعر:', error);
+                const img = document.getElementById('poem-image');
+                if (img) img.src = 'data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg';
+            });
     }
 
     window.likePoem = function() { saveInteraction('poem_likes', {}); showNotification('❤️ شعر مورد پسند شما قرار گرفت!'); };
@@ -392,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.items.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'testimonial-item';
-                    div.innerHTML = `<img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.name}"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+                    div.innerHTML = `<img src="${item.image ? 'data/' + item.image : 'data/images/placeholder.jpg'}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
                     container.appendChild(div);
                 });
             })
@@ -410,14 +464,23 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('data/events.json').then(res => res.json()).catch(() => ({ events: [] }))
         ]).then(([newsData, eventsData]) => {
             const images = [];
-            if (newsData.news) { newsData.news.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'خبر' }); }); }
-            if (eventsData.events) { eventsData.events.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'رویداد' }); }); }
-            if (images.length === 0) { container.innerHTML = '<p style="color:#3a5e77;">تصویری برای نمایش وجود ندارد.</p>'; return; }
+            if (newsData.news) { newsData.news.forEach(item => { if (item.image) images.push({ src: 'data/' + item.image, title: item.title, type: 'خبر' }); }); }
+            if (eventsData.events) { eventsData.events.forEach(item => { if (item.image) images.push({ src: 'data/' + item.image, title: item.title, type: 'رویداد' }); }); }
+            if (images.length === 0) { 
+                // تصاویر پیش‌فرض از پوشه images
+                const defaultImages = [
+                    '58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg',
+                    '301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg'
+                ];
+                defaultImages.forEach(img => {
+                    images.push({ src: 'data/images/' + img, title: 'تصویر انجمن', type: 'گالری' });
+                });
+            }
             container.innerHTML = '';
             images.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'gallery-item';
-                div.innerHTML = `<img src="${item.src}" alt="${item.title}"><div class="gallery-info"><h4>${item.title}</h4><p>${item.type}</p></div>`;
+                div.innerHTML = `<img src="${item.src}" alt="${item.title}" onerror="this.src='data/images/placeholder.jpg'"><div class="gallery-info"><h4>${item.title}</h4><p>${item.type}</p></div>`;
                 div.addEventListener('click', function() { showNotification(`🖼️ ${item.title}\nنوع: ${item.type}`); });
                 container.appendChild(div);
             });
@@ -435,7 +498,13 @@ document.addEventListener('DOMContentLoaded', function() {
             responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> لطفاً یک متن برای ارسال وارد کنید.`;
             return;
         }
-        const responses = ['از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.', 'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.', 'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.', 'نظر شما بسیار ارزشمند است. از مشارکت شما سپاسگزاریم.', 'این موضوع در دستور کار گروه قرار گرفت. به زودی اطلاع‌رسانی می‌شود.'];
+        const responses = [
+            'از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.',
+            'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.',
+            'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.',
+            'نظر شما بسیار ارزشمند است. از مشارکت شما سپاسگزاریم.',
+            'این موضوع در دستور کار گروه قرار گرفت. به زودی اطلاع‌رسانی می‌شود.'
+        ];
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
         responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> ${randomResponse}`;
         saveInteraction('general', { message: message, response: randomResponse });
@@ -468,46 +537,4 @@ document.addEventListener('DOMContentLoaded', function() {
                         container.appendChild(a);
                     }
                 });
-            })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری شبکه‌های اجتماعی:', error));
-    }
-
-    // =============================================
-    // ۱۶. ناوبری
-    // =============================================
-    function setupNavigation() {
-        document.querySelectorAll('.art-toolbar a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const page = this.dataset.page;
-                if (page) {
-                    const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
-                    if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
-                }
-            });
-        });
-    }
-
-    // =============================================
-    // ۱۷. بارگذاری اولیه
-    // =============================================
-    function init() {
-        startSloganRotation();
-        loadRadioData();
-        loadTvData();
-        loadNewsData();
-        loadManifestData();
-        loadPoem();
-        loadMembership();
-        loadHelps();
-        loadBuilds();
-        loadStatistics();
-        loadTestimonials();
-        loadGallery();
-        loadSocialLinks();
-        setupNavigation();
-        console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
-    }
-
-    init();
-});
+           
