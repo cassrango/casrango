@@ -1,6 +1,4 @@
-// ===== فایل: script.js =====
-// تمام محتوای این فایل را با کد زیر جایگزین کنید
-
+// ===== script.js - نسخه اصلاح‌شده برای جلوگیری از رفرش دائم =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
@@ -29,15 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۲. توابع کمکی برای ذخیره در localStorage
+    // ۲. توابع کمکی
     // =============================================
     function saveInteraction(type, data) {
         const key = 'interactions_' + type;
         const items = JSON.parse(localStorage.getItem(key) || '[]');
-        items.push({
-            ...data,
-            timestamp: new Date().toISOString()
-        });
+        items.push({ ...data, timestamp: new Date().toISOString() });
         localStorage.setItem(key, JSON.stringify(items));
     }
 
@@ -89,53 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
         radioPlayer.play().catch(e => console.log('پخش خودکار نیاز به تعامل دارد.'));
     }
 
-    window.playRadio = function() {
-        if (radioPlayer) radioPlayer.play();
-    };
-
-    window.stopRadio = function() {
-        if (radioPlayer) {
-            radioPlayer.pause();
-            radioPlayer.currentTime = 0;
-        }
-    };
-
-    window.nextRadio = function() {
-        if (radioData.length === 0) return;
-        currentRadioIndex = (currentRadioIndex + 1) % radioData.length;
-        loadRadioTrack(radioData[currentRadioIndex]);
-        renderRadioPlaylist(radioData);
-    };
-
-    window.prevRadio = function() {
-        if (radioData.length === 0) return;
-        currentRadioIndex = (currentRadioIndex - 1 + radioData.length) % radioData.length;
-        loadRadioTrack(radioData[currentRadioIndex]);
-        renderRadioPlaylist(radioData);
-    };
-
-    window.likeRadio = function() {
-        const track = radioData[currentRadioIndex];
-        if (!track) return;
-        saveInteraction('radio_likes', { title: track.title });
-        showNotification('❤️ برنامه مورد پسند شما قرار گرفت!');
-    };
-
-    window.shareRadio = function() {
-        const track = radioData[currentRadioIndex];
-        if (!track) return;
-        if (navigator.share) {
-            navigator.share({
-                title: track.title,
-                text: 'به این برنامه رادیویی گوش دهید: ' + track.title,
-                url: window.location.href
-            });
-        } else {
-            navigator.clipboard.writeText(window.location.href + '?radio=' + track.id)
-                .then(() => showNotification('📤 لینک رادیو کپی شد!'))
-                .catch(() => showNotification('📤 لینک: ' + window.location.href));
-        }
-    };
+    window.playRadio = function() { if (radioPlayer) radioPlayer.play(); };
+    window.stopRadio = function() { if (radioPlayer) { radioPlayer.pause(); radioPlayer.currentTime = 0; } };
+    window.nextRadio = function() { if (radioData.length === 0) return; currentRadioIndex = (currentRadioIndex + 1) % radioData.length; loadRadioTrack(radioData[currentRadioIndex]); renderRadioPlaylist(radioData); };
+    window.prevRadio = function() { if (radioData.length === 0) return; currentRadioIndex = (currentRadioIndex - 1 + radioData.length) % radioData.length; loadRadioTrack(radioData[currentRadioIndex]); renderRadioPlaylist(radioData); };
+    window.likeRadio = function() { const track = radioData[currentRadioIndex]; if (!track) return; saveInteraction('radio_likes', { title: track.title }); showNotification('❤️ برنامه مورد پسند شما قرار گرفت!'); };
+    window.shareRadio = function() { const track = radioData[currentRadioIndex]; if (!track) return; if (navigator.share) { navigator.share({ title: track.title, text: 'به این برنامه رادیویی گوش دهید: ' + track.title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href + '?radio=' + track.id).then(() => showNotification('📤 لینک رادیو کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
     // ۴. تلویزیون هوشمند
@@ -181,53 +135,12 @@ document.addEventListener('DOMContentLoaded', function() {
         tvPlayer.play().catch(e => console.log('پخش خودکار نیاز به تعامل دارد.'));
     }
 
-    window.playTv = function() {
-        if (tvPlayer) tvPlayer.play();
-    };
-
-    window.stopTv = function() {
-        if (tvPlayer) {
-            tvPlayer.pause();
-            tvPlayer.currentTime = 0;
-        }
-    };
-
-    window.nextTv = function() {
-        if (tvData.length === 0) return;
-        currentTvIndex = (currentTvIndex + 1) % tvData.length;
-        loadTvChannel(tvData[currentTvIndex]);
-        renderTvPlaylist(tvData);
-    };
-
-    window.prevTv = function() {
-        if (tvData.length === 0) return;
-        currentTvIndex = (currentTvIndex - 1 + tvData.length) % tvData.length;
-        loadTvChannel(tvData[currentTvIndex]);
-        renderTvPlaylist(tvData);
-    };
-
-    window.likeTv = function() {
-        const channel = tvData[currentTvIndex];
-        if (!channel) return;
-        saveInteraction('tv_likes', { title: channel.title });
-        showNotification('❤️ کانال مورد پسند شما قرار گرفت!');
-    };
-
-    window.shareTv = function() {
-        const channel = tvData[currentTvIndex];
-        if (!channel) return;
-        if (navigator.share) {
-            navigator.share({
-                title: channel.title,
-                text: 'این کانال تلویزیونی را ببینید: ' + channel.title,
-                url: window.location.href
-            });
-        } else {
-            navigator.clipboard.writeText(window.location.href + '?tv=' + channel.id)
-                .then(() => showNotification('📤 لینک تلویزیون کپی شد!'))
-                .catch(() => showNotification('📤 لینک: ' + window.location.href));
-        }
-    };
+    window.playTv = function() { if (tvPlayer) tvPlayer.play(); };
+    window.stopTv = function() { if (tvPlayer) { tvPlayer.pause(); tvPlayer.currentTime = 0; } };
+    window.nextTv = function() { if (tvData.length === 0) return; currentTvIndex = (currentTvIndex + 1) % tvData.length; loadTvChannel(tvData[currentTvIndex]); renderTvPlaylist(tvData); };
+    window.prevTv = function() { if (tvData.length === 0) return; currentTvIndex = (currentTvIndex - 1 + tvData.length) % tvData.length; loadTvChannel(tvData[currentTvIndex]); renderTvPlaylist(tvData); };
+    window.likeTv = function() { const channel = tvData[currentTvIndex]; if (!channel) return; saveInteraction('tv_likes', { title: channel.title }); showNotification('❤️ کانال مورد پسند شما قرار گرفت!'); };
+    window.shareTv = function() { const channel = tvData[currentTvIndex]; if (!channel) return; if (navigator.share) { navigator.share({ title: channel.title, text: 'این کانال تلویزیونی را ببینید: ' + channel.title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href + '?tv=' + channel.id).then(() => showNotification('📤 لینک تلویزیون کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
     // ۵. تلویزیون اخبار
@@ -247,16 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری اخبار:', error);
-                newsData = [
-                    {
-                        id: 'n1',
-                        title: 'افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی',
-                        date: '۲۹ تیر ۱۴۰۵',
-                        summary: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» برگزار شد.',
-                        text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد برگزار شد...',
-                        image: 'data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg'
-                    }
-                ];
+                newsData = [{ id: 'n1', title: 'افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی', date: '۲۹ تیر ۱۴۰۵', summary: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» برگزار شد.', text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد برگزار شد...', image: 'data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg' }];
                 renderNewsList(newsData);
                 loadNews(newsData[0]);
             });
@@ -272,9 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             div.innerHTML = `<strong>${item.title}</strong><br><span style="font-size: 0.8rem; color: #3a5e77;">${item.date}</span>`;
             div.onclick = function() {
                 loadNews(item);
-                document.querySelectorAll('#news-list div').forEach(el => {
-                    el.style.background = 'rgba(255,255,255,0.6)';
-                });
+                document.querySelectorAll('#news-list div').forEach(el => { el.style.background = 'rgba(255,255,255,0.6)'; });
                 this.style.background = 'rgba(241, 196, 15, 0.15)';
                 currentNewsIndex = index;
             };
@@ -294,89 +196,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text) text.textContent = news.text || news.summary || '';
     }
 
-    window.playNews = function() {
-        const text = document.getElementById('news-player-text');
-        if (text) {
-            if (text.style.maxHeight === '100px' || text.style.maxHeight === '') {
-                text.style.maxHeight = '400px';
-                text.style.overflowY = 'auto';
-            } else {
-                text.style.maxHeight = '100px';
-            }
-        }
-    };
-
-    window.pauseNews = function() {
-        const text = document.getElementById('news-player-text');
-        if (text) {
-            text.style.maxHeight = '100px';
-            text.style.overflowY = 'auto';
-        }
-    };
-
-    window.prevNews = function() {
-        if (newsData.length === 0) return;
-        currentNewsIndex = (currentNewsIndex - 1 + newsData.length) % newsData.length;
-        loadNews(newsData[currentNewsIndex]);
-        document.querySelectorAll('#news-list div').forEach((el, i) => {
-            el.style.background = i === currentNewsIndex ? 'rgba(241, 196, 15, 0.15)' : 'rgba(255,255,255,0.6)';
-        });
-    };
-
-    window.nextNews = function() {
-        if (newsData.length === 0) return;
-        currentNewsIndex = (currentNewsIndex + 1) % newsData.length;
-        loadNews(newsData[currentNewsIndex]);
-        document.querySelectorAll('#news-list div').forEach((el, i) => {
-            el.style.background = i === currentNewsIndex ? 'rgba(241, 196, 15, 0.15)' : 'rgba(255,255,255,0.6)';
-        });
-    };
-
-    window.showFullNews = function() {
-        const title = document.getElementById('news-player-title')?.textContent || '';
-        const date = document.getElementById('news-player-date')?.textContent || '';
-        const text = document.getElementById('news-player-text')?.textContent || '';
-        showNotification(`📰 ${title}\n📅 ${date}\n\n${text}`);
-    };
-
-    window.openComment = function() {
-        const comment = prompt('لطفاً نظر خود را بنویسید:');
-        if (comment) {
-            const title = document.getElementById('news-player-title')?.textContent || '';
-            saveInteraction('news_comments', { newsTitle: title, comment: comment });
-            showNotification('✅ نظر شما ثبت شد و برای ادمین ارسال گردید.');
-        }
-    };
-
-    window.openInteraction = function() {
-        const message = prompt('لطفاً پیام خود را برای ادمین بنویسید:');
-        if (message) {
-            const title = document.getElementById('news-player-title')?.textContent || '';
-            saveInteraction('news_interactions', { newsTitle: title, message: message });
-            showNotification('✅ پیام شما به ادمین ارسال شد. پاسخگویی متعاقباً انجام می‌شود.');
-        }
-    };
-
-    window.likeNews = function() {
-        const title = document.getElementById('news-player-title')?.textContent || '';
-        saveInteraction('news_likes', { newsTitle: title });
-        showNotification('❤️ خبر مورد پسند شما قرار گرفت!');
-    };
-
-    window.shareNews = function() {
-        const title = document.getElementById('news-player-title')?.textContent || '';
-        if (navigator.share) {
-            navigator.share({
-                title: title,
-                text: 'این خبر را بخوانید: ' + title,
-                url: window.location.href
-            });
-        } else {
-            navigator.clipboard.writeText(window.location.href)
-                .then(() => showNotification('📤 لینک خبر کپی شد!'))
-                .catch(() => showNotification('📤 لینک: ' + window.location.href));
-        }
-    };
+    window.playNews = function() { const text = document.getElementById('news-player-text'); if (text) { if (text.style.maxHeight === '100px' || text.style.maxHeight === '') { text.style.maxHeight = '400px'; text.style.overflowY = 'auto'; } else { text.style.maxHeight = '100px'; } } };
+    window.pauseNews = function() { const text = document.getElementById('news-player-text'); if (text) { text.style.maxHeight = '100px'; text.style.overflowY = 'auto'; } };
+    window.prevNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex - 1 + newsData.length) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(241, 196, 15, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.nextNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex + 1) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(241, 196, 15, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.showFullNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; const date = document.getElementById('news-player-date')?.textContent || ''; const text = document.getElementById('news-player-text')?.textContent || ''; showNotification(`📰 ${title}\n📅 ${date}\n\n${text}`); };
+    window.openComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_comments', { newsTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد و برای ادمین ارسال گردید.'); } };
+    window.openInteraction = function() { const message = prompt('لطفاً پیام خود را برای ادمین بنویسید:'); if (message) { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_interactions', { newsTitle: title, message: message }); showNotification('✅ پیام شما به ادمین ارسال شد. پاسخگویی متعاقباً انجام می‌شود.'); } };
+    window.likeNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_likes', { newsTitle: title }); showNotification('❤️ خبر مورد پسند شما قرار گرفت!'); };
+    window.shareNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; if (navigator.share) { navigator.share({ title: title, text: 'این خبر را بخوانید: ' + title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک خبر کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
     // ۶. اسلایدشو مانیفست
@@ -425,11 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 dot.style.background = index === 0 ? '#d4a373' : '#ccc';
                 dot.style.margin = '0 4px';
                 dot.style.cursor = 'pointer';
-                dot.onclick = () => {
-                    clearInterval(autoSlideInterval);
-                    showSlide(index);
-                    startAutoSlide();
-                };
+                dot.onclick = () => { clearInterval(autoSlideInterval); showSlide(index); startAutoSlide(); };
                 dotsContainer.appendChild(dot);
             });
         }
@@ -444,30 +268,13 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (index < 0) slideIndex = slides.length - 1;
         else slideIndex = index;
         container.style.transform = `translateX(-${slideIndex * 100}%)`;
-        dots.forEach((dot, i) => {
-            dot.style.background = i === slideIndex ? '#d4a373' : '#ccc';
-        });
+        dots.forEach((dot, i) => { dot.style.background = i === slideIndex ? '#d4a373' : '#ccc'; });
     }
 
-    window.changeSlide = function(direction) {
-        clearInterval(autoSlideInterval);
-        showSlide(slideIndex + direction);
-        startAutoSlide();
-    };
+    window.changeSlide = function(direction) { clearInterval(autoSlideInterval); showSlide(slideIndex + direction); startAutoSlide(); };
+    window.currentSlide = function(index) { clearInterval(autoSlideInterval); showSlide(index); startAutoSlide(); };
 
-    window.currentSlide = function(index) {
-        clearInterval(autoSlideInterval);
-        showSlide(index);
-        startAutoSlide();
-    };
-
-    function startAutoSlide() {
-        if (manifestData.length > 1) {
-            autoSlideInterval = setInterval(() => {
-                showSlide(slideIndex + 1);
-            }, 20000);
-        }
-    }
+    function startAutoSlide() { if (manifestData.length > 1) { autoSlideInterval = setInterval(() => { showSlide(slideIndex + 1); }, 20000); } }
 
     // =============================================
     // ۷. شعر
@@ -477,31 +284,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const img = document.getElementById('poem-image');
-                if (img && data.image) {
-                    img.src = data.image;
-                }
+                if (img && data.image) { img.src = data.image; }
             })
             .catch(error => console.warn('⚠️ خطا در بارگذاری شعر:', error));
     }
 
-    window.likePoem = function() {
-        saveInteraction('poem_likes', {});
-        showNotification('❤️ شعر مورد پسند شما قرار گرفت!');
-    };
-
-    window.sharePoem = function() {
-        if (navigator.share) {
-            navigator.share({
-                title: 'شعر انجمن',
-                text: 'این شعر را ببینید:',
-                url: window.location.href
-            });
-        } else {
-            navigator.clipboard.writeText(window.location.href)
-                .then(() => showNotification('📤 لینک شعر کپی شد!'))
-                .catch(() => showNotification('📤 لینک: ' + window.location.href));
-        }
-    };
+    window.likePoem = function() { saveInteraction('poem_likes', {}); showNotification('❤️ شعر مورد پسند شما قرار گرفت!'); };
+    window.sharePoem = function() { if (navigator.share) { navigator.share({ title: 'شعر انجمن', text: 'این شعر را ببینید:', url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک شعر کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
     // ۸. عضویت
@@ -514,11 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const list = document.getElementById('documents-list');
                 if (list) {
                     list.innerHTML = '';
-                    documents.forEach(doc => {
-                        const li = document.createElement('li');
-                        li.innerHTML = `<i class="fas fa-check-circle"></i> ${doc}`;
-                        list.appendChild(li);
-                    });
+                    documents.forEach(doc => { const li = document.createElement('li'); li.innerHTML = `<i class="fas fa-check-circle"></i> ${doc}`; list.appendChild(li); });
                 }
                 const fee = document.getElementById('fee-amount');
                 if (fee) fee.textContent = data.fee || '۶۰۰,۰۰۰ تومان';
@@ -530,9 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.warn('⚠️ خطا در بارگذاری عضویت:', error));
     }
 
-    window.startMembership = function() {
-        showNotification('🔹 فرایند عضویت آغاز شد.\nلطفاً مدارک زیر را آماده کنید:\n- رزومه حرفه‌ای\n- عکس پرسنلی\n- تصویر کارت ملی\n- رسید واریز حق عضویت (۶۰۰,۰۰۰ تومان)');
-    };
+    window.startMembership = function() { showNotification('🔹 فرایند عضویت آغاز شد.\nلطفاً مدارک زیر را آماده کنید:\n- رزومه حرفه‌ای\n- عکس پرسنلی\n- تصویر کارت ملی\n- رسید واریز حق عضویت (۶۰۰,۰۰۰ تومان)'); };
 
     // =============================================
     // ۹. همیاری‌های اجتماعی
@@ -547,17 +330,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.helps.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'help-item';
-                    div.innerHTML = `
-                        <i class="fas ${item.icon}"></i>
-                        <div>
-                            <div class="help-title">${item.title}</div>
-                            <div class="help-desc">${item.desc}</div>
-                            <span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span>
-                        </div>
-                    `;
-                    div.addEventListener('click', function() {
-                        showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`);
-                    });
+                    div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div><span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span></div>`;
+                    div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
                     container.appendChild(div);
                 });
             })
@@ -577,16 +351,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.builds.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'help-item';
-                    div.innerHTML = `
-                        <i class="fas ${item.icon}"></i>
-                        <div>
-                            <div class="help-title">${item.title}</div>
-                            <div class="help-desc">${item.desc}</div>
-                        </div>
-                    `;
-                    div.addEventListener('click', function() {
-                        showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`);
-                    });
+                    div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div></div>`;
+                    div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
                     container.appendChild(div);
                 });
             })
@@ -606,10 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.items.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'stat-item';
-                    div.innerHTML = `
-                        <span class="number">${item.value}</span>
-                        <span class="label">${item.label}</span>
-                    `;
+                    div.innerHTML = `<span class="number">${item.value}</span><span class="label">${item.label}</span>`;
                     container.appendChild(div);
                 });
             })
@@ -629,12 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.items.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'testimonial-item';
-                    div.innerHTML = `
-                        <img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.name}">
-                        <div class="name">${item.name}</div>
-                        <div class="role">${item.role}</div>
-                        <div class="text">"${item.text}"</div>
-                    `;
+                    div.innerHTML = `<img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.name}"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
                     container.appendChild(div);
                 });
             })
@@ -652,34 +410,15 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('data/events.json').then(res => res.json()).catch(() => ({ events: [] }))
         ]).then(([newsData, eventsData]) => {
             const images = [];
-            if (newsData.news) {
-                newsData.news.forEach(item => {
-                    if (item.image) images.push({ src: item.image, title: item.title, type: 'خبر' });
-                });
-            }
-            if (eventsData.events) {
-                eventsData.events.forEach(item => {
-                    if (item.image) images.push({ src: item.image, title: item.title, type: 'رویداد' });
-                });
-            }
-            if (images.length === 0) {
-                container.innerHTML = '<p style="color:#3a5e77;">تصویری برای نمایش وجود ندارد.</p>';
-                return;
-            }
+            if (newsData.news) { newsData.news.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'خبر' }); }); }
+            if (eventsData.events) { eventsData.events.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'رویداد' }); }); }
+            if (images.length === 0) { container.innerHTML = '<p style="color:#3a5e77;">تصویری برای نمایش وجود ندارد.</p>'; return; }
             container.innerHTML = '';
             images.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'gallery-item';
-                div.innerHTML = `
-                    <img src="${item.src}" alt="${item.title}">
-                    <div class="gallery-info">
-                        <h4>${item.title}</h4>
-                        <p>${item.type}</p>
-                    </div>
-                `;
-                div.addEventListener('click', function() {
-                    showNotification(`🖼️ ${item.title}\nنوع: ${item.type}`);
-                });
+                div.innerHTML = `<img src="${item.src}" alt="${item.title}"><div class="gallery-info"><h4>${item.title}</h4><p>${item.type}</p></div>`;
+                div.addEventListener('click', function() { showNotification(`🖼️ ${item.title}\nنوع: ${item.type}`); });
                 container.appendChild(div);
             });
         }).catch(error => console.warn('⚠️ خطا در بارگذاری گالری:', error));
@@ -693,26 +432,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const responseArea = document.getElementById('response-area');
         const message = textarea.value.trim();
         if (!message) {
-            responseArea.innerHTML = `
-                <i class="fas fa-robot" style="margin-left:8px;"></i>
-                <span class="admin-tag">مدیر پاسخگو</span>
-                لطفاً یک متن برای ارسال وارد کنید.
-            `;
+            responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> لطفاً یک متن برای ارسال وارد کنید.`;
             return;
         }
-        const responses = [
-            'از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.',
-            'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.',
-            'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.',
-            'نظر شما بسیار ارزشمند است. از مشارکت شما سپاسگزاریم.',
-            'این موضوع در دستور کار گروه قرار گرفت. به زودی اطلاع‌رسانی می‌شود.'
-        ];
+        const responses = ['از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.', 'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.', 'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.', 'نظر شما بسیار ارزشمند است. از مشارکت شما سپاسگزاریم.', 'این موضوع در دستور کار گروه قرار گرفت. به زودی اطلاع‌رسانی می‌شود.'];
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        responseArea.innerHTML = `
-            <i class="fas fa-robot" style="margin-left:8px;"></i>
-            <span class="admin-tag">مدیر پاسخگو</span>
-            ${randomResponse}
-        `;
+        responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> ${randomResponse}`;
         saveInteraction('general', { message: message, response: randomResponse });
         textarea.value = '';
     };
@@ -756,12 +481,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 const page = this.dataset.page;
                 if (page) {
-                    const target = document.getElementById(page + '-module') || 
-                                   document.getElementById(page) || 
-                                   document.getElementById(page + '-tv');
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
+                    if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
                 }
             });
         });
