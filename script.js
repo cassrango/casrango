@@ -1,8 +1,8 @@
-// ===== script.js - نسخه اصلاح‌شده نهایی =====
+// ===== script.js - نسخه نهایی با مسیرهای اصلاح‌شده =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
-    // ۱. چرخش شعارها (رفع رفرش دائم)
+    // ۱. چرخش شعارها
     // =============================================
     let sloganInterval = null;
 
@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری رادیو:', error);
-                // داده‌های پیش‌فرض برای نمایش
                 radioData = [
                     { id: 'r1', title: 'برنامه اول - مسئولیت اجتماعی', file: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3', date: '۱۴۰۵/۰۴/۲۵' },
                     { id: 'r2', title: 'برنامه دوم - توسعه پایدار', file: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3', date: '۱۴۰۵/۰۴/۲۰' }
@@ -90,12 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!radioPlayer || !track) return;
         radioPlayer.src = track.file || '';
         radioPlayer.load();
-        // تلاش برای پخش خودکار با مدیریت خطا
         radioPlayer.play().catch(e => {
             console.log('پخش خودکار نیاز به تعامل دارد. کاربر باید دکمه پخش را بزند.');
-            // نمایش پیام راهنما
-            const message = '🎵 برای شروع پخش، روی دکمه پخش (▶) کلیک کنید.';
-            console.log(message);
         });
     }
 
@@ -192,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         date: '۲۹ تیر ۱۴۰۵', 
                         summary: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» برگزار شد.', 
                         text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد برگزار شد...', 
-                        image: 'images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg' 
+                        image: 'data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg' 
                     }
                 ];
                 renderNewsList(newsData);
@@ -222,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!news) return;
         const img = document.getElementById('news-player-image');
         if (img) {
-            img.src = news.image ? 'data/' + news.image : 'data/images/placeholder.jpg';
+            img.src = news.image || 'data/images/placeholder.jpg';
             img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
         }
         const title = document.getElementById('news-player-title');
@@ -263,10 +258,9 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری مانیفست:', error);
-                // داده‌های پیش‌فرض
                 manifestData = [
-                    { id: 'm1', title: 'مسئولیت اجتماعی', image: 'images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg' },
-                    { id: 'm2', title: 'همیاری اجتماعی', image: 'images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' }
+                    { id: 'm1', title: 'مسئولیت اجتماعی', image: 'data/images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg' },
+                    { id: 'm2', title: 'همیاری اجتماعی', image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' }
                 ];
                 renderManifestSlides(manifestData);
                 showSlide(0);
@@ -284,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
             div.style.background = '#f5efe8';
             div.style.padding = '15px';
             div.style.textAlign = 'center';
-            div.innerHTML = `<img src="${item.image ? 'data/' + item.image : 'data/images/placeholder.jpg'}" alt="${item.title}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 12px;" onerror="this.src='data/images/placeholder.jpg'">`;
+            div.innerHTML = `<img src="${item.image || 'data/images/placeholder.jpg'}" alt="${item.title}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 12px;" onerror="this.src='data/images/placeholder.jpg'">`;
             container.appendChild(div);
         });
         const dotsContainer = document.getElementById('manifest-dots');
@@ -332,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 const img = document.getElementById('poem-image');
                 if (img && data.image) {
-                    img.src = 'data/' + data.image;
+                    img.src = data.image;
                     img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
                 }
             })
@@ -446,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.items.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'testimonial-item';
-                    div.innerHTML = `<img src="${item.image ? 'data/' + item.image : 'data/images/placeholder.jpg'}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+                    div.innerHTML = `<img src="${item.image || 'data/images/placeholder.jpg'}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
                     container.appendChild(div);
                 });
             })
@@ -464,10 +458,9 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('data/events.json').then(res => res.json()).catch(() => ({ events: [] }))
         ]).then(([newsData, eventsData]) => {
             const images = [];
-            if (newsData.news) { newsData.news.forEach(item => { if (item.image) images.push({ src: 'data/' + item.image, title: item.title, type: 'خبر' }); }); }
-            if (eventsData.events) { eventsData.events.forEach(item => { if (item.image) images.push({ src: 'data/' + item.image, title: item.title, type: 'رویداد' }); }); }
+            if (newsData.news) { newsData.news.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'خبر' }); }); }
+            if (eventsData.events) { eventsData.events.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'رویداد' }); }); }
             if (images.length === 0) { 
-                // تصاویر پیش‌فرض از پوشه images
                 const defaultImages = [
                     '58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg',
                     '301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg'
@@ -527,56 +520,4 @@ document.addEventListener('DOMContentLoaded', function() {
                     { key: 'instagram', icon: 'fa-instagram', color: '#e4405f' },
                     { key: 'aparat', icon: 'fa-play-circle', color: '#e30613' }
                 ];
-                platforms.forEach(p => {
-                    if (data[p.key]) {
-                        const a = document.createElement('a');
-                        a.href = data[p.key];
-                        a.target = '_blank';
-                        a.style.color = p.color;
-                        a.innerHTML = `<i class="fab ${p.icon}"></i>`;
-                        container.appendChild(a);
-                    }
-                });
-            })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری شبکه‌های اجتماعی:', error));
-    }
-
-    // =============================================
-    // ۱۶. ناوبری
-    // =============================================
-    function setupNavigation() {
-        document.querySelectorAll('.art-toolbar a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const page = this.dataset.page;
-                if (page) {
-                    const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
-                    if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
-                }
-            });
-        });
-    }
-
-    // =============================================
-    // ۱۷. بارگذاری اولیه
-    // =============================================
-    function init() {
-        startSloganRotation();
-        loadRadioData();
-        loadTvData();
-        loadNewsData();
-        loadManifestData();
-        loadPoem();
-        loadMembership();
-        loadHelps();
-        loadBuilds();
-        loadStatistics();
-        loadTestimonials();
-        loadGallery();
-        loadSocialLinks();
-        setupNavigation();
-        console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
-    }
-
-    init();
-});
+               
