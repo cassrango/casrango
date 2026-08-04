@@ -297,4 +297,245 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.prevEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex - 1 + eventsData.length) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
-    window.nextEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex + 1) %
+    window.nextEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex + 1) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.showFullEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; const date = document.getElementById('events-player-date')?.textContent || ''; const text = document.getElementById('events-player-text')?.textContent || ''; showNotification(`📅 ${title}\n📅 ${date}\n\n${text}`); };
+    window.openEventComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_comments', { eventTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد.'); } };
+    window.likeEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_likes', { eventTitle: title }); showNotification('❤️ رویداد مورد پسند شما قرار گرفت!'); };
+
+    // =============================================
+    // ۸. اسلایدشو مانیفست
+    // =============================================
+    let manifestData = [];
+    let slideIndex = 0;
+    let autoSlideInterval;
+
+    function loadManifestData() {
+        manifestData = [
+            { id: 'm1', title: 'مسئولیت اجتماعی', image: 'data/images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg' },
+            { id: 'm2', title: 'همیاری اجتماعی', image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' },
+            { id: 'm3', title: 'گردشگری پایدار', image: 'data/images/5d77aa63-8167-46b7-a40d-58f80391ddd3-600x422.jpg' }
+        ];
+        renderManifestSlides(manifestData);
+        showSlide(0);
+        startAutoSlide();
+    }
+
+    function renderManifestSlides(manifestItems) {
+        const container = document.getElementById('manifest-slideshow');
+        if (!container) return;
+        container.innerHTML = '';
+        manifestItems.forEach(item => {
+            const div = document.createElement('div');
+            div.style.minWidth = '100%';
+            div.style.background = '#f5efe8';
+            div.style.padding = '15px';
+            div.style.textAlign = 'center';
+            div.innerHTML = `<img src="${item.image || 'data/images/placeholder.jpg'}" alt="${item.title}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 12px;" onerror="this.src='data/images/placeholder.jpg'">`;
+            container.appendChild(div);
+        });
+        const dotsContainer = document.getElementById('manifest-dots');
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            manifestItems.forEach((item, index) => {
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.style.display = 'inline-block';
+                dot.style.width = '12px';
+                dot.style.height = '12px';
+                dot.style.borderRadius = '50%';
+                dot.style.background = index === 0 ? '#d4a373' : '#ccc';
+                dot.style.margin = '0 4px';
+                dot.style.cursor = 'pointer';
+                dot.onclick = () => { clearInterval(autoSlideInterval); showSlide(index); startAutoSlide(); };
+                dotsContainer.appendChild(dot);
+            });
+        }
+    }
+
+    function showSlide(index) {
+        const container = document.getElementById('manifest-slideshow');
+        const dots = document.querySelectorAll('#manifest-dots .dot');
+        if (!container) return;
+        const slides = container.children;
+        if (index >= slides.length) slideIndex = 0;
+        else if (index < 0) slideIndex = slides.length - 1;
+        else slideIndex = index;
+        container.style.transform = `translateX(-${slideIndex * 100}%)`;
+        dots.forEach((dot, i) => { dot.style.background = i === slideIndex ? '#d4a373' : '#ccc'; });
+    }
+
+    window.changeSlide = function(direction) { clearInterval(autoSlideInterval); showSlide(slideIndex + direction); startAutoSlide(); };
+
+    function startAutoSlide() { if (manifestData.length > 1) { autoSlideInterval = setInterval(() => { showSlide(slideIndex + 1); }, 20000); } }
+
+    // =============================================
+    // ۹. شعر
+    // =============================================
+    function loadPoem() {
+        const img = document.getElementById('poem-image');
+        if (img) img.src = 'data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg';
+    }
+    window.likePoem = function() { saveInteraction('poem_likes', {}); showNotification('❤️ شعر مورد پسند شما قرار گرفت!'); };
+
+    // =============================================
+    // ۱۰. همیاری‌های اجتماعی
+    // =============================================
+    function loadHelps() {
+        const container = document.getElementById('helps-container');
+        if (!container) return;
+        const helps = [
+            { icon: 'fa-hand-holding-heart', title: 'حمایت از کودکان کار', desc: 'کمک به توانمندسازی کودکان کار و خیابان', details: 'این طرح با همکاری سازمان‌های مردم‌نهاد اجرا می‌شود.' },
+            { icon: 'fa-tree', title: 'کاشت درخت و حفظ محیط زیست', desc: 'فرهنگ‌سازی برای حفظ محیط زیست و کاشت درخت', details: 'این برنامه در پارک‌های شهر تهران برگزار می‌شود.' }
+        ];
+        container.innerHTML = '';
+        helps.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'help-item';
+            div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div><span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span></div>`;
+            div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
+            container.appendChild(div);
+        });
+    }
+
+    // =============================================
+    // ۱۱. آنچه با هم می‌سازیم
+    // =============================================
+    function loadBuilds() {
+        const container = document.getElementById('builds-container');
+        if (!container) return;
+        const builds = [
+            { icon: 'fa-building', title: 'شهر سبز و پایدار', desc: 'طراحی شهری با رویکرد مسئولیت اجتماعی', details: 'این پروژه با مشارکت شهرداری‌ها اجرا می‌شود.' },
+            { icon: 'fa-graduation-cap', title: 'آموزش همگانی', desc: 'ارائه آموزش‌های رایگان به جامعه', details: 'دوره‌های آموزشی در حوزه‌های مختلف برگزار می‌شود.' }
+        ];
+        container.innerHTML = '';
+        builds.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'help-item';
+            div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div></div>`;
+            div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
+            container.appendChild(div);
+        });
+    }
+
+    // =============================================
+    // ۱۲. نظرات همراهان
+    // =============================================
+    function loadTestimonials() {
+        const container = document.getElementById('testimonials-container');
+        if (!container) return;
+        const testimonials = [
+            { name: 'دکتر محمد رضایی', role: 'عضو هیات مدیره', text: 'انجمن ترویج فرهنگ مسئولیت اجتماعی، بستری ارزشمند برای همکاری و تعامل در حوزه مسئولیت‌پذیری اجتماعی فراهم کرده است.', image: 'placeholder.jpg' }
+        ];
+        container.innerHTML = '';
+        testimonials.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'testimonial-item';
+            div.innerHTML = `<img src="data/images/${item.image}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+            container.appendChild(div);
+        });
+    }
+
+    // =============================================
+    // ۱۳. گالری
+    // =============================================
+    function loadGallery() {
+        const container = document.getElementById('gallery-container');
+        if (!container) return;
+        const images = [
+            { src: 'data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg', title: 'دوره تربیت مشاوران', type: 'خبر' },
+            { src: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg', title: 'کارگاه مسئولیت اجتماعی', type: 'رویداد' }
+        ];
+        container.innerHTML = '';
+        images.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.innerHTML = `<img src="${item.src}" alt="${item.title}" onerror="this.src='data/images/placeholder.jpg'"><div class="gallery-info"><h4>${item.title}</h4><p>${item.type}</p></div>`;
+            div.addEventListener('click', function() { showNotification(`🖼️ ${item.title}\nنوع: ${item.type}`); });
+            container.appendChild(div);
+        });
+    }
+
+    // =============================================
+    // ۱۴. تعامل هوشمند
+    // =============================================
+    window.sendInteraction = function() {
+        const textarea = document.getElementById('interact-text');
+        const responseArea = document.getElementById('response-area');
+        const message = textarea.value.trim();
+        if (!message) {
+            responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> لطفاً یک متن برای ارسال وارد کنید.`;
+            return;
+        }
+        const responses = [
+            'از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.',
+            'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.',
+            'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.'
+        ];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> ${randomResponse}`;
+        saveInteraction('general', { message: message, response: randomResponse });
+        textarea.value = '';
+    };
+
+    // =============================================
+    // ۱۵. شبکه‌های اجتماعی
+    // =============================================
+    function loadSocialLinks() {
+        const container = document.getElementById('social-links');
+        if (!container) return;
+        container.innerHTML = '';
+        const platforms = [
+            { key: 'telegram', icon: 'fa-telegram', color: '#0088cc', url: '#' },
+            { key: 'linkedin', icon: 'fa-linkedin', color: '#0a66c2', url: '#' },
+            { key: 'instagram', icon: 'fa-instagram', color: '#e4405f', url: '#' },
+            { key: 'aparat', icon: 'fa-play-circle', color: '#e30613', url: '#' }
+        ];
+        platforms.forEach(p => {
+            const a = document.createElement('a');
+            a.href = p.url;
+            a.target = '_blank';
+            a.style.color = p.color;
+            a.innerHTML = `<i class="fab ${p.icon}"></i>`;
+            container.appendChild(a);
+        });
+    }
+
+    // =============================================
+    // ۱۶. ناوبری
+    // =============================================
+    function setupNavigation() {
+        document.querySelectorAll('.art-toolbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page) {
+                    const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
+                    if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+                }
+            });
+        });
+    }
+
+    // =============================================
+    // ۱۷. بارگذاری اولیه
+    // =============================================
+    function init() {
+        startSloganRotation();
+        startTickerRotation();
+        loadRadioData();
+        loadTvData();
+        loadNewsData();
+        loadEventsData();
+        loadManifestData();
+        loadPoem();
+        loadHelps();
+        loadBuilds();
+        loadTestimonials();
+        loadGallery();
+        loadSocialLinks();
+        setupNavigation();
+        console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
+    }
+
+    init();
+});
