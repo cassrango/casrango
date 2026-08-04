@@ -1,192 +1,284 @@
-// ===== script.js - نسخه نهایی با اسلایدشو مانیفست =====
-document.addEventListener('DOMContentLoaded', function() {
-    // چرخش شعارها
-    const sloganItems = document.querySelectorAll('.slogan-bar .slogan-item');
-    if (sloganItems.length > 0) {
-        let sloganIndex = 0;
-        setInterval(() => {
-            sloganItems.forEach((el, i) => {
-                el.classList.toggle('show', i === sloganIndex);
-            });
-            sloganIndex = (sloganIndex + 1) % sloganItems.length;
-        }, 5000);
-    }
+<!-- =================================================================== -->
+<!-- فایل: index.html (کل فایل اصلاح‌شده با اضافه شدن تلویزیون اخبار) -->
+<!-- =================================================================== -->
 
-    // =============================================
-    // اسلایدشو مانیفست
-    // =============================================
-    let slideIndex = 0;
-    const slides = document.querySelectorAll('#manifest-slideshow > div');
-    const dots = document.querySelectorAll('.dot');
-    let autoSlideInterval;
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رادیوتلویزیون هوشمند | انجمن ترویج فرهنگ مسئولیت اجتماعی</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
 
-    function showSlide(index) {
-        if (index >= slides.length) slideIndex = 0;
-        else if (index < 0) slideIndex = slides.length - 1;
-        else slideIndex = index;
-        const offset = -slideIndex * 100;
-        const container = document.getElementById('manifest-slideshow');
-        if (container) {
-            container.style.transform = `translateX(${offset}%)`;
-        }
-        dots.forEach((dot, i) => {
-            dot.style.background = i === slideIndex ? '#d4a373' : '#ccc';
-        });
-    }
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/video_2024-12-16_23-54-20.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="title-group">
+                    <h1>رادیوتلویزیون <span>هوشمند</span></h1>
+                    <div class="org-name">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
+                </div>
+            </div>
+        </header>
 
-    function changeSlide(direction) {
-        clearInterval(autoSlideInterval);
-        showSlide(slideIndex + direction);
-        startAutoSlide();
-    }
+        <!-- ===== TOOLBAR ===== -->
+        <nav class="art-toolbar">
+            <a href="#"><i class="fas fa-home"></i> خانه</a>
+            <a href="#about"><i class="fas fa-info-circle"></i> درباره</a>
+            <a href="#news-tv"><i class="fas fa-newspaper"></i> تلویزیون اخبار</a>
+            <a href="#events"><i class="fas fa-calendar-alt"></i> رویدادها</a>
+            <a href="#membership"><i class="fas fa-user-plus"></i> عضویت</a>
+            <a href="#contact"><i class="fas fa-phone"></i> تماس</a>
+            <a href="#radio-tv"><i class="fas fa-microphone"></i> رادیو</a>
+            <a href="#radio-tv"><i class="fas fa-tv"></i> تلویزیون</a>
+        </nav>
 
-    function currentSlide(index) {
-        clearInterval(autoSlideInterval);
-        showSlide(index);
-        startAutoSlide();
-    }
+        <!-- ===== شعار زیر تولبار ===== -->
+        <div class="slogan-wrapper">
+            <div class="slogan-bar">
+                <span class="slogan-item show" style="animation-delay:0s;">ما همه مسئولیم</span>
+                <span class="slogan-item" style="animation-delay:4.5s;">مسئولیت از من شروع می‌شود</span>
+                <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
+            </div>
+        </div>
 
-    function startAutoSlide() {
-        if (slides.length > 0) {
-            autoSlideInterval = setInterval(() => {
-                showSlide(slideIndex + 1);
-            }, 5000);
-        }
-    }
+        <!-- ===== رادیو و تلویزیون اصلی ===== -->
+        <div class="media-grid" id="radio-tv">
+            <div class="media-card">
+                <h3>
+                    <span class="nostalgic-radio">
+                        <i class="fas fa-radio"></i>
+                        <i class="fas fa-signal"></i>
+                    </span>
+                    رادیو هوشمند
+                </h3>
+                <div class="player-wrapper">
+                    <audio controls>
+                        <source src="https://archive.org/download/testmp3testfile/mpthreetest.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                <div class="wave-radio">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </div>
+                <div class="media-controls">
+                    <button><i class="fas fa-play"></i> پخش</button>
+                    <button><i class="fas fa-stop"></i> توقف</button>
+                    <button class="btn-soft"><i class="fas fa-list-ul"></i> لیست</button>
+                    <button class="btn-soft"><i class="fas fa-share-alt"></i> اشتراک</button>
+                </div>
+            </div>
+            <div class="media-card">
+                <h3>
+                    <span class="nostalgic-tv">
+                        <i class="fas fa-tv"></i>
+                        <i class="fas fa-wifi"></i>
+                    </span>
+                    تلویزیون هوشمند
+                </h3>
+                <div class="player-wrapper">
+                    <video controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="media-controls">
+                    <button><i class="fas fa-play"></i> پخش</button>
+                    <button><i class="fas fa-stop"></i> توقف</button>
+                    <button class="btn-soft"><i class="fas fa-list-ul"></i> کانال‌ها</button>
+                    <button class="btn-soft"><i class="fas fa-share-alt"></i> اشتراک</button>
+                </div>
+            </div>
+        </div>
 
-    if (slides.length > 0) {
-        showSlide(0);
-        startAutoSlide();
-    }
-
-    // بارگذاری اخبار و رویدادها از library.json
-    fetch('library.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('خطا در بارگذاری library.json');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('📚 اطلاعات بارگذاری شد:', data);
-            const newsGallery = document.getElementById('news-gallery');
-            if (newsGallery && data.organization && data.organization.news) {
-                newsGallery.innerHTML = '';
-                data.organization.news.forEach(item => {
-                    const newsItem = document.createElement('div');
-                    newsItem.className = 'gallery-item';
-                    newsItem.innerHTML = `
-                        <img src="${item.image || 'https://via.placeholder.com/300x140/4a90d9/ffffff?text=خبر'}" alt="${item.title}">
-                        <div class="gallery-info">
-                            <h4>${item.title}</h4>
-                            <p>${item.date || ''}</p>
-                            <span class="date">${item.date || ''}</span>
+        <!-- ===== تلویزیون اخبار ===== -->
+        <div class="module-wrapper" id="news-tv" style="background: linear-gradient(145deg, #f5f0e8, #f0e4d8);">
+            <h3 style="color: #2c3e50; border-bottom-color: #f1c40f;">
+                <i class="fas fa-tv" style="color: #f1c40f;"></i> تلویزیون اخبار
+            </h3>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px;">
+                <!-- بخش پخش‌کننده اصلی (سمت چپ) -->
+                <div style="flex: 2; min-width: 300px;">
+                    <div id="news-player" style="background: #1a2a3a; border-radius: 16px; padding: 12px; box-shadow: inset 0 2px 12px rgba(0,0,0,0.15);">
+                        <img id="news-player-image" src="کاتالوگ-انجمن-تما-1_Page1.jpg" alt="خبر" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px;">
+                        <div style="padding: 10px 0; color: #fff;">
+                            <h4 id="news-player-title" style="margin: 0;">افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی</h4>
+                            <p id="news-player-date" style="margin: 4px 0; font-size: 0.9rem; opacity: 0.8;">۲۳ تیر ۱۴۰۵</p>
+                            <a id="news-player-link" href="https://casraango.org/2026/07/20/%d8%a7%d9%81%d8%aa%d8%aa%d8%a7%d8%ad%db%8c%d9%87-%d8%af%d9%88%d8%b1%d9%87-%d8%aa%d8%b1%d8%a8%db%8c%d8%aa-%d9%85%d8%b4%d8%a7%d9%88%d8%b1%d8%a7%d9%86-%d9%85%d8%b3%d8%a6%d9%88%d9%84%db%8c%d8%aa-%d8%a7/" target="_blank" style="color: #f1c40f; text-decoration: none; font-weight: 600;">مشاهده کامل خبر</a>
                         </div>
-                    `;
-                    newsItem.addEventListener('click', function() {
-                        alert(`📰 ${item.title}\n📅 ${item.date || 'تاریخ نامشخص'}`);
-                    });
-                    newsGallery.appendChild(newsItem);
-                });
-            }
-            const eventsGallery = document.getElementById('events-gallery');
-            if (eventsGallery && data.organization && data.organization.events) {
-                eventsGallery.innerHTML = '';
-                data.organization.events.forEach(item => {
-                    const eventItem = document.createElement('div');
-                    eventItem.className = 'gallery-item';
-                    eventItem.innerHTML = `
-                        <img src="${item.image || 'https://via.placeholder.com/300x140/8e44ad/ffffff?text=نشست'}" alt="${item.title}">
-                        <div class="gallery-info">
-                            <h4>${item.title}</h4>
-                            <p>${item.date || ''}</p>
-                            <span class="date">${item.date || ''}</span>
+                    </div>
+                </div>
+                <!-- بخش لیست اخبار (سمت راست) -->
+                <div style="flex: 1; min-width: 200px; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(2px); border-radius: 16px; padding: 12px; max-height: 350px; overflow-y: auto;">
+                    <h4 style="color: #2c3e50; margin: 0 0 10px 0; border-bottom: 2px solid #f1c40f; padding-bottom: 6px;">لیست اخبار</h4>
+                    <div id="news-list" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- هر خبر به صورت یک آیتم -->
+                        <div onclick="playNews('کاتالوگ-انجمن-تما-1_Page1.jpg', 'افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی', '۲۳ تیر ۱۴۰۵', 'https://casraango.org/2026/07/20/%d8%a7%d9%81%d8%aa%d8%aa%d8%a7%d8%af%db%8c%d9%87-%d8%af%d9%88%d8%b1%d9%87-%d8%aa%d8%b1%d8%a8%db%8c%d8%aa-%d9%85%d8%b4%d8%a7%d9%88%d8%b1%d8%a7%d9%86-%d9%85%d8%b3%d8%a6%d9%88%d9%84%db%8c%d8%aa-%d8%a7/')" style="padding: 10px 12px; background: rgba(255,255,255,0.6); border-radius: 10px; cursor: pointer; transition: 0.2s; border-right: 3px solid #f1c40f;">
+                            <strong>افتتاحیه دوره تربیت مشاوران</strong>
+                            <br>
+                            <span style="font-size: 0.8rem; color: #3a5e77;">۲۳ تیر ۱۴۰۵</span>
                         </div>
-                    `;
-                    eventItem.addEventListener('click', function() {
-                        alert(`📅 ${item.title}\n📆 ${item.date || 'تاریخ نامشخص'}`);
-                    });
-                    eventsGallery.appendChild(eventItem);
-                });
-            }
-        })
-        .catch(error => {
-            console.warn('ℹ️ خطا در بارگذاری library.json:', error);
-            const newsGallery = document.getElementById('news-gallery');
-            if (newsGallery) {
-                newsGallery.innerHTML = `
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/4a90d9/ffffff?text=خبر+۱" alt="خبر ۱">
-                        <div class="gallery-info"><h4>افتتاحیه دوره تربیت مشاوران</h4><p>۱۴۰۳/۰۵/۰۱</p></div>
+                        <!-- خبرهای بعدی به همین شکل اضافه می‌شوند -->
                     </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/e67e22/ffffff?text=خبر+۲" alt="خبر ۲">
-                        <div class="gallery-info"><h4>تسلیت عروج ملکوتی امام شهدا</h4><p>۱۴۰۳/۰۴/۲۸</p></div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/27ae60/ffffff?text=خبر+۳" alt="خبر ۳">
-                        <div class="gallery-info"><h4>آغاز ثبت‌نام دوره پایه</h4><p>۱۴۰۳/۰۴/۲۰</p></div>
-                    </div>
-                `;
-            }
-            const eventsGallery = document.getElementById('events-gallery');
-            if (eventsGallery) {
-                eventsGallery.innerHTML = `
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/8e44ad/ffffff?text=نشست+۱" alt="نشست ۱">
-                        <div class="gallery-info"><h4>کارآفرینی اجتماعی در ایران</h4><p>۱۴۰۳/۰۵/۱۷</p></div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/2980b9/ffffff?text=نشست+۲" alt="نشست ۲">
-                        <div class="gallery-info"><h4>گردشگری و مسئولیت اجتماعی</h4><p>۱۴۰۳/۰۴/۲۲</p></div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/e74c3c/ffffff?text=نشست+۳" alt="نشست ۳">
-                        <div class="gallery-info"><h4>هم‌اندیشی خوشه‌های اقتصادی</h4><p>۱۴۰۳/۰۴/۱۰</p></div>
-                    </div>
-                `;
-            }
-        });
+                </div>
+            </div>
+        </div>
 
-    // تعامل هوشمند
-    const sendBtn = document.querySelector('.interact-box .btn-send');
-    const responseArea = document.querySelector('.response-area');
-    const textarea = document.querySelector('.interact-box textarea');
-    if (sendBtn && responseArea && textarea) {
-        sendBtn.addEventListener('click', function() {
-            const message = textarea.value.trim();
-            if (!message) {
-                responseArea.innerHTML = `
-                    <i class="fas fa-robot" style="margin-left:8px;"></i>
-                    <span class="admin-tag">مدیر پاسخگو</span>
-                    لطفاً یک متن برای ارسال وارد کنید.
-                `;
-                return;
-            }
-            const responses = [
-                'از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.',
-                'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.',
-                'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.',
-                'نظر شما بسیار ارزشمند است. از مشارکت شما سپاسگزاریم.',
-                'این موضوع در دستور کار گروه قرار گرفت. به زودی اطلاع‌رسانی می‌شود.'
-            ];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-            responseArea.innerHTML = `
+        <!-- ===== ماژول عضویت ===== -->
+        <div class="module-wrapper membership-module" id="membership">
+            <h3><i class="fas fa-user-plus"></i> درخواست عضویت</h3>
+            <div style="text-align:center; margin-bottom:16px;">
+                <p style="font-size:1.1rem; color:#2c3e50;">
+                    <i class="fas fa-hand-peace" style="color:#f1c40f;"></i>
+                    سلام بر شما فرهیختهٔ گرامی
+                </p>
+                <p style="color:#3a5e77; margin-top:4px;">چنانچه فایل‌های زیر را در دسترس داشته باشید، زمان‌بری این فرایند ۵ دقیقه خواهد بود.</p>
+            </div>
+            <div class="membership-steps">
+                <div class="step-card">
+                    <h4><i class="fas fa-file-alt"></i> مدارک مورد نیاز</h4>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> رزومه حرفه‌ای</li>
+                        <li><i class="fas fa-user-circle"></i> عکس پرسنلی</li>
+                        <li><i class="fas fa-id-card"></i> تصویر کارت ملی</li>
+                        <li><i class="fas fa-receipt"></i> رسید واریز حق عضویت</li>
+                    </ul>
+                </div>
+                <div class="step-card">
+                    <h4><i class="fas fa-credit-card"></i> اطلاعات پرداخت</h4>
+                    <p style="font-size:0.95rem;">مبلغ: <strong>۶۰۰,۰۰۰ تومان</strong></p>
+                    <p style="font-size:0.9rem; background:#f1f5f9; padding:8px; border-radius:12px; direction:ltr; text-align:center; font-family:monospace;">
+                        5859.8370.1464.3403
+                    </p>
+                    <span class="highlight"><i class="fas fa-clock"></i> ۵ دقیقه زمان بری</span>
+                </div>
+            </div>
+            <div style="text-align:center;">
+                <button class="btn-start"><i class="fas fa-paper-plane"></i> شروع فرایند عضویت</button>
+            </div>
+        </div>
+
+        <!-- ===== نشست شو ===== -->
+        <div class="module-wrapper" id="events">
+            <h3><i class="fas fa-calendar-alt"></i> نشست شو</h3>
+            <div class="gallery-grid" id="events-gallery">
+                <!-- توسط JavaScript پر می‌شود -->
+            </div>
+        </div>
+
+        <!-- ===== همیاری ===== -->
+        <div class="module-wrapper">
+            <h3><i class="fas fa-hands-helping"></i> همیاری‌های اجتماعی</h3>
+            <div class="help-items">
+                <div class="help-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <div class="help-title">پدافند غیرعامل</div>
+                        <div class="help-desc">آموزش و هماهنگی در بحران‌ها</div>
+                        <span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span>
+                    </div>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <div>
+                        <div class="help-title">کمک به سیل‌زدگان</div>
+                        <div class="help-desc">ارسال اقلام و هماهنگی</div>
+                        <span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span>
+                    </div>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-child"></i>
+                    <div>
+                        <div class="help-title">حمایت از کودکان کار</div>
+                        <div class="help-desc">آموزش و توانمندسازی</div>
+                        <span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span>
+                    </div>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-utensils"></i>
+                    <div>
+                        <div class="help-title">مقابله با هدررفت غذا</div>
+                        <div class="help-desc">طرح‌های نجات غذا</div>
+                        <span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== آنچه با هم می‌سازیم ===== -->
+        <div class="module-wrapper" id="about">
+            <h3><i class="fas fa-handshake"></i> آنچه با هم می‌سازیم</h3>
+            <div class="help-items">
+                <div class="help-item">
+                    <i class="fas fa-users-cog"></i>
+                    <div>
+                        <div class="help-title">توانمندسازی جوانان</div>
+                        <div class="help-desc">آموزش مهارت‌های اجتماعی و حرفه‌ای</div>
+                    </div>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-arrow-up"></i>
+                    <div>
+                        <div class="help-title">مهارت‌آموزی زنان روستایی</div>
+                        <div class="help-desc">آموزش کسب‌وکار و توانمندسازی</div>
+                    </div>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-palette"></i>
+                    <div>
+                        <div class="help-title">عرضه صنایع دستی اقوام</div>
+                        <div class="help-desc">حمایت از تولیدات بومی</div>
+                    </div>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-tree"></i>
+                    <div>
+                        <div class="help-title">حفاظت از محیط زیست</div>
+                        <div class="help-desc">طرح‌های کاشت درخت و کاهش آلودگی</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== تعامل ===== -->
+        <div class="interact-box">
+            <h3><i class="fas fa-comment-dots"></i> تعامل هوشمند</h3>
+            <textarea placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
+            <button class="btn-send"><i class="fas fa-paper-plane"></i> ارسال</button>
+            <div class="response-area">
                 <i class="fas fa-robot" style="margin-left:8px;"></i>
                 <span class="admin-tag">مدیر پاسخگو</span>
-                ${randomResponse}
-            `;
-            textarea.value = '';
-        });
-    }
+                پاسخ هوشمند در اینجا نمایش داده می‌شود.
+            </div>
+        </div>
 
-    // دکمه عضویت
-    const membershipBtn = document.querySelector('.membership-module .btn-start');
-    if (membershipBtn) {
-        membershipBtn.addEventListener('click', function() {
-            alert('🔹 فرایند عضویت آغاز شد.\nلطفاً مدارک زیر را آماده کنید:\n- رزومه حرفه‌ای\n- عکس پرسنلی\n- تصویر کارت ملی\n- رسید واریز حق عضویت (۶۰۰,۰۰۰ تومان)');
-        });
-    }
+        <!-- ===== تماس ===== -->
+        <div class="contact-box" id="contact">
+            <h3><i class="fas fa-address-card"></i> ارتباط با ما</h3>
+            <div class="contact-items">
+                <a href="tel:02122909000"><i class="fas fa-phone-alt"></i> ۰۲۱-۲۲۹۰۹۰۰۰</a>
+                <a href="mailto:info@casraango.org"><i class="fas fa-envelope"></i> info@casraango.org</a>
+                <a href="https://casraango.org" target="_blank"><i class="fas fa-globe"></i> casraango.org</a>
+                <a href="#" style="font-size:0.9rem;"><i class="fas fa-map-marker-alt"></i> تهران، پاسداران، کشوری، ربانی ۱۲</a>
+            </div>
+        </div>
 
-    console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
-});
+        <!-- ===== فوتر ===== -->
+        <div class="footer-note">
+            <p><i class="fas fa-sync-alt"></i> به‌روزرسانی خودکار از کتابخانه دانش</p>
+            <p style="margin-top:2px;"><i class="fas fa-heart" style="color:#e67e22;"></i> ما همه مسئولیم</p>
+        </div>
+
+    </div>
+
+    <!-- ===== فایل‌های JavaScript ===== -->
+    <script src="script.js"></script>
+</body>
+</html>
