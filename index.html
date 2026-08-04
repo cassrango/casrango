@@ -10,25 +10,25 @@
 <body>
     <div class="container">
 
-        <!-- ===== HEADER ===== -->
+        <!-- ===== HEADER با لوگوی بزرگ و متمرکز ===== -->
         <header class="header">
-            <div class="header-content">
-                <div class="logo-wrapper">
-                    <video id="main-logo-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <div class="header-content" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;">
+                <div class="logo-wrapper" style="width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 3px solid #e0c9a6; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <video id="main-logo-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
                         <source src="data/images/video_2024-12-16_23-54-20.mp4" type="video/mp4">
                     </video>
-                    <img id="logo-fallback" src="data/images/placeholder.jpg" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: contain; display: none;" onerror="this.src='data/images/placeholder.jpg'">
+                    <img id="logo-fallback" src="data/images/placeholder.jpg" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: cover; display: none;" onerror="this.src='data/images/placeholder.jpg'">
                 </div>
                 <div class="title-group">
-                    <h1>رادیوتلویزیون <span>هوشمند</span></h1>
-                    <div class="org-name">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
+                    <h1 style="font-size: 1.8rem; margin: 0;">رادیوتلویزیون <span style="color: #d4a373;">هوشمند</span></h1>
+                    <div class="org-name" style="font-size: 0.9rem; color: #3a5e77; margin-top: 4px;">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
                 </div>
             </div>
         </header>
 
         <!-- ===== نوار ابزار متحرک (Ticker) ===== -->
-        <div class="ticker-bar">
-            <div class="ticker-content" id="ticker-content">
+        <div class="ticker-bar" style="background: #2c3e50; color: #ecf0f1; padding: 8px 0; border-radius: 8px; margin: 10px 0;">
+            <div class="ticker-content" id="ticker-content" style="display: flex; justify-content: center; gap: 30px; overflow: hidden; white-space: nowrap; font-size: 0.9rem;">
                 <span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>
                 <span>🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها</span>
                 <span>📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار</span>
@@ -38,19 +38,19 @@
         </div>
 
         <!-- ===== منوی اصلی ===== -->
-        <nav class="art-toolbar">
-            <a href="#" data-page="radio"><i class="fas fa-microphone"></i> رادیو</a>
-            <a href="#" data-page="tv"><i class="fas fa-tv"></i> تلویزیون</a>
-            <a href="#" data-page="news-tv"><i class="fas fa-newspaper"></i> اخبار</a>
-            <a href="#" data-page="events-tv"><i class="fas fa-calendar-alt"></i> رویدادها</a>
-            <a href="#" data-page="membership"><i class="fas fa-user-plus"></i> عضویت</a>
-            <a href="#" data-page="gallery"><i class="fas fa-images"></i> گالری</a>
-            <a href="#" data-page="contact"><i class="fas fa-phone"></i> تماس</a>
+        <nav class="art-toolbar" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; background: #f8f4f0; padding: 12px; border-radius: 30px; margin: 15px 0;">
+            <a href="#" data-page="radio" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-microphone"></i> رادیو</a>
+            <a href="#" data-page="tv" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-tv"></i> تلویزیون</a>
+            <a href="#" data-page="news-tv" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-newspaper"></i> اخبار</a>
+            <a href="#" data-page="events-tv" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-calendar-alt"></i> رویدادها</a>
+            <a href="#" data-page="membership" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-user-plus"></i> عضویت</a>
+            <a href="#" data-page="gallery" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-images"></i> گالری</a>
+            <a href="#" data-page="contact" style="padding: 8px 16px; background: #e0c9a6; border-radius: 20px; color: #2c3e50; text-decoration: none; font-weight: bold;"><i class="fas fa-phone"></i> تماس</a>
         </nav>
 
         <!-- ===== شعار ===== -->
-        <div class="slogan-wrapper">
-            <div class="slogan-bar">
+        <div class="slogan-wrapper" style="margin: 15px 0;">
+            <div class="slogan-bar" style="display: flex; justify-content: center; gap: 20px; font-size: 1.1rem; color: #2c3e50;">
                 <span class="slogan-item show" style="animation-delay:0s;">ما همه مسئولیم</span>
                 <span class="slogan-item" style="animation-delay:4.5s;">مسئولیت از من شروع می‌شود</span>
                 <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
@@ -58,108 +58,110 @@
         </div>
 
         <!-- ===== بخش ۱: رادیو هوشمند ===== -->
-        <div class="media-card radio-card" id="radio-module">
-            <h3><i class="fas fa-radio"></i> رادیو هوشمند</h3>
-            <div class="player-wrapper">
-                <audio id="radio-player" controls>
-                    <source src="https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3" type="audio/mpeg">
+        <div class="media-card radio-card" id="radio-module" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</h3>
+            <div class="player-wrapper" style="margin: 15px 0;">
+                <audio id="radio-player" controls style="width: 100%;">
+                    <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
+                    <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
                 </audio>
             </div>
-            <div class="media-controls">
-                <button onclick="playRadio()"><i class="fas fa-play"></i> پخش</button>
-                <button onclick="stopRadio()"><i class="fas fa-stop"></i> توقف</button>
-                <button class="btn-soft" onclick="nextRadio()"><i class="fas fa-forward"></i> بعدی</button>
-                <button class="btn-soft" onclick="prevRadio()"><i class="fas fa-backward"></i> قبلی</button>
-                <button class="btn-soft" onclick="likeRadio()"><i class="fas fa-heart"></i> لایک</button>
+            <div class="media-controls" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0;">
+                <button onclick="playRadio()" style="padding: 8px 16px; background: #d4a373; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
+                <button onclick="stopRadio()" style="padding: 8px 16px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
+                <button class="btn-soft" onclick="nextRadio()" style="padding: 8px 16px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+                <button class="btn-soft" onclick="prevRadio()" style="padding: 8px 16px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+                <button class="btn-soft" onclick="likeRadio()" style="padding: 8px 16px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
             </div>
-            <div id="radio-playlist" class="playlist"></div>
+            <div id="radio-playlist" class="playlist" style="margin-top: 10px;"></div>
         </div>
 
         <!-- ===== بخش ۲: تلویزیون هوشمند ===== -->
-        <div class="media-card tv-card" id="tv-module">
-            <h3><i class="fas fa-tv"></i> تلویزیون هوشمند</h3>
-            <div class="player-wrapper">
-                <video id="tv-player" controls>
-                    <source src="https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/video1.mp4.mp4" type="video/mp4">
+        <div class="media-card tv-card" id="tv-module" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-tv" style="color: #d4a373;"></i> تلویزیون هوشمند</h3>
+            <div class="player-wrapper" style="margin: 15px 0;">
+                <video id="tv-player" controls style="width: 100%; max-height: 400px;">
+                    <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
+                    <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="media-controls">
-                <button onclick="playTv()"><i class="fas fa-play"></i> پخش</button>
-                <button onclick="stopTv()"><i class="fas fa-stop"></i> توقف</button>
-                <button class="btn-soft" onclick="nextTv()"><i class="fas fa-forward"></i> بعدی</button>
-                <button class="btn-soft" onclick="prevTv()"><i class="fas fa-backward"></i> قبلی</button>
-                <button class="btn-soft" onclick="likeTv()"><i class="fas fa-heart"></i> لایک</button>
+            <div class="media-controls" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0;">
+                <button onclick="playTv()" style="padding: 8px 16px; background: #d4a373; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
+                <button onclick="stopTv()" style="padding: 8px 16px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
+                <button class="btn-soft" onclick="nextTv()" style="padding: 8px 16px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+                <button class="btn-soft" onclick="prevTv()" style="padding: 8px 16px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+                <button class="btn-soft" onclick="likeTv()" style="padding: 8px 16px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
             </div>
-            <div id="tv-playlist" class="playlist"></div>
+            <div id="tv-playlist" class="playlist" style="margin-top: 10px;"></div>
         </div>
 
         <!-- ===== بخش ۳: تلویزیون اخبار ===== -->
-        <div class="tv-news-wrapper" id="news-tv">
-            <div class="tv-news-container">
-                <div class="tv-news-screen">
-                    <div class="tv-news-header">
-                        <span class="tv-news-live">● زنده</span>
-                        <span class="tv-news-title">اخبار انجمن</span>
+        <div class="tv-news-wrapper" id="news-tv" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div class="tv-news-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="tv-news-screen" style="flex: 2; min-width: 300px;">
+                    <div class="tv-news-header" style="display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;">
+                        <span class="tv-news-live" style="color: #e74c3c; font-weight: bold;">● زنده</span>
+                        <span class="tv-news-title" style="font-size: 1.2rem; font-weight: bold; color: #2c3e50;">اخبار انجمن</span>
                     </div>
-                    <div class="tv-news-content">
-                        <img id="news-player-image" src="data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg" alt="خبر" onerror="this.src='data/images/placeholder.jpg'">
-                        <div class="tv-news-info">
-                            <h2 id="news-player-title">عنوان خبر</h2>
-                            <p id="news-player-date">تاریخ</p>
-                            <p id="news-player-text">خلاصه خبر در اینجا نمایش داده می‌شود.</p>
+                    <div class="tv-news-content" style="margin-top: 15px;">
+                        <img id="news-player-image" src="data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg" alt="خبر" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px;" onerror="this.src='data/images/placeholder.jpg'">
+                        <div class="tv-news-info" style="margin-top: 10px;">
+                            <h2 id="news-player-title" style="font-size: 1.3rem; color: #2c3e50;">عنوان خبر</h2>
+                            <p id="news-player-date" style="color: #7f8c8d; font-size: 0.9rem;">تاریخ</p>
+                            <p id="news-player-text" style="color: #34495e; line-height: 1.8;">خلاصه خبر در اینجا نمایش داده می‌شود.</p>
                         </div>
                     </div>
-                    <div class="tv-news-controls">
-                        <button onclick="prevNews()"><i class="fas fa-backward"></i> قبلی</button>
-                        <button onclick="nextNews()"><i class="fas fa-forward"></i> بعدی</button>
-                        <button onclick="showFullNews()"><i class="fas fa-expand"></i> کامل</button>
-                        <button onclick="openComment()"><i class="fas fa-comment"></i> نظر</button>
-                        <button onclick="likeNews()"><i class="fas fa-heart"></i> لایک</button>
+                    <div class="tv-news-controls" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px;">
+                        <button onclick="prevNews()" style="padding: 6px 14px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+                        <button onclick="nextNews()" style="padding: 6px 14px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+                        <button onclick="showFullNews()" style="padding: 6px 14px; background: #d4a373; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-expand"></i> کامل</button>
+                        <button onclick="openComment()" style="padding: 6px 14px; background: #3498db; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-comment"></i> نظر</button>
+                        <button onclick="likeNews()" style="padding: 6px 14px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
                     </div>
                 </div>
-                <div class="tv-news-sidebar">
-                    <h4>لیست اخبار</h4>
+                <div class="tv-news-sidebar" style="flex: 1; min-width: 200px; background: #f8f4f0; padding: 15px; border-radius: 12px;">
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 8px;">لیست اخبار</h4>
                     <div id="news-list"></div>
                 </div>
             </div>
         </div>
 
         <!-- ===== بخش ۴: تلویزیون رویدادها ===== -->
-        <div class="tv-news-wrapper" id="events-tv">
-            <div class="tv-news-container">
-                <div class="tv-news-screen">
-                    <div class="tv-news-header">
-                        <span class="tv-news-live">● زنده</span>
-                        <span class="tv-news-title">رویدادهای انجمن</span>
+        <div class="tv-news-wrapper" id="events-tv" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div class="tv-news-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="tv-news-screen" style="flex: 2; min-width: 300px;">
+                    <div class="tv-news-header" style="display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;">
+                        <span class="tv-news-live" style="color: #e74c3c; font-weight: bold;">● زنده</span>
+                        <span class="tv-news-title" style="font-size: 1.2rem; font-weight: bold; color: #2c3e50;">رویدادهای انجمن</span>
                     </div>
-                    <div class="tv-news-content">
-                        <img id="events-player-image" src="data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg" alt="رویداد" onerror="this.src='data/images/placeholder.jpg'">
-                        <div class="tv-news-info">
-                            <h2 id="events-player-title">عنوان رویداد</h2>
-                            <p id="events-player-date">تاریخ</p>
-                            <p id="events-player-text">خلاصه رویداد در اینجا نمایش داده می‌شود.</p>
+                    <div class="tv-news-content" style="margin-top: 15px;">
+                        <img id="events-player-image" src="data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg" alt="رویداد" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px;" onerror="this.src='data/images/placeholder.jpg'">
+                        <div class="tv-news-info" style="margin-top: 10px;">
+                            <h2 id="events-player-title" style="font-size: 1.3rem; color: #2c3e50;">عنوان رویداد</h2>
+                            <p id="events-player-date" style="color: #7f8c8d; font-size: 0.9rem;">تاریخ</p>
+                            <p id="events-player-text" style="color: #34495e; line-height: 1.8;">خلاصه رویداد در اینجا نمایش داده می‌شود.</p>
                         </div>
                     </div>
-                    <div class="tv-news-controls">
-                        <button onclick="prevEvent()"><i class="fas fa-backward"></i> قبلی</button>
-                        <button onclick="nextEvent()"><i class="fas fa-forward"></i> بعدی</button>
-                        <button onclick="showFullEvent()"><i class="fas fa-expand"></i> کامل</button>
-                        <button onclick="openEventComment()"><i class="fas fa-comment"></i> نظر</button>
-                        <button onclick="likeEvent()"><i class="fas fa-heart"></i> لایک</button>
+                    <div class="tv-news-controls" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px;">
+                        <button onclick="prevEvent()" style="padding: 6px 14px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+                        <button onclick="nextEvent()" style="padding: 6px 14px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+                        <button onclick="showFullEvent()" style="padding: 6px 14px; background: #d4a373; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-expand"></i> کامل</button>
+                        <button onclick="openEventComment()" style="padding: 6px 14px; background: #3498db; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-comment"></i> نظر</button>
+                        <button onclick="likeEvent()" style="padding: 6px 14px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
                     </div>
                 </div>
-                <div class="tv-news-sidebar">
-                    <h4>لیست رویدادها</h4>
+                <div class="tv-news-sidebar" style="flex: 1; min-width: 200px; background: #f8f4f0; padding: 15px; border-radius: 12px;">
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 8px;">لیست رویدادها</h4>
                     <div id="events-list"></div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== سایر بخش‌ها (عضویت، گالری، تماس و ...) ===== -->
+        <!-- ===== سایر بخش‌ها (عضویت، همیاری، گالری، تماس و ...) ===== -->
         <!-- ... (بقیه بخش‌ها مانند قبل) ... -->
 
-        <div class="module-wrapper membership-module" id="membership">
-            <h3><i class="fas fa-user-plus"></i> درخواست عضویت</h3>
+        <div class="module-wrapper membership-module" id="membership" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-user-plus" style="color: #d4a373;"></i> درخواست عضویت</h3>
             <div style="text-align:center; margin-bottom:16px;">
                 <p style="font-size:1.1rem; color:#2c3e50;"><i class="fas fa-hand-peace" style="color:#f1c40f;"></i> سلام بر شما فرهیختهٔ گرامی</p>
                 <p style="color:#3a5e77; margin-top:4px;">برای ثبت‌نام و عضویت در انجمن، لطفاً به وب‌سایت اصلی مراجعه فرمایید.</p>
@@ -172,55 +174,55 @@
         </div>
 
         <!-- ===== همیاری ===== -->
-        <div class="module-wrapper" id="helps-module">
-            <h3><i class="fas fa-hands-helping"></i> همیاری‌های اجتماعی</h3>
+        <div class="module-wrapper" id="helps-module" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-hands-helping" style="color: #d4a373;"></i> همیاری‌های اجتماعی</h3>
             <div class="help-items" id="helps-container"></div>
         </div>
 
         <!-- ===== آنچه با هم می‌سازیم ===== -->
-        <div class="module-wrapper" id="builds-module">
-            <h3><i class="fas fa-handshake"></i> آنچه با هم می‌سازیم</h3>
+        <div class="module-wrapper" id="builds-module" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-handshake" style="color: #d4a373;"></i> آنچه با هم می‌سازیم</h3>
             <div class="help-items" id="builds-container"></div>
         </div>
 
         <!-- ===== نظرات همراهان ===== -->
-        <div class="module-wrapper" id="testimonials-module">
-            <h3><i class="fas fa-comment"></i> نظرات همراهان</h3>
+        <div class="module-wrapper" id="testimonials-module" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-comment" style="color: #d4a373;"></i> نظرات همراهان</h3>
             <div class="testimonials-grid" id="testimonials-container"></div>
         </div>
 
         <!-- ===== گالری ===== -->
-        <div class="module-wrapper" id="gallery-module">
-            <h3><i class="fas fa-images"></i> گالری تصاویر</h3>
+        <div class="module-wrapper" id="gallery-module" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-images" style="color: #d4a373;"></i> گالری تصاویر</h3>
             <div class="gallery-grid" id="gallery-container"></div>
         </div>
 
         <!-- ===== تعامل هوشمند ===== -->
-        <div class="interact-box">
-            <h3><i class="fas fa-comment-dots"></i> تعامل هوشمند</h3>
-            <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
-            <button class="btn-send" onclick="sendInteraction()"><i class="fas fa-paper-plane"></i> ارسال</button>
-            <div class="response-area" id="response-area">
+        <div class="interact-box" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-comment-dots" style="color: #d4a373;"></i> تعامل هوشمند</h3>
+            <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; min-height: 80px;"></textarea>
+            <button class="btn-send" onclick="sendInteraction()" style="padding: 10px 24px; background: #d4a373; border: none; border-radius: 30px; color: #fff; cursor: pointer; margin-top: 10px;"><i class="fas fa-paper-plane"></i> ارسال</button>
+            <div class="response-area" id="response-area" style="margin-top: 15px; padding: 12px; background: #f8f4f0; border-radius: 12px;">
                 <i class="fas fa-robot" style="margin-left:8px;"></i>
-                <span class="admin-tag">مدیر پاسخگو</span>
+                <span class="admin-tag" style="font-weight: bold; color: #d4a373;">مدیر پاسخگو</span>
                 پاسخ هوشمند در اینجا نمایش داده می‌شود.
             </div>
         </div>
 
         <!-- ===== تماس ===== -->
-        <div class="contact-box" id="contact">
-            <h3><i class="fas fa-address-card"></i> ارتباط با ما</h3>
+        <div class="contact-box" id="contact" style="background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px;"><i class="fas fa-address-card" style="color: #d4a373;"></i> ارتباط با ما</h3>
             <div class="contact-items">
-                <a href="tel:02122909000"><i class="fas fa-phone-alt"></i> ۰۲۱-۲۲۹۰۹۰۰۰</a>
-                <a href="mailto:info@casraango.org"><i class="fas fa-envelope"></i> info@casraango.org</a>
-                <a href="https://casraango.org" target="_blank"><i class="fas fa-globe"></i> casraango.org</a>
-                <a href="#" style="font-size:0.9rem;"><i class="fas fa-map-marker-alt"></i> تهران، پاسداران، کشوری، ربانی ۱۲</a>
-                <div class="social-links" id="social-links"></div>
+                <a href="tel:02122909000" style="display: block; color: #2c3e50; text-decoration: none; padding: 5px 0;"><i class="fas fa-phone-alt"></i> ۰۲۱-۲۲۹۰۹۰۰۰</a>
+                <a href="mailto:info@casraango.org" style="display: block; color: #2c3e50; text-decoration: none; padding: 5px 0;"><i class="fas fa-envelope"></i> info@casraango.org</a>
+                <a href="https://casraango.org" target="_blank" style="display: block; color: #2c3e50; text-decoration: none; padding: 5px 0;"><i class="fas fa-globe"></i> casraango.org</a>
+                <a href="#" style="display: block; color: #2c3e50; text-decoration: none; padding: 5px 0; font-size:0.9rem;"><i class="fas fa-map-marker-alt"></i> تهران، پاسداران، کشوری، ربانی ۱۲</a>
+                <div class="social-links" id="social-links" style="display: flex; gap: 15px; margin-top: 10px;"></div>
             </div>
         </div>
 
         <!-- ===== فوتر ===== -->
-        <div class="footer-note">
+        <div class="footer-note" style="text-align: center; padding: 20px 0; color: #7f8c8d; font-size: 0.9rem; border-top: 1px solid #ecf0f1; margin-top: 20px;">
             <p><i class="fas fa-sync-alt"></i> به‌روزرسانی خودکار از کتابخانه دانش</p>
             <p style="margin-top:2px;"><i class="fas fa-heart" style="color:#e67e22;"></i> ما همه مسئولیم</p>
         </div>
