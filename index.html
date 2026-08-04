@@ -11,20 +11,19 @@
     <div class="container">
 
         <!-- ===== HEADER ===== -->
-       <!-- ===== HEADER ===== -->
-<header class="header">
-    <div class="header-content">
-        <div class="logo-wrapper">
-            <img src="images/logo-casraango.png" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='https://via.placeholder.com/130x130/4a90d9/ffffff?text=Logo'">
-        </div>
-        <div class="title-group">
-            <h1>رادیوتلویزیون <span>هوشمند</span></h1>
-            <div class="org-name">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
-        </div>
-    </div>
-</header>
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <img src="images/logo-casraango.png" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='https://via.placeholder.com/130x130/4a90d9/ffffff?text=Logo'">
+                </div>
+                <div class="title-group">
+                    <h1>رادیوتلویزیون <span>هوشمند</span></h1>
+                    <div class="org-name">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
+                </div>
+            </div>
+        </header>
 
-        <!-- ===== نوار ابزار متحرک (مارکیز) ===== -->
+        <!-- ===== نوار ابزار متحرک ===== -->
         <div class="ticker-bar">
             <div class="ticker-content">
                 <span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>
@@ -57,7 +56,7 @@
             </div>
         </div>
 
-        <!-- ===== رادیو و تلویزیون اصلی با المان‌های کلاسیک ===== -->
+        <!-- ===== رادیو و تلویزیون اصلی ===== -->
         <div class="media-grid" id="radio-tv">
             <div class="media-card radio-card">
                 <h3><span class="nostalgic-radio"><i class="fas fa-radio"></i><i class="fas fa-signal"></i></span> رادیو هوشمند</h3>
@@ -88,7 +87,7 @@
             </div>
         </div>
 
-        <!-- ===== تلویزیون اخبار (شبیه تلویزیون واقعی) ===== -->
+        <!-- ===== تلویزیون اخبار ===== -->
         <div class="tv-news-wrapper" id="news-tv">
             <div class="tv-news-container">
                 <div class="tv-news-screen">
@@ -102,7 +101,7 @@
                         <div class="tv-news-info">
                             <h2 id="news-player-title">افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی</h2>
                             <p id="news-player-date">۲۹ تیر ۱۴۰۵</p>
-                            <p id="news-player-text">نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد برگزار شد...</p>
+                            <p id="news-player-text">نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد پژوهشگاه میراث فرهنگی و گردشگری و انجمن ترویج فرهنگ مسئولیت اجتماعی در محل پژوهشگاه برگزار شد. در ابتدای این نشست، دکتر ناصر رضایی رئیس گروه پژوهشی گردشگری، دکتر حسینعلی متولی رئیس هیات مدیره انجمن و دکتر محمدابراهیم زارعی رئیس پژوهشگاه میراث‌فرهنگی و گردشگری به ایراد سخن پرداختند. دکتر رضایی، با اشاره به اهمیت مسئولیت اجتماعی در صنعت گردشگری گفت: «گردشگری تنها یک فعالیت اقتصادی نیست، بلکه پدیده‌ای عمیقاً اجتماعی است و مسئولیت اجتماعی باید به عنوان یکی از ارکان اصلی آن مورد توجه قرار گیرد.»</p>
                         </div>
                     </div>
                     <div class="tv-news-controls">
@@ -124,9 +123,114 @@
             </div>
         </div>
 
-        <!-- ===== سایر بخش‌ها ===== -->
-        <!-- اسلایدشو مانیفست، شعر، عضویت، همیاری، آنچه با هم می‌سازیم، آمار، نظرات، گالری، تعامل، تماس، فوتر -->
-        <!-- ... (بقیه بخش‌ها مشابه نسخه قبلی) ... -->
+        <!-- ===== اسلایدشو مانیفست ===== -->
+        <div class="module-wrapper" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
+            <h3 style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-scroll" style="color: #d4a373;"></i> مانیفست انجمن</h3>
+            <div style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.06);">
+                <div id="manifest-slideshow" style="display: flex; transition: transform 0.6s ease-in-out; will-change: transform;">
+                    <!-- توسط جاوااسکریپت از manifest.json پر می‌شود -->
+                </div>
+                <button onclick="changeSlide(-1)" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(2px); transition: 0.2s; z-index: 10;">❮</button>
+                <button onclick="changeSlide(1)" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(2px); transition: 0.2s; z-index: 10;">❯</button>
+            </div>
+            <div style="text-align: center; margin-top: 12px;" id="manifest-dots"></div>
+        </div>
+
+        <!-- ===== شعر ===== -->
+        <div class="module-wrapper" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
+            <h3 style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-feather-alt" style="color: #d4a373;"></i> شعر</h3>
+            <div style="display: flex; justify-content: center; padding: 10px 0;">
+                <img id="poem-image" src="data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg" alt="شعر" style="max-width: 100%; max-height: 400px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid rgba(212, 163, 115, 0.2);">
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button onclick="likePoem()" style="background: #e74c3c; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">❤️ لایک</button>
+                <button onclick="sharePoem()" style="background: #1a6a8a; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">📤 اشتراک</button>
+            </div>
+        </div>
+
+        <!-- ===== عضویت ===== -->
+        <div class="module-wrapper membership-module" id="membership">
+            <h3><i class="fas fa-user-plus"></i> درخواست عضویت</h3>
+            <div style="text-align:center; margin-bottom:16px;">
+                <p style="font-size:1.1rem; color:#2c3e50;"><i class="fas fa-hand-peace" style="color:#f1c40f;"></i> سلام بر شما فرهیختهٔ گرامی</p>
+                <p style="color:#3a5e77; margin-top:4px;">چنانچه فایل‌های زیر را در دسترس داشته باشید، زمان‌بری این فرایند ۵ دقیقه خواهد بود.</p>
+            </div>
+            <div class="membership-steps">
+                <div class="step-card">
+                    <h4><i class="fas fa-file-alt"></i> مدارک مورد نیاز</h4>
+                    <ul id="documents-list"></ul>
+                </div>
+                <div class="step-card">
+                    <h4><i class="fas fa-credit-card"></i> اطلاعات پرداخت</h4>
+                    <p style="font-size:0.95rem;">مبلغ: <strong id="fee-amount">۶۰۰,۰۰۰ تومان</strong></p>
+                    <p style="font-size:0.9rem; background:#f1f5f9; padding:8px; border-radius:12px; direction:ltr; text-align:center; font-family:monospace;" id="card-number">5859.8370.1464.3403</p>
+                    <span class="highlight"><i class="fas fa-clock"></i> <span id="duration">۵ دقیقه</span> زمان بری</span>
+                </div>
+            </div>
+            <div style="text-align:center;">
+                <button class="btn-start" onclick="startMembership()"><i class="fas fa-paper-plane"></i> شروع فرایند عضویت</button>
+            </div>
+        </div>
+
+        <!-- ===== همیاری ===== -->
+        <div class="module-wrapper" id="helps-module">
+            <h3><i class="fas fa-hands-helping"></i> همیاری‌های اجتماعی</h3>
+            <div class="help-items" id="helps-container"></div>
+        </div>
+
+        <!-- ===== آنچه با هم می‌سازیم ===== -->
+        <div class="module-wrapper" id="builds-module">
+            <h3><i class="fas fa-handshake"></i> آنچه با هم می‌سازیم</h3>
+            <div class="help-items" id="builds-container"></div>
+        </div>
+
+        <!-- ===== آمار ===== -->
+        <div class="module-wrapper" id="statistics-module">
+            <h3><i class="fas fa-chart-bar"></i> آمار و دستاوردها</h3>
+            <div class="stat-grid" id="statistics-container"></div>
+        </div>
+
+        <!-- ===== نظرات همراهان ===== -->
+        <div class="module-wrapper" id="testimonials-module">
+            <h3><i class="fas fa-comment"></i> نظرات همراهان</h3>
+            <div class="testimonials-grid" id="testimonials-container"></div>
+        </div>
+
+        <!-- ===== گالری ===== -->
+        <div class="module-wrapper" id="gallery-module">
+            <h3><i class="fas fa-images"></i> گالری تصاویر</h3>
+            <div class="gallery-grid" id="gallery-container"></div>
+        </div>
+
+        <!-- ===== تعامل هوشمند ===== -->
+        <div class="interact-box">
+            <h3><i class="fas fa-comment-dots"></i> تعامل هوشمند</h3>
+            <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
+            <button class="btn-send" onclick="sendInteraction()"><i class="fas fa-paper-plane"></i> ارسال</button>
+            <div class="response-area" id="response-area">
+                <i class="fas fa-robot" style="margin-left:8px;"></i>
+                <span class="admin-tag">مدیر پاسخگو</span>
+                پاسخ هوشمند در اینجا نمایش داده می‌شود.
+            </div>
+        </div>
+
+        <!-- ===== تماس ===== -->
+        <div class="contact-box" id="contact">
+            <h3><i class="fas fa-address-card"></i> ارتباط با ما</h3>
+            <div class="contact-items">
+                <a href="tel:02122909000"><i class="fas fa-phone-alt"></i> ۰۲۱-۲۲۹۰۹۰۰۰</a>
+                <a href="mailto:info@casraango.org"><i class="fas fa-envelope"></i> info@casraango.org</a>
+                <a href="https://casraango.org" target="_blank"><i class="fas fa-globe"></i> casraango.org</a>
+                <a href="#" style="font-size:0.9rem;"><i class="fas fa-map-marker-alt"></i> تهران، پاسداران، کشوری، ربانی ۱۲</a>
+                <div class="social-links" id="social-links"></div>
+            </div>
+        </div>
+
+        <!-- ===== فوتر ===== -->
+        <div class="footer-note">
+            <p><i class="fas fa-sync-alt"></i> به‌روزرسانی خودکار از کتابخانه دانش</p>
+            <p style="margin-top:2px;"><i class="fas fa-heart" style="color:#e67e22;"></i> ما همه مسئولیم</p>
+        </div>
 
     </div>
 
