@@ -1,4 +1,4 @@
-// ===== script.js - نسخه اصلاح‌شده نهایی =====
+// ===== script.js - نسخه نهایی با اصلاح کامل =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
@@ -42,12 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     tickerContent.innerHTML = '<span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>';
                     return;
                 }
-                // ساخت لیست عناوین
                 let html = '';
                 newsItems.forEach(item => {
                     html += `<span>📢 ${item.title} (${item.date})</span>`;
                 });
-                // اضافه کردن پیام ثابت
                 html += `<span>🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها</span>`;
                 html += `<span>📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار</span>`;
                 html += `<span>💬 نظرات و پیشنهادات خود را با ما در میان بگذارید</span>`;
@@ -392,7 +390,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری مانیفست:', error);
-                // استفاده از تصاویر موجود در پوشه images
                 manifestData = [
                     { id: 'm1', title: 'مسئولیت اجتماعی', image: 'data/images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg' },
                     { id: 'm2', title: 'همیاری اجتماعی', image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' },
@@ -520,30 +517,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-  // ۱۲. نظرات همراهان (اصلاح شده)
-// =============================================
-function loadTestimonials() {
-    fetch('data/testimonials.json')
-        .then(response => response.json())
-        .then(data => {
-            const container = document.getElementById('testimonials-container');
-            if (!container || !data.items) return;
-            container.innerHTML = '';
-            data.items.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'testimonial-item';
-                // اگر item.image شروع با 'images/' دارد، آن را حذف می‌کنیم
-                let imageName = item.image || 'placeholder.jpg';
-                if (imageName.startsWith('images/')) {
-                    imageName = imageName.replace('images/', '');
-                }
-                const imgSrc = 'data/images/' + imageName;
-                div.innerHTML = `<img src="${imgSrc}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
-                container.appendChild(div);
-            });
-        })
-        .catch(error => console.warn('⚠️ خطا در بارگذاری نظرات:', error));
-}
+    // ۱۲. نظرات همراهان (اصلاح شده)
+    // =============================================
+    function loadTestimonials() {
+        fetch('data/testimonials.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('testimonials-container');
+                if (!container || !data.items) return;
+                container.innerHTML = '';
+                data.items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'testimonial-item';
+                    // اصلاح مسیر: حذف 'images/' اضافی
+                    let imageName = item.image || 'placeholder.jpg';
+                    if (imageName.startsWith('images/')) {
+                        imageName = imageName.replace('images/', '');
+                    }
+                    const imgSrc = 'data/images/' + imageName;
+                    div.innerHTML = `<img src="${imgSrc}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+                    container.appendChild(div);
+                });
+            })
+            .catch(error => console.warn('⚠️ خطا در بارگذاری نظرات:', error));
+    }
+
     // =============================================
     // ۱۳. گالری
     // =============================================
@@ -667,11 +665,11 @@ function loadTestimonials() {
     // =============================================
     function init() {
         startSloganRotation();
-        loadTicker(); // بارگذاری تیکر
+        loadTicker();
         loadRadioData();
         loadTvData();
         loadNewsData();
-        loadEventsData(); // بارگذاری رویدادها
+        loadEventsData();
         loadManifestData();
         loadPoem();
         loadHelps();
