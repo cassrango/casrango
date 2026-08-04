@@ -1,0 +1,64 @@
+{
+  "membership": {
+    "title": "درخواست عضویت",
+    "greeting": "سلام بر شما فرهیختهٔ گرامی",
+    "documents_required": "چنانچه فایل‌های زیر را در دسترس داشته باشید، زمان‌بری این فرایند ۵ دقیقه خواهد بود.",
+    "documents": [
+      "رزومه حرفه‌ای",
+      "عکس پرسنلی",
+      "تصویر کارت ملی",
+      "رسید واریز حق عضویت"
+    ],
+    "fee": "۶۰۰,۰۰۰ تومان",
+    "card_number": "5859.8370.1464.3403",
+    "duration": "۵ دقیقه",
+    "form": {
+      "fields": [
+        {
+          "name": "full_name",
+          "label": "نام و نام خانوادگی",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "email",
+          "label": "ایمیل",
+          "type": "email",
+          "required": true
+        },
+        {
+          "name": "phone",
+          "label": "شماره تماس",
+          "type": "tel",
+          "required": true
+        },
+        {
+          "name": "resume",
+          "label": "رزومه حرفه‌ای",
+          "type": "file",
+          "required": true
+        },
+        {
+          "name": "photo",
+          "label": "عکس پرسنلی",
+          "type": "file",
+          "required": true
+        },
+        {
+          "name": "national_card",
+          "label": "تصویر کارت ملی",
+          "type": "file",
+          "required": true
+        },
+        {
+          "name": "receipt",
+          "label": "رسید واریز حق عضویت",
+          "type": "file",
+          "required": true
+        }
+      ],
+      "submit_label": "ثبت درخواست عضویت",
+      "success_message": "✅ درخواست عضویت شما با موفقیت ثبت شد. ادمین با شما تماس خواهد گرفت."
+    }
+  }
+}
