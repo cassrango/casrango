@@ -6,185 +6,22 @@
     <title>رادیوتلویزیون هوشمند | انجمن ترویج فرهنگ مسئولیت اجتماعی</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* تنظیمات پس‌زمینه و رنگ‌بندی جدید */
-        body {
-            background-color: #f4efe9; /* رنگ کرم زمینه */
-            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        /* استایل جدید برای بخش‌ها (حالت تلویزیونی) */
-        .tv-module {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(2px);
-            transition: transform 0.2s ease;
-        }
-        .tv-module:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-        /* رنگ‌های متفاوت برای هر بخش */
-        .module-radio { background: linear-gradient(145deg, #ffffff, #fdf8f3); border-right: 6px solid #d4a373; }
-        .module-tv { background: linear-gradient(145deg, #ffffff, #f3f8fd); border-right: 6px solid #3498db; }
-        .module-news { background: linear-gradient(145deg, #ffffff, #fdf3f3); border-right: 6px solid #e74c3c; }
-        .module-events { background: linear-gradient(145deg, #ffffff, #f3fdf6); border-right: 6px solid #2ecc71; }
-        .module-membership { background: linear-gradient(145deg, #ffffff, #f8f3fd); border-right: 6px solid #9b59b6; }
-        .module-helps { background: linear-gradient(145deg, #ffffff, #fdf8f3); border-right: 6px solid #f39c12; }
-        .module-builds { background: linear-gradient(145deg, #ffffff, #f3f8fd); border-right: 6px solid #1abc9c; }
-        .module-testimonials { background: linear-gradient(145deg, #ffffff, #fdf3f8); border-right: 6px solid #e84393; }
-        .module-gallery { background: linear-gradient(145deg, #ffffff, #f3fdfd); border-right: 6px solid #00b894; }
-        .module-contact { background: linear-gradient(145deg, #ffffff, #f8f4f0); border-right: 6px solid #636e72; }
-        .module-interact { background: linear-gradient(145deg, #ffffff, #f0f8ff); border-right: 6px solid #0984e3; }
-
-        /* استایل هدر و تیترها */
-        .module-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #2c3e50;
-            border-bottom: 3px solid #e0c9a6;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .module-title i {
-            font-size: 1.8rem;
-        }
-
-        /* دکمه‌های پخش/توقف برای اخبار و رویدادها */
-        .tv-news-controls button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 30px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .tv-news-controls button:hover { opacity: 0.85; transform: scale(0.97); }
-        .btn-play-pause { background: #2c3e50; }
-        .btn-full { background: #d4a373; }
-        .btn-comment { background: #3498db; }
-        .btn-like { background: #e74c3c; }
-        .btn-nav { background: #7f8c8d; }
-
-        /* استایل جدید برای عنوان زیر لوگو */
-        .org-name {
-            font-size: 1.3rem !important;
-            color: #e74c3c !important;
-            font-style: italic !important;
-            font-weight: 700 !important;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            margin-top: 5px !important;
-        }
-
-        /* سایر تنظیمات */
-        .slogan-bar {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            background: rgba(44, 62, 80, 0.05);
-            padding: 12px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            color: #2c3e50;
-            margin: 20px 0;
-        }
-        .slogan-item { display: none; }
-        .slogan-item.show { display: inline-block; }
-
-        .playlist-item {
-            padding: 10px 15px;
-            margin: 6px 0;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            background: #f8f4f0;
-            transition: 0.2s;
-        }
-        .playlist-item.active { background: #e0c9a6; color: #2c3e50; font-weight: 600; }
-        .playlist-item:hover { background: #e8e0d8; }
-
-        .tv-news-container { display: flex; flex-wrap: wrap; gap: 25px; }
-        .tv-news-screen { flex: 2; min-width: 300px; }
-        .tv-news-sidebar { flex: 1; min-width: 200px; background: #f8f4f0; padding: 20px; border-radius: 16px; }
-        .tv-news-sidebar h4 { color: #2c3e50; border-bottom: 2px solid #e0c9a6; padding-bottom: 10px; }
-
-        .help-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8f4f0;
-            border-radius: 16px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .help-item:hover { background: #efe8e0; transform: translateX(-5px); }
-        .help-item i { font-size: 1.8rem; color: #d4a373; min-width: 40px; text-align: center; }
-        .help-title { font-weight: 700; color: #2c3e50; }
-        .help-desc { color: #7f8c8d; font-size: 0.95rem; }
-
-        .testimonials-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .testimonial-item {
-            text-align: center;
-            padding: 20px;
-            background: #f8f4f0;
-            border-radius: 16px;
-            max-width: 250px;
-        }
-        .testimonial-item img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-        .testimonial-item .name { font-weight: 700; color: #2c3e50; }
-        .testimonial-item .role { color: #7f8c8d; font-size: 0.85rem; }
-        .testimonial-item .text { margin-top: 8px; color: #34495e; font-style: italic; }
-
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        .gallery-item {
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: 0.2s;
-            background: #fff;
-        }
-        .gallery-item:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .gallery-item img { width: 100%; height: 180px; object-fit: cover; }
-        .gallery-info { padding: 12px; background: #f8f4f0; }
-        .gallery-info h4 { margin: 0; color: #2c3e50; font-size: 0.95rem; }
-        .gallery-info p { margin: 4px 0 0; color: #7f8c8d; font-size: 0.8rem; }
-
-        .interact-box textarea { width: 100%; padding: 12px; border: 2px solid #e0c9a6; border-radius: 16px; min-height: 80px; font-family: inherit; }
-        .interact-box .btn-send { padding: 10px 30px; background: #d4a373; border: none; border-radius: 30px; color: #fff; font-weight: 700; cursor: pointer; margin-top: 10px; }
-        .response-area { margin-top: 15px; padding: 15px; background: #f8f4f0; border-radius: 16px; border-right: 4px solid #d4a373; }
-
-        .contact-items a { display: block; color: #2c3e50; text-decoration: none; padding: 6px 0; }
-        .contact-items a:hover { color: #d4a373; }
-        .social-links { display: flex; gap: 15px; margin-top: 12px; }
-        .social-links a { font-size: 1.8rem; transition: 0.2s; }
-        .social-links a:hover { transform: scale(1.15); }
-
-        .footer-note { text-align: center; padding: 25px 0; color: #7f8c8d; border-top: 1px solid #ecf0f1; margin-top: 20px; }
-
-        @media (max-width: 768px) {
-            .tv-news-container { flex-direction: column; }
-            .slogan-bar { flex-wrap: wrap; gap: 10px; font-size: 0.9rem; }
-        }
-    </style>
 </head>
 <body>
+
+    <!-- ===== نوار ابزار شناور (دکمه‌های شب/روز و آسانسور) ===== -->
+    <div class="floating-toolbar" id="floatingToolbar">
+        <button id="themeToggle" title="تغییر حالت شب/روز">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button id="scrollToTop" title="رفتن به بالای صفحه">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button id="scrollToBottom" title="رفتن به پایین صفحه">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
+
     <div class="container">
 
         <!-- ===== HEADER با لوگوی بزرگ و متمرکز ===== -->
@@ -272,7 +109,7 @@
             <div id="tv-playlist" class="playlist"></div>
         </div>
 
-        <!-- ===== بخش ۳: تلویزیون اخبار (با دکمه‌های پخش/توقف) ===== -->
+        <!-- ===== بخش ۳: تلویزیون اخبار ===== -->
         <div class="tv-module module-news" id="news-tv">
             <div class="module-title"><i class="fas fa-newspaper" style="color: #e74c3c;"></i> تلویزیون اخبار</div>
             <div class="tv-news-container">
@@ -306,7 +143,7 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۴: تلویزیون رویدادها (با دکمه‌های پخش/توقف) ===== -->
+        <!-- ===== بخش ۴: تلویزیون رویدادها ===== -->
         <div class="tv-module module-events" id="events-tv">
             <div class="module-title"><i class="fas fa-calendar-alt" style="color: #2ecc71;"></i> تلویزیون رویدادها</div>
             <div class="tv-news-container">
@@ -340,7 +177,7 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۵: مانیفست اسلایدشو (با ۶ عکس) ===== -->
+        <!-- ===== بخش ۵: مانیفست اسلایدشو ===== -->
         <div class="tv-module" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
             <div class="module-title" style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-scroll" style="color: #d4a373;"></i> مانیفست انجمن</div>
             <div style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.06);">
@@ -353,9 +190,19 @@
             <div style="text-align: center; margin-top: 15px;" id="manifest-dots"></div>
         </div>
 
-        <!-- ===== سایر بخش‌ها (عضویت، همیاری، گالری، تماس و ...) با رنگ‌های جدید ===== -->
-        
-        <!-- عضویت -->
+        <!-- ===== شعر ===== -->
+        <div class="tv-module" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
+            <div class="module-title" style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-feather-alt" style="color: #d4a373;"></i> شعر</div>
+            <div style="display: flex; justify-content: center; padding: 10px 0;">
+                <img id="poem-image" src="data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg" alt="شعر" style="max-width: 100%; max-height: 400px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid rgba(212, 163, 115, 0.2);" onerror="this.src='data/images/placeholder.jpg'">
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button onclick="likePoem()" style="background: #e74c3c; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">❤️ لایک</button>
+                <button onclick="sharePoem()" style="background: #1a6a8a; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">📤 اشتراک</button>
+            </div>
+        </div>
+
+        <!-- ===== عضویت ===== -->
         <div class="tv-module module-membership" id="membership">
             <div class="module-title"><i class="fas fa-user-plus" style="color: #9b59b6;"></i> درخواست عضویت</div>
             <div style="text-align:center; margin-bottom:16px;">
@@ -369,31 +216,31 @@
             </div>
         </div>
 
-        <!-- همیاری -->
+        <!-- ===== همیاری ===== -->
         <div class="tv-module module-helps" id="helps-module">
             <div class="module-title"><i class="fas fa-hands-helping" style="color: #f39c12;"></i> همیاری‌های اجتماعی</div>
             <div class="help-items" id="helps-container"></div>
         </div>
 
-        <!-- آنچه با هم می‌سازیم -->
+        <!-- ===== آنچه با هم می‌سازیم ===== -->
         <div class="tv-module module-builds" id="builds-module">
             <div class="module-title"><i class="fas fa-handshake" style="color: #1abc9c;"></i> آنچه با هم می‌سازیم</div>
             <div class="help-items" id="builds-container"></div>
         </div>
 
-        <!-- نظرات همراهان -->
+        <!-- ===== نظرات همراهان ===== -->
         <div class="tv-module module-testimonials" id="testimonials-module">
             <div class="module-title"><i class="fas fa-comment" style="color: #e84393;"></i> نظرات همراهان</div>
             <div class="testimonials-grid" id="testimonials-container"></div>
         </div>
 
-        <!-- گالری -->
+        <!-- ===== گالری ===== -->
         <div class="tv-module module-gallery" id="gallery-module">
             <div class="module-title"><i class="fas fa-images" style="color: #00b894;"></i> گالری تصاویر</div>
             <div class="gallery-grid" id="gallery-container"></div>
         </div>
 
-        <!-- تعامل هوشمند -->
+        <!-- ===== تعامل هوشمند ===== -->
         <div class="tv-module module-interact" id="interact-module">
             <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> تعامل هوشمند</div>
             <div class="interact-box">
@@ -407,7 +254,7 @@
             </div>
         </div>
 
-        <!-- تماس -->
+        <!-- ===== تماس ===== -->
         <div class="tv-module module-contact" id="contact">
             <div class="module-title"><i class="fas fa-address-card" style="color: #636e72;"></i> ارتباط با ما</div>
             <div class="contact-items">
