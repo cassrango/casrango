@@ -537,4 +537,46 @@ document.addEventListener('DOMContentLoaded', function() {
                         container.appendChild(a);
                     }
                 });
-           
+            })
+            .catch(error => console.warn('⚠️ خطا در بارگذاری شبکه‌های اجتماعی:', error));
+    }
+
+    // =============================================
+    // ۱۶. ناوبری
+    // =============================================
+    function setupNavigation() {
+        document.querySelectorAll('.art-toolbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page) {
+                    const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
+                    if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+                }
+            });
+        });
+    }
+
+    // =============================================
+    // ۱۷. بارگذاری اولیه
+    // =============================================
+    function init() {
+        startSloganRotation();
+        loadRadioData();
+        loadTvData();
+        loadNewsData();
+        loadManifestData();
+        loadPoem();
+        loadMembership();
+        loadHelps();
+        loadBuilds();
+        loadStatistics();
+        loadTestimonials();
+        loadGallery();
+        loadSocialLinks();
+        setupNavigation();
+        console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
+    }
+
+    init();
+});
