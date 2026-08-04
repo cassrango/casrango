@@ -1,18 +1,31 @@
-// ===== script.js - نسخه نهایی با همه توابع و بارگذاری داده‌ها =====
+// ===== فایل: script.js =====
+// تمام محتوای این فایل را با کد زیر جایگزین کنید
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
-    // ۱. چرخش شعارها
+    // ۱. چرخش شعارها (رفع رفرش دائم)
     // =============================================
-    const sloganItems = document.querySelectorAll('.slogan-bar .slogan-item');
-    if (sloganItems.length > 0) {
-        let sloganIndex = 0;
-        setInterval(() => {
+    let sloganInterval = null;
+
+    function startSloganRotation() {
+        if (sloganInterval) {
+            clearInterval(sloganInterval);
+            sloganInterval = null;
+        }
+        const sloganItems = document.querySelectorAll('.slogan-bar .slogan-item');
+        if (sloganItems.length > 0) {
+            let sloganIndex = 0;
             sloganItems.forEach((el, i) => {
                 el.classList.toggle('show', i === sloganIndex);
             });
-            sloganIndex = (sloganIndex + 1) % sloganItems.length;
-        }, 5000);
+            sloganInterval = setInterval(() => {
+                sloganIndex = (sloganIndex + 1) % sloganItems.length;
+                sloganItems.forEach((el, i) => {
+                    el.classList.toggle('show', i === sloganIndex);
+                });
+            }, 5000);
+        }
     }
 
     // =============================================
@@ -234,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری اخبار:', error);
-                // داده‌های پیش‌فرض
                 newsData = [
                     {
                         id: 'n1',
@@ -400,7 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
             div.innerHTML = `<img src="${item.image}" alt="${item.title}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 12px;">`;
             container.appendChild(div);
         });
-        // ایجاد نقاط
         const dotsContainer = document.getElementById('manifest-dots');
         if (dotsContainer) {
             dotsContainer.innerHTML = '';
@@ -634,10 +645,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ۱۳. گالری
     // =============================================
     function loadGallery() {
-        // برای گالری، از تصاویر موجود در بخش اخبار و رویدادها استفاده می‌کنیم
         const container = document.getElementById('gallery-container');
         if (!container) return;
-        // می‌توانیم تصاویر را از news.json و events.json ترکیب کنیم
         Promise.all([
             fetch('data/news.json').then(res => res.json()).catch(() => ({ news: [] })),
             fetch('data/events.json').then(res => res.json()).catch(() => ({ events: [] }))
@@ -677,7 +686,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۱۴. تعامل هوشمند (ارسال نظر عمومی)
+    // ۱۴. تعامل هوشمند
     // =============================================
     window.sendInteraction = function() {
         const textarea = document.getElementById('interact-text');
@@ -739,7 +748,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۱۶. ناوبری (تغییر صفحه با کلیک روی منو)
+    // ۱۶. ناوبری
     // =============================================
     function setupNavigation() {
         document.querySelectorAll('.art-toolbar a').forEach(link => {
@@ -759,9 +768,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۱۷. بارگذاری اولیه همه داده‌ها
+    // ۱۷. بارگذاری اولیه
     // =============================================
     function init() {
+        startSloganRotation();
         loadRadioData();
         loadTvData();
         loadNewsData();
