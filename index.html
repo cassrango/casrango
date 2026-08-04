@@ -9,22 +9,16 @@
 </head>
 <body>
 
-    <!-- ===== نوار ابزار شناور (دکمه‌های شب/روز و آسانسور) ===== -->
+    <!-- ===== نوار ابزار شناور ===== -->
     <div class="floating-toolbar" id="floatingToolbar">
-        <button id="themeToggle" title="تغییر حالت شب/روز">
-            <i class="fas fa-moon"></i>
-        </button>
-        <button id="scrollToTop" title="رفتن به بالای صفحه">
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        <button id="scrollToBottom" title="رفتن به پایین صفحه">
-            <i class="fas fa-arrow-down"></i>
-        </button>
+        <button id="themeToggle" title="تغییر حالت شب/روز"><i class="fas fa-moon"></i></button>
+        <button id="scrollToTop" title="رفتن به بالای صفحه"><i class="fas fa-arrow-up"></i></button>
+        <button id="scrollToBottom" title="رفتن به پایین صفحه"><i class="fas fa-arrow-down"></i></button>
     </div>
 
     <div class="container">
 
-        <!-- ===== HEADER با لوگوی بزرگ و متمرکز ===== -->
+        <!-- ===== HEADER ===== -->
         <header style="text-align: center; margin-bottom: 25px;">
             <div style="display: inline-block; width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 4px solid #d4a373; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
                 <video id="main-logo-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
@@ -36,7 +30,7 @@
             <div class="org-name">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
         </header>
 
-        <!-- ===== نوار ابزار متحرک (Ticker) ===== -->
+        <!-- ===== نوار ابزار متحرک ===== -->
         <div class="ticker-bar" style="background: #2c3e50; color: #ecf0f1; padding: 10px 0; border-radius: 50px; margin: 15px 0; text-align: center; overflow: hidden;">
             <div class="ticker-content" id="ticker-content" style="display: flex; gap: 40px; white-space: nowrap; animation: scrollTicker 20s linear infinite; font-size: 0.95rem;">
                 <span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>
@@ -46,14 +40,8 @@
                 <span>🔄 ارتباط دوطرفه با ادمین و مدیران انجمن</span>
             </div>
         </div>
-        <style>
-            @keyframes scrollTicker {
-                0% { transform: translateX(100%); }
-                100% { transform: translateX(-100%); }
-            }
-        </style>
 
-        <!-- ===== منوی اصلی ===== -->
+        <!-- ===== منوی اصلی با آیتم جدید ===== -->
         <nav class="art-toolbar" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: #f8f4f0; padding: 12px 20px; border-radius: 50px; margin: 15px 0;">
             <a href="#" data-page="radio" style="padding: 8px 18px; background: #d4a373; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-microphone"></i> رادیو</a>
             <a href="#" data-page="tv" style="padding: 8px 18px; background: #3498db; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-tv"></i> تلویزیون</a>
@@ -61,6 +49,8 @@
             <a href="#" data-page="events-tv" style="padding: 8px 18px; background: #2ecc71; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-calendar-alt"></i> رویدادها</a>
             <a href="#" data-page="membership" style="padding: 8px 18px; background: #9b59b6; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-user-plus"></i> عضویت</a>
             <a href="#" data-page="gallery" style="padding: 8px 18px; background: #00b894; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-images"></i> گالری</a>
+            <a href="#" data-page="knowledge" style="padding: 8px 18px; background: #f39c12; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-database"></i> گنجینه دانش</a>
+            <a href="#" data-page="admin" style="padding: 8px 18px; background: #e67e22; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-user-cog"></i> مدیریت</a>
             <a href="#" data-page="contact" style="padding: 8px 18px; background: #636e72; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-phone"></i> تماس</a>
         </nav>
 
@@ -71,7 +61,7 @@
             <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
         </div>
 
-        <!-- ===== بخش ۱: رادیو هوشمند ===== -->
+        <!-- ===== بخش ۱: رادیو هوشمند (با دکمه تولید پادکست) ===== -->
         <div class="tv-module module-radio" id="radio-module">
             <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
             <div class="player-wrapper" style="margin: 15px 0;">
@@ -86,11 +76,12 @@
                 <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
                 <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
                 <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
+                <button onclick="generatePodcast()" style="padding: 10px 20px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-podcast"></i> تولید پادکست</button>
             </div>
             <div id="radio-playlist" class="playlist"></div>
         </div>
 
-        <!-- ===== بخش ۲: تلویزیون هوشمند ===== -->
+        <!-- ===== بخش ۲: تلویزیون هوشمند (با دکمه تولید اسلایدشو) ===== -->
         <div class="tv-module module-tv" id="tv-module">
             <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
             <div class="player-wrapper" style="margin: 15px 0;">
@@ -105,6 +96,7 @@
                 <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
                 <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
                 <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
+                <button onclick="generateSlideshow()" style="padding: 10px 20px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-slideshare"></i> تولید اسلایدشو</button>
             </div>
             <div id="tv-playlist" class="playlist"></div>
         </div>
@@ -181,9 +173,7 @@
         <div class="tv-module" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
             <div class="module-title" style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-scroll" style="color: #d4a373;"></i> مانیفست انجمن</div>
             <div style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.06);">
-                <div id="manifest-slideshow" style="display: flex; transition: transform 0.6s ease-in-out; will-change: transform;">
-                    <!-- توسط جاوااسکریپت از داده‌های زیر پر می‌شود -->
-                </div>
+                <div id="manifest-slideshow" style="display: flex; transition: transform 0.6s ease-in-out; will-change: transform;"></div>
                 <button onclick="changeSlide(-1)" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(2px); transition: 0.2s; z-index: 10;">❮</button>
                 <button onclick="changeSlide(1)" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(2px); transition: 0.2s; z-index: 10;">❯</button>
             </div>
@@ -199,6 +189,53 @@
             <div style="text-align: center; margin-top: 10px;">
                 <button onclick="likePoem()" style="background: #e74c3c; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">❤️ لایک</button>
                 <button onclick="sharePoem()" style="background: #1a6a8a; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">📤 اشتراک</button>
+            </div>
+        </div>
+
+        <!-- ===== بخش ۶: پرسش و پاسخ (تعامل هوشمند) با سه کانال ورودی ===== -->
+        <div class="tv-module module-interact" id="interact-module">
+            <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> پرسش و پاسخ</div>
+            <div class="interact-box">
+                <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                    <button class="btn-send" onclick="sendInteraction('text')"><i class="fas fa-paper-plane"></i> ارسال متن</button>
+                    <button class="btn-send" onclick="startRecording()" style="background: #e74c3c;"><i class="fas fa-microphone"></i> ضبط صدا</button>
+                    <button class="btn-send" onclick="document.getElementById('fileInput').click();" style="background: #2ecc71;"><i class="fas fa-upload"></i> آپلود فایل</button>
+                    <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;" onchange="uploadFile(event)">
+                </div>
+                <div id="recording-status" style="margin: 10px 0; color: #e74c3c; font-weight: bold; display: none;">🔴 در حال ضبط... (برای توقف کلیک کنید)</div>
+                <button class="btn-send" onclick="stopRecording()" id="stopRecordingBtn" style="display: none; background: #e74c3c;"><i class="fas fa-stop"></i> توقف ضبط</button>
+                <div class="response-area" id="response-area">
+                    <i class="fas fa-robot" style="margin-left:8px;"></i>
+                    <span style="font-weight: 700; color: #d4a373;">مدیر پاسخگو</span>
+                    پاسخ هوشمند در اینجا نمایش داده می‌شود.
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== بخش ۷: گنجینه دانش (جدید) ===== -->
+        <div class="tv-module module-knowledge" id="knowledge-module" style="display: none;">
+            <div class="module-title"><i class="fas fa-database" style="color: #f39c12;"></i> گنجینه دانش</div>
+            <div id="knowledge-base-container" style="max-height: 600px; overflow-y: auto; padding: 10px;">
+                <!-- توسط جاوااسکریپت پر می‌شود -->
+            </div>
+        </div>
+
+        <!-- ===== بخش ۸: پنل مدیریت (جدید) ===== -->
+        <div class="tv-module module-admin" id="admin-module" style="display: none;">
+            <div class="module-title"><i class="fas fa-user-cog" style="color: #e67e22;"></i> پنل مدیریت</div>
+            <div id="admin-login" style="text-align: center; padding: 20px;">
+                <input type="password" id="admin-password" placeholder="رمز ورود" style="padding: 10px; border-radius: 10px; border: 1px solid #ccc; margin: 10px;">
+                <button onclick="loginAdmin()" style="padding: 10px 30px; background: #e67e22; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">ورود</button>
+                <div id="admin-error" style="color: #e74c3c; margin-top: 10px; display: none;">رمز اشتباه است!</div>
+            </div>
+            <div id="admin-panel" style="display: none; max-height: 600px; overflow-y: auto;">
+                <h4>لیست تعاملات دریافتی</h4>
+                <div id="interactions-list"></div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button onclick="exportKnowledgeBase()" style="padding: 10px 30px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-download"></i> دانلود گنجینه</button>
+                    <button onclick="clearKnowledgeBase()" style="padding: 10px 30px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-trash"></i> پاک کردن گنجینه</button>
+                </div>
             </div>
         </div>
 
@@ -238,20 +275,6 @@
         <div class="tv-module module-gallery" id="gallery-module">
             <div class="module-title"><i class="fas fa-images" style="color: #00b894;"></i> گالری تصاویر</div>
             <div class="gallery-grid" id="gallery-container"></div>
-        </div>
-
-        <!-- ===== تعامل هوشمند ===== -->
-        <div class="tv-module module-interact" id="interact-module">
-            <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> تعامل هوشمند</div>
-            <div class="interact-box">
-                <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
-                <button class="btn-send" onclick="sendInteraction()"><i class="fas fa-paper-plane"></i> ارسال</button>
-                <div class="response-area" id="response-area">
-                    <i class="fas fa-robot" style="margin-left:8px;"></i>
-                    <span style="font-weight: 700; color: #d4a373;">مدیر پاسخگو</span>
-                    پاسخ هوشمند در اینجا نمایش داده می‌شود.
-                </div>
-            </div>
         </div>
 
         <!-- ===== تماس ===== -->
