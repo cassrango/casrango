@@ -1,0 +1,19 @@
+{
+  "title": "تلویزیون هوشمند",
+  "icon": "fa-tv",
+  "description": "پخش زنده و آرشیو برنامه‌های تلویزیونی انجمن",
+  "channels": [
+    {
+      "id": "tv1",
+      "title": "کانال آموزش",
+      "video": "https://www.w3schools.com/html/mov_bbb.mp4",
+      "image": "images/tv1.jpg"
+    },
+    {
+      "id": "tv2",
+      "title": "کانال فرهنگی",
+      "video": "https://www.w3schools.com/html/mov_bbb.mp4",
+      "image": "images/tv2.jpg"
+    }
+  ]
+}
