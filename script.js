@@ -1,9 +1,8 @@
-// ===== script.js - تمام منطق و رفتارهای سایت =====
-
+// ===== script.js - نسخه نهایی با منطق تلویزیون اخبار =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
-    // ۱. چرخش شعارها در نوار زیر تولبار
+    // ۱. چرخش شعارها
     // =============================================
     const sloganItems = document.querySelectorAll('.slogan-bar .slogan-item');
     if (sloganItems.length > 0) {
@@ -17,7 +16,79 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۲. بارگذاری داده‌ها از library.json و نمایش در گالری‌ها
+    // ۲. اسلایدشو مانیفست
+    // =============================================
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('#manifest-slideshow > div');
+    const dots = document.querySelectorAll('.dot');
+    let autoSlideInterval;
+
+    function showSlide(index) {
+        if (index >= slides.length) slideIndex = 0;
+        else if (index < 0) slideIndex = slides.length - 1;
+        else slideIndex = index;
+        const offset = -slideIndex * 100;
+        const container = document.getElementById('manifest-slideshow');
+        if (container) {
+            container.style.transform = `translateX(${offset}%)`;
+        }
+        dots.forEach((dot, i) => {
+            dot.style.background = i === slideIndex ? '#d4a373' : '#ccc';
+        });
+    }
+
+    function changeSlide(direction) {
+        clearInterval(autoSlideInterval);
+        showSlide(slideIndex + direction);
+        startAutoSlide();
+    }
+
+    function currentSlide(index) {
+        clearInterval(autoSlideInterval);
+        showSlide(index);
+        startAutoSlide();
+    }
+
+    function startAutoSlide() {
+        if (slides.length > 0) {
+            autoSlideInterval = setInterval(() => {
+                showSlide(slideIndex + 1);
+            }, 5000);
+        }
+    }
+
+    if (slides.length > 0) {
+        showSlide(0);
+        startAutoSlide();
+    }
+
+    // =============================================
+    // ۳. تلویزیون اخبار - توابع پخش و توقف
+    // =============================================
+    // تابع پخش خبر (تغییر محتوای پخش‌کننده)
+    window.playNews = function(image, title, date, link) {
+        document.getElementById('news-player-image').src = image;
+        document.getElementById('news-player-title').textContent = title;
+        document.getElementById('news-player-date').textContent = date;
+        document.getElementById('news-player-link').href = link;
+        // هایلایت آیتم انتخاب‌شده در لیست
+        document.querySelectorAll('#news-list div').forEach(el => {
+            el.style.background = 'rgba(255,255,255,0.6)';
+        });
+        // اینجا می‌توانید آیتم کلیک‌شده را هایلایت کنید (با استفاده از event)
+    };
+
+    // تابع توقف (تغییر وضعیت به حالت اولیه)
+    window.pauseNews = function() {
+        document.getElementById('news-player-title').textContent = 'پخش متوقف شد';
+        document.getElementById('news-player-date').textContent = '';
+        document.getElementById('news-player-link').href = '#';
+        // اختیاری: می‌توانید تصویر را به یک تصویر پیش‌فرض تغییر دهید
+        // document.getElementById('news-player-image').src = 'default-image.jpg';
+    };
+
+    // =============================================
+    // ۴. بارگذاری رویدادها از library.json (برای نشست شو)
     // =============================================
     fetch('library.json')
         .then(response => {
@@ -28,31 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             console.log('📚 اطلاعات بارگذاری شد:', data);
-
-            // --- نمایش اخبار در گالری اخبار شو ---
-            const newsGallery = document.getElementById('news-gallery');
-            if (newsGallery && data.organization && data.organization.news) {
-                newsGallery.innerHTML = '';
-                data.organization.news.forEach(item => {
-                    const newsItem = document.createElement('div');
-                    newsItem.className = 'gallery-item';
-                    newsItem.innerHTML = `
-                        <img src="${item.image || 'https://via.placeholder.com/300x140/4a90d9/ffffff?text=خبر'}" alt="${item.title}">
-                        <div class="gallery-info">
-                            <h4>${item.title}</h4>
-                            <p>${item.date || ''}</p>
-                            <span class="date">${item.date || ''}</span>
-                        </div>
-                    `;
-                    // کلیک روی خبر: نمایش alert با اطلاعات
-                    newsItem.addEventListener('click', function() {
-                        alert(`📰 ${item.title}\n📅 ${item.date || 'تاریخ نامشخص'}`);
-                    });
-                    newsGallery.appendChild(newsItem);
-                });
-            }
-
-            // --- نمایش رویدادها در گالری نشست شو ---
             const eventsGallery = document.getElementById('events-gallery');
             if (eventsGallery && data.organization && data.organization.events) {
                 eventsGallery.innerHTML = '';
@@ -73,28 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     eventsGallery.appendChild(eventItem);
                 });
             }
-
         })
         .catch(error => {
             console.warn('ℹ️ خطا در بارگذاری library.json:', error);
-            // در صورت عدم وجود فایل، از داده‌های پیش‌فرض استفاده می‌شود.
-            const newsGallery = document.getElementById('news-gallery');
-            if (newsGallery) {
-                newsGallery.innerHTML = `
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/4a90d9/ffffff?text=خبر+۱" alt="خبر ۱">
-                        <div class="gallery-info"><h4>افتتاحیه دوره تربیت مشاوران</h4><p>۱۴۰۳/۰۵/۰۱</p></div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/e67e22/ffffff?text=خبر+۲" alt="خبر ۲">
-                        <div class="gallery-info"><h4>تسلیت عروج ملکوتی امام شهدا</h4><p>۱۴۰۳/۰۴/۲۸</p></div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x140/27ae60/ffffff?text=خبر+۳" alt="خبر ۳">
-                        <div class="gallery-info"><h4>آغاز ثبت‌نام دوره پایه</h4><p>۱۴۰۳/۰۴/۲۰</p></div>
-                    </div>
-                `;
-            }
             const eventsGallery = document.getElementById('events-gallery');
             if (eventsGallery) {
                 eventsGallery.innerHTML = `
@@ -115,12 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     // =============================================
-    // ۳. دکمه‌های تعامل (ارسال نظر)
+    // ۵. تعامل هوشمند (ارسال نظر)
     // =============================================
     const sendBtn = document.querySelector('.interact-box .btn-send');
     const responseArea = document.querySelector('.response-area');
     const textarea = document.querySelector('.interact-box textarea');
-
     if (sendBtn && responseArea && textarea) {
         sendBtn.addEventListener('click', function() {
             const message = textarea.value.trim();
@@ -132,8 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 return;
             }
-
-            // شبیه‌سازی پاسخ هوشمند
             const responses = [
                 'از نظر شما متشکریم. این موضوع با اهداف انجمن همخوانی دارد و بررسی می‌شود.',
                 'پیشنهاد شما ثبت شد. در جلسات آینده مطرح خواهد شد.',
@@ -142,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 'این موضوع در دستور کار گروه قرار گرفت. به زودی اطلاع‌رسانی می‌شود.'
             ];
             const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-
             responseArea.innerHTML = `
                 <i class="fas fa-robot" style="margin-left:8px;"></i>
                 <span class="admin-tag">مدیر پاسخگو</span>
@@ -153,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۴. دکمه‌های ماژول عضویت
+    // ۶. دکمه عضویت
     // =============================================
     const membershipBtn = document.querySelector('.membership-module .btn-start');
     if (membershipBtn) {
