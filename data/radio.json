@@ -1,0 +1,19 @@
+{
+  "title": "رادیو هوشمند",
+  "icon": "fa-radio",
+  "description": "پخش زنده و آرشیو برنامه‌های رادیویی انجمن",
+  "tracks": [
+    {
+      "id": "r1",
+      "title": "برنامه شماره ۱ - مسئولیت اجتماعی",
+      "file": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+      "image": "images/radio1.jpg"
+    },
+    {
+      "id": "r2",
+      "title": "برنامه شماره ۲ - فرهنگ و جامعه",
+      "file": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+      "image": "images/radio2.jpg"
+    }
+  ]
+}
