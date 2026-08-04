@@ -1,4 +1,4 @@
-// ===== script.js - نسخه نهایی با مسیرهای اصلاح‌شده =====
+// ===== script.js - نسخه اصلاح‌شده نهایی =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
@@ -27,7 +27,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۲. توابع کمکی
+    // ۲. نوار ابزار متحرک (Ticker) - برداشت از اخبار
+    // =============================================
+    let tickerInterval = null;
+
+    function loadTicker() {
+        fetch('data/news.json')
+            .then(response => response.json())
+            .then(data => {
+                const tickerContent = document.getElementById('ticker-content');
+                if (!tickerContent) return;
+                const newsItems = data.news || [];
+                if (newsItems.length === 0) {
+                    tickerContent.innerHTML = '<span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>';
+                    return;
+                }
+                // ساخت لیست عناوین
+                let html = '';
+                newsItems.forEach(item => {
+                    html += `<span>📢 ${item.title} (${item.date})</span>`;
+                });
+                // اضافه کردن پیام ثابت
+                html += `<span>🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها</span>`;
+                html += `<span>📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار</span>`;
+                html += `<span>💬 نظرات و پیشنهادات خود را با ما در میان بگذارید</span>`;
+                tickerContent.innerHTML = html;
+                startTickerRotation();
+            })
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری تیکر:', error);
+                const tickerContent = document.getElementById('ticker-content');
+                if (tickerContent) {
+                    tickerContent.innerHTML = '<span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید 🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها 📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار 💬 نظرات و پیشنهادات خود را با ما در میان بگذارید 🔄 ارتباط دوطرفه با ادمین و مدیران انجمن</span>';
+                }
+            });
+    }
+
+    function startTickerRotation() {
+        if (tickerInterval) {
+            clearInterval(tickerInterval);
+            tickerInterval = null;
+        }
+        const tickerContent = document.getElementById('ticker-content');
+        if (!tickerContent) return;
+        const items = tickerContent.querySelectorAll('span');
+        if (items.length <= 1) return;
+        let currentIndex = 0;
+        items.forEach((el, i) => {
+            el.style.display = i === 0 ? 'inline-block' : 'none';
+        });
+        tickerInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % items.length;
+            items.forEach((el, i) => {
+                el.style.display = i === currentIndex ? 'inline-block' : 'none';
+            });
+        }, 5000);
+    }
+
+    // =============================================
+    // ۳. توابع کمکی
     // =============================================
     function saveInteraction(type, data) {
         const key = 'interactions_' + type;
@@ -41,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۳. رادیو هوشمند
+    // ۴. رادیو هوشمند
     // =============================================
     let radioData = [];
     let currentRadioIndex = 0;
@@ -102,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.shareRadio = function() { const track = radioData[currentRadioIndex]; if (!track) return; if (navigator.share) { navigator.share({ title: track.title, text: 'به این برنامه رادیویی گوش دهید: ' + track.title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href + '?radio=' + track.id).then(() => showNotification('📤 لینک رادیو کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
-    // ۴. تلویزیون هوشمند
+    // ۵. تلویزیون هوشمند
     // =============================================
     let tvData = [];
     let currentTvIndex = 0;
@@ -163,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.shareTv = function() { const channel = tvData[currentTvIndex]; if (!channel) return; if (navigator.share) { navigator.share({ title: channel.title, text: 'این کانال تلویزیونی را ببینید: ' + channel.title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href + '?tv=' + channel.id).then(() => showNotification('📤 لینک تلویزیون کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
-    // ۵. تلویزیون اخبار
+    // ۶. تلویزیون اخبار
     // =============================================
     let newsData = [];
     let currentNewsIndex = 0;
@@ -239,7 +297,83 @@ document.addEventListener('DOMContentLoaded', function() {
     window.shareNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; if (navigator.share) { navigator.share({ title: title, text: 'این خبر را بخوانید: ' + title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک خبر کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
-    // ۶. اسلایدشو مانیفست
+    // ۷. تلویزیون رویدادها
+    // =============================================
+    let eventsData = [];
+    let currentEventIndex = 0;
+
+    function loadEventsData() {
+        fetch('data/events.json')
+            .then(response => response.json())
+            .then(data => {
+                eventsData = data.events || [];
+                if (eventsData.length > 0) {
+                    renderEventsList(eventsData);
+                    loadEvent(eventsData[0]);
+                }
+            })
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری رویدادها:', error);
+                eventsData = [
+                    { 
+                        id: 'e1', 
+                        title: 'کارگاه مسئولیت اجتماعی در صنعت گردشگری', 
+                        date: '۵ مرداد ۱۴۰۵', 
+                        summary: 'کارگاه آموزشی با حضور متخصصان صنعت گردشگری برگزار می‌شود.', 
+                        text: 'این کارگاه با هدف آشنایی فعالان صنعت گردشگری با مفاهیم و کاربردهای مسئولیت اجتماعی برگزار می‌شود...', 
+                        image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' 
+                    }
+                ];
+                renderEventsList(eventsData);
+                loadEvent(eventsData[0]);
+            });
+    }
+
+    function renderEventsList(eventsArray) {
+        const listContainer = document.getElementById('events-list');
+        if (!listContainer) return;
+        listContainer.innerHTML = '';
+        eventsArray.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = 'padding: 10px 12px; background: rgba(255,255,255,0.6); border-radius: 10px; cursor: pointer; transition: 0.2s; border-right: 3px solid #2ecc71; margin-bottom: 6px;';
+            div.innerHTML = `<strong>${item.title}</strong><br><span style="font-size: 0.8rem; color: #3a5e77;">${item.date}</span>`;
+            div.onclick = function() {
+                loadEvent(item);
+                document.querySelectorAll('#events-list div').forEach(el => { el.style.background = 'rgba(255,255,255,0.6)'; });
+                this.style.background = 'rgba(46, 204, 113, 0.15)';
+                currentEventIndex = index;
+            };
+            listContainer.appendChild(div);
+        });
+    }
+
+    function loadEvent(event) {
+        if (!event) return;
+        const img = document.getElementById('events-player-image');
+        if (img) {
+            img.src = event.image || 'data/images/placeholder.jpg';
+            img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
+        }
+        const title = document.getElementById('events-player-title');
+        if (title) title.textContent = event.title || '';
+        const date = document.getElementById('events-player-date');
+        if (date) date.textContent = event.date || '';
+        const text = document.getElementById('events-player-text');
+        if (text) text.textContent = event.text || event.summary || '';
+    }
+
+    window.playEvent = function() { const text = document.getElementById('events-player-text'); if (text) { if (text.style.maxHeight === '100px' || text.style.maxHeight === '') { text.style.maxHeight = '400px'; text.style.overflowY = 'auto'; } else { text.style.maxHeight = '100px'; } } };
+    window.pauseEvent = function() { const text = document.getElementById('events-player-text'); if (text) { text.style.maxHeight = '100px'; text.style.overflowY = 'auto'; } };
+    window.prevEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex - 1 + eventsData.length) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.nextEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex + 1) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.showFullEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; const date = document.getElementById('events-player-date')?.textContent || ''; const text = document.getElementById('events-player-text')?.textContent || ''; showNotification(`📅 ${title}\n📅 ${date}\n\n${text}`); };
+    window.openEventComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_comments', { eventTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد و برای ادمین ارسال گردید.'); } };
+    window.openEventInteraction = function() { const message = prompt('لطفاً پیام خود را برای ادمین بنویسید:'); if (message) { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_interactions', { eventTitle: title, message: message }); showNotification('✅ پیام شما به ادمین ارسال شد. پاسخگویی متعاقباً انجام می‌شود.'); } };
+    window.likeEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_likes', { eventTitle: title }); showNotification('❤️ رویداد مورد پسند شما قرار گرفت!'); };
+    window.shareEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; if (navigator.share) { navigator.share({ title: title, text: 'این رویداد را ببینید: ' + title, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک رویداد کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
+
+    // =============================================
+    // ۸. اسلایدشو مانیفست
     // =============================================
     let manifestData = [];
     let slideIndex = 0;
@@ -258,9 +392,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری مانیفست:', error);
+                // استفاده از تصاویر موجود در پوشه images
                 manifestData = [
                     { id: 'm1', title: 'مسئولیت اجتماعی', image: 'data/images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg' },
-                    { id: 'm2', title: 'همیاری اجتماعی', image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' }
+                    { id: 'm2', title: 'همیاری اجتماعی', image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' },
+                    { id: 'm3', title: 'گردشگری پایدار', image: 'data/images/5d77aa63-8167-46b7-a40d-58f80391ddd3-600x422.jpg' },
+                    { id: 'm4', title: 'آموزش و توانمندسازی', image: 'data/images/507bc7e4-02f4-4e20-bb9c-1f343ab4493a-600x400.jpg' }
                 ];
                 renderManifestSlides(manifestData);
                 showSlide(0);
@@ -318,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function startAutoSlide() { if (manifestData.length > 1) { autoSlideInterval = setInterval(() => { showSlide(slideIndex + 1); }, 20000); } }
 
     // =============================================
-    // ۷. شعر
+    // ۹. شعر
     // =============================================
     function loadPoem() {
         fetch('data/poem.json')
@@ -341,32 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.sharePoem = function() { if (navigator.share) { navigator.share({ title: 'شعر انجمن', text: 'این شعر را ببینید:', url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک شعر کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
     // =============================================
-    // ۸. عضویت
-    // =============================================
-    function loadMembership() {
-        fetch('data/membership.json')
-            .then(response => response.json())
-            .then(data => {
-                const documents = data.documents || [];
-                const list = document.getElementById('documents-list');
-                if (list) {
-                    list.innerHTML = '';
-                    documents.forEach(doc => { const li = document.createElement('li'); li.innerHTML = `<i class="fas fa-check-circle"></i> ${doc}`; list.appendChild(li); });
-                }
-                const fee = document.getElementById('fee-amount');
-                if (fee) fee.textContent = data.fee || '۶۰۰,۰۰۰ تومان';
-                const card = document.getElementById('card-number');
-                if (card) card.textContent = data.card_number || '5859.8370.1464.3403';
-                const duration = document.getElementById('duration');
-                if (duration) duration.textContent = data.duration || '۵ دقیقه';
-            })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری عضویت:', error));
-    }
-
-    window.startMembership = function() { showNotification('🔹 فرایند عضویت آغاز شد.\nلطفاً مدارک زیر را آماده کنید:\n- رزومه حرفه‌ای\n- عکس پرسنلی\n- تصویر کارت ملی\n- رسید واریز حق عضویت (۶۰۰,۰۰۰ تومان)'); };
-
-    // =============================================
-    // ۹. همیاری‌های اجتماعی
+    // ۱۰. همیاری‌های اجتماعی
     // =============================================
     function loadHelps() {
         fetch('data/helps.json')
@@ -387,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۱۰. آنچه با هم می‌سازیم
+    // ۱۱. آنچه با هم می‌سازیم
     // =============================================
     function loadBuilds() {
         fetch('data/builds.json')
@@ -408,26 +520,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۱۱. آمار
-    // =============================================
-    function loadStatistics() {
-        fetch('data/statistics.json')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('statistics-container');
-                if (!container || !data.items) return;
-                container.innerHTML = '';
-                data.items.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'stat-item';
-                    div.innerHTML = `<span class="number">${item.value}</span><span class="label">${item.label}</span>`;
-                    container.appendChild(div);
-                });
-            })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری آمار:', error));
-    }
-
-    // =============================================
     // ۱۲. نظرات همراهان
     // =============================================
     function loadTestimonials() {
@@ -440,7 +532,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.items.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'testimonial-item';
-                    div.innerHTML = `<img src="${item.image || 'data/images/placeholder.jpg'}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+                    const imgSrc = item.image ? 'data/images/' + item.image : 'data/images/placeholder.jpg';
+                    div.innerHTML = `<img src="${imgSrc}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
                     container.appendChild(div);
                 });
             })
@@ -458,12 +551,27 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('data/events.json').then(res => res.json()).catch(() => ({ events: [] }))
         ]).then(([newsData, eventsData]) => {
             const images = [];
-            if (newsData.news) { newsData.news.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'خبر' }); }); }
-            if (eventsData.events) { eventsData.events.forEach(item => { if (item.image) images.push({ src: item.image, title: item.title, type: 'رویداد' }); }); }
+            if (newsData.news) { 
+                newsData.news.forEach(item => { 
+                    if (item.image) {
+                        const fileName = item.image.split('/').pop();
+                        images.push({ src: 'data/images/' + fileName, title: item.title, type: 'خبر' });
+                    }
+                }); 
+            }
+            if (eventsData.events) { 
+                eventsData.events.forEach(item => { 
+                    if (item.image) {
+                        const fileName = item.image.split('/').pop();
+                        images.push({ src: 'data/images/' + fileName, title: item.title, type: 'رویداد' });
+                    }
+                }); 
+            }
             if (images.length === 0) { 
                 const defaultImages = [
                     '58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg',
-                    '301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg'
+                    '301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg',
+                    '5d77aa63-8167-46b7-a40d-58f80391ddd3-600x422.jpg'
                 ];
                 defaultImages.forEach(img => {
                     images.push({ src: 'data/images/' + img, title: 'تصویر انجمن', type: 'گالری' });
@@ -555,15 +663,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // =============================================
     function init() {
         startSloganRotation();
+        loadTicker(); // بارگذاری تیکر
         loadRadioData();
         loadTvData();
         loadNewsData();
+        loadEventsData(); // بارگذاری رویدادها
         loadManifestData();
         loadPoem();
-        loadMembership();
         loadHelps();
         loadBuilds();
-        loadStatistics();
         loadTestimonials();
         loadGallery();
         loadSocialLinks();
