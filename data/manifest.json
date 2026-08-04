@@ -2,33 +2,23 @@
   "manifest": [
     {
       "id": "m1",
-      "title": "مانیفست انجمن",
-      "image": "images/کاتالوگ-انجمن-تما-1_Page1.jpg",
-      "description": "بیانیه گام اول"
+      "title": "مسئولیت اجتماعی",
+      "image": "data/images/58b4b5ae-5ff7-4505-b646-5a3a32e589ac-300x296.jpg"
     },
     {
       "id": "m2",
-      "title": "مانیفست انجمن",
-      "image": "images/کاتالوگ-انجمن-تما-1_Page2.jpg",
-      "description": "بیانیه گام دوم"
+      "title": "همیاری اجتماعی",
+      "image": "data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg"
     },
     {
       "id": "m3",
-      "title": "مانیفست انجمن",
-      "image": "images/کاتالوگ-انجمن-تما-1_Page3.jpg",
-      "description": "بیانیه گام سوم"
+      "title": "گردشگری پایدار",
+      "image": "data/images/5d77aa63-8167-46b7-a40d-58f80391ddd3-600x422.jpg"
     },
     {
       "id": "m4",
-      "title": "مانیفست انجمن",
-      "image": "images/کاتالوگ-انجمن-تما-1_Page4.jpg",
-      "description": "بیانیه گام چهارم"
-    },
-    {
-      "id": "m5",
-      "title": "مانیفست انجمن",
-      "image": "images/کاتالوگ-انجمن-تما-1_Page5.jpg",
-      "description": "بیانیه گام پنجم"
+      "title": "آموزش و توانمندسازی",
+      "image": "data/images/507bc7e4-02f4-4e20-bb9c-1f343ab4493a-600x400.jpg"
     }
   ]
 }
