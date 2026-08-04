@@ -1,19 +1,27 @@
-// ===== script.js - نسخه نهایی با پخش/توقف اخبار و رویدادها و مانیفست =====
+// ===== script.js - نسخه کامل با تمام بخش‌ها و قابلیت‌های جدید =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
     // ۱. چرخش شعارها
     // =============================================
     let sloganInterval = null;
+
     function startSloganRotation() {
-        if (sloganInterval) { clearInterval(sloganInterval); sloganInterval = null; }
+        if (sloganInterval) {
+            clearInterval(sloganInterval);
+            sloganInterval = null;
+        }
         const sloganItems = document.querySelectorAll('.slogan-bar .slogan-item');
         if (sloganItems.length > 0) {
             let sloganIndex = 0;
-            sloganItems.forEach((el, i) => { el.classList.toggle('show', i === sloganIndex); });
+            sloganItems.forEach((el, i) => {
+                el.classList.toggle('show', i === sloganIndex);
+            });
             sloganInterval = setInterval(() => {
                 sloganIndex = (sloganIndex + 1) % sloganItems.length;
-                sloganItems.forEach((el, i) => { el.classList.toggle('show', i === sloganIndex); });
+                sloganItems.forEach((el, i) => {
+                    el.classList.toggle('show', i === sloganIndex);
+                });
             }, 5000);
         }
     }
@@ -27,7 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
         items.push({ ...data, timestamp: new Date().toISOString() });
         localStorage.setItem(key, JSON.stringify(items));
     }
-    function showNotification(message) { alert(message); }
+
+    function showNotification(message) {
+        alert(message);
+    }
 
     // =============================================
     // ۳. رادیو هوشمند
@@ -35,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let radioData = [];
     let currentRadioIndex = 0;
     const radioPlayer = document.getElementById('radio-player');
+
     function loadRadioData() {
         radioData = [
             { id: 'r1', title: 'آهنگ اول - Ayrilik', file: 'data/images/Ayrilik_aleftab.ir.mp3', date: '۱۴۰۵/۰۵/۰۴' },
@@ -43,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderRadioPlaylist(radioData);
         loadRadioTrack(radioData[0]);
     }
+
     function renderRadioPlaylist(tracks) {
         const container = document.getElementById('radio-playlist');
         if (!container) return;
@@ -51,16 +64,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'playlist-item' + (index === currentRadioIndex ? ' active' : '');
             div.innerHTML = `<span>${track.title}</span><span style="font-size:0.8rem; color:#7f8c8d;">${track.date || ''}</span>`;
-            div.onclick = () => { currentRadioIndex = index; loadRadioTrack(track); renderRadioPlaylist(tracks); };
+            div.onclick = () => {
+                currentRadioIndex = index;
+                loadRadioTrack(track);
+                renderRadioPlaylist(tracks);
+            };
             container.appendChild(div);
         });
     }
+
     function loadRadioTrack(track) {
         if (!radioPlayer || !track) return;
         radioPlayer.src = track.file || '';
         radioPlayer.load();
         radioPlayer.play().catch(e => console.log('پخش خودکار نیاز به تعامل دارد.'));
     }
+
     window.playRadio = function() { if (radioPlayer) { radioPlayer.play().catch(e => console.log('خطا در پخش:', e)); } };
     window.stopRadio = function() { if (radioPlayer) { radioPlayer.pause(); radioPlayer.currentTime = 0; } };
     window.nextRadio = function() { if (radioData.length === 0) return; currentRadioIndex = (currentRadioIndex + 1) % radioData.length; loadRadioTrack(radioData[currentRadioIndex]); renderRadioPlaylist(radioData); };
@@ -73,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let tvData = [];
     let currentTvIndex = 0;
     const tvPlayer = document.getElementById('tv-player');
+
     function loadTvData() {
         tvData = [
             { id: 't1', title: 'ویدئوی طرح همگام‌سازی خدمات هوشمند', video: 'data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4' },
@@ -81,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderTvPlaylist(tvData);
         loadTvChannel(tvData[0]);
     }
+
     function renderTvPlaylist(channels) {
         const container = document.getElementById('tv-playlist');
         if (!container) return;
@@ -89,16 +110,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'playlist-item' + (index === currentTvIndex ? ' active' : '');
             div.innerHTML = `<span>${channel.title}</span>`;
-            div.onclick = () => { currentTvIndex = index; loadTvChannel(channel); renderTvPlaylist(channels); };
+            div.onclick = () => {
+                currentTvIndex = index;
+                loadTvChannel(channel);
+                renderTvPlaylist(channels);
+            };
             container.appendChild(div);
         });
     }
+
     function loadTvChannel(channel) {
         if (!tvPlayer || !channel) return;
         tvPlayer.src = channel.video || '';
         tvPlayer.load();
         tvPlayer.play().catch(e => console.log('پخش خودکار نیاز به تعامل دارد.'));
     }
+
     window.playTv = function() { if (tvPlayer) { tvPlayer.play().catch(e => console.log('خطا در پخش:', e)); } };
     window.stopTv = function() { if (tvPlayer) { tvPlayer.pause(); tvPlayer.currentTime = 0; } };
     window.nextTv = function() { if (tvData.length === 0) return; currentTvIndex = (currentTvIndex + 1) % tvData.length; loadTvChannel(tvData[currentTvIndex]); renderTvPlaylist(tvData); };
@@ -106,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.likeTv = function() { const channel = tvData[currentTvIndex]; if (!channel) return; saveInteraction('tv_likes', { title: channel.title }); showNotification('❤️ کانال مورد پسند شما قرار گرفت!'); };
 
     // =============================================
-    // ۵. تلویزیون اخبار (با پخش و توقف)
+    // ۵. تلویزیون اخبار
     // =============================================
     let newsData = [];
     let currentNewsIndex = 0;
@@ -155,7 +182,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadNews(news) {
         if (!news) return;
         const img = document.getElementById('news-player-image');
-        if (img) { img.src = news.image || 'data/images/placeholder.jpg'; img.onerror = function() { this.src = 'data/images/placeholder.jpg'; }; }
+        if (img) {
+            img.src = news.image || 'data/images/placeholder.jpg';
+            img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
+        }
         const title = document.getElementById('news-player-title');
         if (title) title.textContent = news.title || '';
         const date = document.getElementById('news-player-date');
@@ -164,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text) text.textContent = news.summary || news.text || '';
     }
 
-    // دکمه‌های کنترل اخبار
     window.prevNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex - 1 + newsData.length) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(231, 76, 60, 0.1)' : 'rgba(255,255,255,0.6)'; }); };
     window.nextNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex + 1) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(231, 76, 60, 0.1)' : 'rgba(255,255,255,0.6)'; }); };
     window.playNews = function() { 
@@ -194,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.likeNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_likes', { newsTitle: title }); showNotification('❤️ خبر مورد پسند شما قرار گرفت!'); };
 
     // =============================================
-    // ۶. تلویزیون رویدادها (با پخش و توقف)
+    // ۶. تلویزیون رویدادها
     // =============================================
     let eventsData = [];
     let currentEventIndex = 0;
@@ -243,7 +272,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadEvent(event) {
         if (!event) return;
         const img = document.getElementById('events-player-image');
-        if (img) { img.src = event.image || 'data/images/placeholder.jpg'; img.onerror = function() { this.src = 'data/images/placeholder.jpg'; }; }
+        if (img) {
+            img.src = event.image || 'data/images/placeholder.jpg';
+            img.onerror = function() { this.src = 'data/images/placeholder.jpg'; };
+        }
         const title = document.getElementById('events-player-title');
         if (title) title.textContent = event.title || '';
         const date = document.getElementById('events-player-date');
@@ -252,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text) text.textContent = event.summary || event.text || '';
     }
 
-    // دکمه‌های کنترل رویدادها
     window.prevEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex - 1 + eventsData.length) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
     window.nextEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex + 1) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
     window.playEvent = function() { 
@@ -282,14 +313,13 @@ document.addEventListener('DOMContentLoaded', function() {
     window.likeEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_likes', { eventTitle: title }); showNotification('❤️ رویداد مورد پسند شما قرار گرفت!'); };
 
     // =============================================
-    // ۷. اسلایدشو مانیفست (با ۶ عکس)
+    // ۷. اسلایدشو مانیفست
     // =============================================
     let manifestData = [];
     let slideIndex = 0;
     let autoSlideInterval;
 
     function loadManifestData() {
-        // استفاده از ۶ عکس کاتالوگ انجمن
         manifestData = [
             { id: 'm1', title: 'کاتالوگ انجمن - صفحه ۱', image: 'data/images/کاتالوگ-انجمن-تما-1_Page1.jpg' },
             { id: 'm2', title: 'کاتالوگ انجمن - صفحه ۲', image: 'data/images/کاتالوگ-انجمن-تما-1_Page2.jpg' },
@@ -351,16 +381,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function startAutoSlide() { if (manifestData.length > 1) { autoSlideInterval = setInterval(() => { showSlide(slideIndex + 1); }, 20000); } }
 
     // =============================================
-    // ۸. سایر بخش‌ها (شعر، همیاری، گالری، و...)
+    // ۸. شعر
     // =============================================
-    // ... (بقیه توابع مانند قبل و با همان محتوای آزمایشی) ...
-
     function loadPoem() {
         const img = document.getElementById('poem-image');
         if (img) img.src = 'data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg';
     }
-    window.likePoem = function() { saveInteraction('poem_likes', {}); showNotification('❤️ شعر مورد پسند شما قرار گرفت!'); };
 
+    window.likePoem = function() { saveInteraction('poem_likes', {}); showNotification('❤️ شعر مورد پسند شما قرار گرفت!'); };
+    window.sharePoem = function() { if (navigator.share) { navigator.share({ title: 'شعر انجمن', text: 'این شعر را ببینید:', url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک شعر کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
+
+    // =============================================
+    // ۹. همیاری‌های اجتماعی
+    // =============================================
     function loadHelps() {
         const container = document.getElementById('helps-container');
         if (!container) return;
@@ -372,12 +405,15 @@ document.addEventListener('DOMContentLoaded', function() {
         helps.forEach(item => {
             const div = document.createElement('div');
             div.className = 'help-item';
-            div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div><span class="admin-response" style="font-size:0.8rem; color:#d4a373;"><i class="fas fa-user-check"></i> مدیر پاسخگو</span></div>`;
+            div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div><span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span></div>`;
             div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
             container.appendChild(div);
         });
     }
 
+    // =============================================
+    // ۱۰. آنچه با هم می‌سازیم
+    // =============================================
     function loadBuilds() {
         const container = document.getElementById('builds-container');
         if (!container) return;
@@ -395,6 +431,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // =============================================
+    // ۱۱. نظرات همراهان
+    // =============================================
     function loadTestimonials() {
         const container = document.getElementById('testimonials-container');
         if (!container) return;
@@ -410,6 +449,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // =============================================
+    // ۱۲. گالری
+    // =============================================
     function loadGallery() {
         const container = document.getElementById('gallery-container');
         if (!container) return;
@@ -427,6 +469,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // =============================================
+    // ۱۳. تعامل هوشمند
+    // =============================================
     window.sendInteraction = function() {
         const textarea = document.getElementById('interact-text');
         const responseArea = document.getElementById('response-area');
@@ -446,6 +491,9 @@ document.addEventListener('DOMContentLoaded', function() {
         textarea.value = '';
     };
 
+    // =============================================
+    // ۱۴. شبکه‌های اجتماعی
+    // =============================================
     function loadSocialLinks() {
         const container = document.getElementById('social-links');
         if (!container) return;
@@ -466,6 +514,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // =============================================
+    // ۱۵. ناوبری
+    // =============================================
     function setupNavigation() {
         document.querySelectorAll('.art-toolbar a').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -480,7 +531,54 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // بارگذاری اولیه
+    // ۱۶. دکمه‌های نوار ابزار شناور (شب/روز و آسانسور)
+    // =============================================
+    function setupFloatingToolbar() {
+        // دکمه تغییر حالت شب/روز
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // بررسی وضعیت ذخیره‌شده در localStorage
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                this.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                this.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // دکمه رفتن به بالای صفحه
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // دکمه رفتن به پایین صفحه
+        const scrollToBottomBtn = document.getElementById('scrollToBottom');
+        scrollToBottomBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // =============================================
+    // ۱۷. بارگذاری اولیه
     // =============================================
     function init() {
         startSloganRotation();
@@ -496,6 +594,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadGallery();
         loadSocialLinks();
         setupNavigation();
+        setupFloatingToolbar();
         console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
     }
 
