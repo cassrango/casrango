@@ -10,11 +10,14 @@
 <body>
     <div class="container">
 
-        <!-- ===== HEADER ===== -->
+        <!-- ===== HEADER با ویدئو ===== -->
         <header class="header">
             <div class="header-content">
                 <div class="logo-wrapper">
-                    <img id="main-logo" src="data/images/logo-casraango.png" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='data/images/placeholder.jpg'">
+                    <video id="main-logo-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                        <source src="data/images/video_2024-12-16_23-54-20.mp4" type="video/mp4">
+                    </video>
+                    <img id="logo-fallback" src="data/images/placeholder.jpg" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: contain; display: none;" onerror="this.src='data/images/placeholder.jpg'">
                 </div>
                 <div class="title-group">
                     <h1>رادیوتلویزیون <span>هوشمند</span></h1>
@@ -23,23 +26,20 @@
             </div>
         </header>
 
-        <!-- ===== نوار ابزار متحرک ===== -->
+        <!-- ===== نوار ابزار متحرک (Ticker) ===== -->
         <div class="ticker-bar">
-            <div class="ticker-content">
+            <div class="ticker-content" id="ticker-content">
+                <!-- توسط جاوااسکریپت از news.json پر می‌شود -->
                 <span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>
-                <span>🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها</span>
-                <span>📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار</span>
-                <span>💬 نظرات و پیشنهادات خود را با ما در میان بگذارید</span>
-                <span>🔄 ارتباط دوطرفه با ادمین و مدیران انجمن</span>
             </div>
         </div>
 
-        <!-- ===== TOOLBAR ===== -->
+        <!-- ===== منوی اصلی ===== -->
         <nav class="art-toolbar">
             <a href="#" data-page="home"><i class="fas fa-home"></i> خانه</a>
             <a href="#" data-page="about"><i class="fas fa-info-circle"></i> درباره</a>
             <a href="#" data-page="news-tv"><i class="fas fa-newspaper"></i> تلویزیون اخبار</a>
-            <a href="#" data-page="events"><i class="fas fa-calendar-alt"></i> رویدادها</a>
+            <a href="#" data-page="events-tv"><i class="fas fa-calendar-alt"></i> رویدادها</a>
             <a href="#" data-page="membership"><i class="fas fa-user-plus"></i> عضویت</a>
             <a href="#" data-page="contact"><i class="fas fa-phone"></i> تماس</a>
             <a href="#" data-page="radio"><i class="fas fa-microphone"></i> رادیو</a>
@@ -97,11 +97,11 @@
                         <span class="tv-news-time" id="news-time"></span>
                     </div>
                     <div class="tv-news-content">
-                        <img id="news-player-image" src="data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg" alt="خبر" onerror="this.src='data/images/placeholder.jpg'">
+                        <img id="news-player-image" src="data/images/placeholder.jpg" alt="خبر" onerror="this.src='data/images/placeholder.jpg'">
                         <div class="tv-news-info">
-                            <h2 id="news-player-title">افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی</h2>
-                            <p id="news-player-date">۲۹ تیر ۱۴۰۵</p>
-                            <p id="news-player-text">نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد پژوهشگاه میراث فرهنگی و گردشگری و انجمن ترویج فرهنگ مسئولیت اجتماعی در محل پژوهشگاه برگزار شد. در ابتدای این نشست، دکتر ناصر رضایی رئیس گروه پژوهشی گردشگری، دکتر حسینعلی متولی رئیس هیات مدیره انجمن و دکتر محمدابراهیم زارعی رئیس پژوهشگاه میراث‌فرهنگی و گردشگری به ایراد سخن پرداختند. دکتر رضایی، با اشاره به اهمیت مسئولیت اجتماعی در صنعت گردشگری گفت: «گردشگری تنها یک فعالیت اقتصادی نیست، بلکه پدیده‌ای عمیقاً اجتماعی است و مسئولیت اجتماعی باید به عنوان یکی از ارکان اصلی آن مورد توجه قرار گیرد.»</p>
+                            <h2 id="news-player-title">عنوان خبر</h2>
+                            <p id="news-player-date">تاریخ</p>
+                            <p id="news-player-text">متن خبر</p>
                         </div>
                     </div>
                     <div class="tv-news-controls">
@@ -119,6 +119,42 @@
                 <div class="tv-news-sidebar">
                     <h4>لیست اخبار</h4>
                     <div id="news-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== تلویزیون رویدادها ===== -->
+        <div class="tv-news-wrapper" id="events-tv" style="margin-top: 40px;">
+            <div class="tv-news-container">
+                <div class="tv-news-screen">
+                    <div class="tv-news-header">
+                        <span class="tv-news-live">● زنده</span>
+                        <span class="tv-news-title">رویدادهای انجمن</span>
+                        <span class="tv-news-time" id="events-time"></span>
+                    </div>
+                    <div class="tv-news-content">
+                        <img id="events-player-image" src="data/images/placeholder.jpg" alt="رویداد" onerror="this.src='data/images/placeholder.jpg'">
+                        <div class="tv-news-info">
+                            <h2 id="events-player-title">عنوان رویداد</h2>
+                            <p id="events-player-date">تاریخ</p>
+                            <p id="events-player-text">متن رویداد</p>
+                        </div>
+                    </div>
+                    <div class="tv-news-controls">
+                        <button onclick="prevEvent()"><i class="fas fa-backward"></i> قبلی</button>
+                        <button onclick="playEvent()"><i class="fas fa-play"></i> پخش</button>
+                        <button onclick="pauseEvent()"><i class="fas fa-pause"></i> توقف</button>
+                        <button onclick="nextEvent()"><i class="fas fa-forward"></i> بعدی</button>
+                        <button onclick="showFullEvent()"><i class="fas fa-expand"></i> کامل</button>
+                        <button onclick="openEventComment()"><i class="fas fa-comment"></i> نظر</button>
+                        <button onclick="openEventInteraction()"><i class="fas fa-exchange-alt"></i> ارتباط</button>
+                        <button onclick="likeEvent()"><i class="fas fa-heart"></i> لایک</button>
+                        <button onclick="shareEvent()"><i class="fas fa-share-alt"></i> اشتراک</button>
+                    </div>
+                </div>
+                <div class="tv-news-sidebar">
+                    <h4>لیست رویدادها</h4>
+                    <div id="events-list"></div>
                 </div>
             </div>
         </div>
@@ -148,27 +184,17 @@
             </div>
         </div>
 
-        <!-- ===== عضویت ===== -->
+        <!-- ===== عضویت (لینک به سایت اصلی) ===== -->
         <div class="module-wrapper membership-module" id="membership">
             <h3><i class="fas fa-user-plus"></i> درخواست عضویت</h3>
             <div style="text-align:center; margin-bottom:16px;">
                 <p style="font-size:1.1rem; color:#2c3e50;"><i class="fas fa-hand-peace" style="color:#f1c40f;"></i> سلام بر شما فرهیختهٔ گرامی</p>
-                <p style="color:#3a5e77; margin-top:4px;">چنانچه فایل‌های زیر را در دسترس داشته باشید، زمان‌بری این فرایند ۵ دقیقه خواهد بود.</p>
-            </div>
-            <div class="membership-steps">
-                <div class="step-card">
-                    <h4><i class="fas fa-file-alt"></i> مدارک مورد نیاز</h4>
-                    <ul id="documents-list"></ul>
-                </div>
-                <div class="step-card">
-                    <h4><i class="fas fa-credit-card"></i> اطلاعات پرداخت</h4>
-                    <p style="font-size:0.95rem;">مبلغ: <strong id="fee-amount">۶۰۰,۰۰۰ تومان</strong></p>
-                    <p style="font-size:0.9rem; background:#f1f5f9; padding:8px; border-radius:12px; direction:ltr; text-align:center; font-family:monospace;" id="card-number">5859.8370.1464.3403</p>
-                    <span class="highlight"><i class="fas fa-clock"></i> <span id="duration">۵ دقیقه</span> زمان بری</span>
-                </div>
+                <p style="color:#3a5e77; margin-top:4px;">برای ثبت‌نام و عضویت در انجمن، لطفاً به وب‌سایت اصلی مراجعه فرمایید.</p>
             </div>
             <div style="text-align:center;">
-                <button class="btn-start" onclick="startMembership()"><i class="fas fa-paper-plane"></i> شروع فرایند عضویت</button>
+                <a href="https://casraango.org" target="_blank" class="btn-start" style="display: inline-block; padding: 12px 30px; background: #2c3e50; color: #fff; border-radius: 30px; text-decoration: none; font-weight: bold;">
+                    <i class="fas fa-external-link-alt"></i> عضویت در سایت اصلی
+                </a>
             </div>
         </div>
 
@@ -184,11 +210,7 @@
             <div class="help-items" id="builds-container"></div>
         </div>
 
-        <!-- ===== آمار ===== -->
-        <div class="module-wrapper" id="statistics-module">
-            <h3><i class="fas fa-chart-bar"></i> آمار و دستاوردها</h3>
-            <div class="stat-grid" id="statistics-container"></div>
-        </div>
+        <!-- ===== بخش آمار حذف شد ===== -->
 
         <!-- ===== نظرات همراهان ===== -->
         <div class="module-wrapper" id="testimonials-module">
