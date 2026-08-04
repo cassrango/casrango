@@ -1,0 +1,74 @@
+{
+  "main_menu": [
+    {
+      "id": "home",
+      "title": "خانه",
+      "icon": "fa-home",
+      "link": "/"
+    },
+    {
+      "id": "about",
+      "title": "درباره ما",
+      "icon": "fa-info-circle",
+      "link": "/about"
+    },
+    {
+      "id": "news-tv",
+      "title": "تلویزیون اخبار",
+      "icon": "fa-newspaper",
+      "link": "/news-tv"
+    },
+    {
+      "id": "events",
+      "title": "رویدادها",
+      "icon": "fa-calendar-alt",
+      "link": "/events"
+    },
+    {
+      "id": "membership",
+      "title": "عضویت",
+      "icon": "fa-user-plus",
+      "link": "/membership"
+    },
+    {
+      "id": "contact",
+      "title": "تماس",
+      "icon": "fa-phone",
+      "link": "/contact"
+    },
+    {
+      "id": "radio",
+      "title": "رادیو",
+      "icon": "fa-microphone",
+      "link": "/radio"
+    },
+    {
+      "id": "tv",
+      "title": "تلویزیون",
+      "icon": "fa-tv",
+      "link": "/tv"
+    }
+  ],
+  "footer_menu": [
+    {
+      "id": "about",
+      "title": "درباره انجمن",
+      "link": "/about"
+    },
+    {
+      "id": "privacy",
+      "title": "حریم خصوصی",
+      "link": "/privacy"
+    },
+    {
+      "id": "contact",
+      "title": "تماس با ما",
+      "link": "/contact"
+    },
+    {
+      "id": "membership",
+      "title": "عضویت",
+      "link": "/membership"
+    }
+  ]
+}
