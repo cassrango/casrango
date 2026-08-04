@@ -520,4 +520,56 @@ document.addEventListener('DOMContentLoaded', function() {
                     { key: 'instagram', icon: 'fa-instagram', color: '#e4405f' },
                     { key: 'aparat', icon: 'fa-play-circle', color: '#e30613' }
                 ];
-               
+                platforms.forEach(p => {
+                    if (data[p.key]) {
+                        const a = document.createElement('a');
+                        a.href = data[p.key];
+                        a.target = '_blank';
+                        a.style.color = p.color;
+                        a.innerHTML = `<i class="fab ${p.icon}"></i>`;
+                        container.appendChild(a);
+                    }
+                });
+            })
+            .catch(error => console.warn('⚠️ خطا در بارگذاری شبکه‌های اجتماعی:', error));
+    }
+
+    // =============================================
+    // ۱۶. ناوبری
+    // =============================================
+    function setupNavigation() {
+        document.querySelectorAll('.art-toolbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page) {
+                    const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
+                    if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+                }
+            });
+        });
+    }
+
+    // =============================================
+    // ۱۷. بارگذاری اولیه
+    // =============================================
+    function init() {
+        startSloganRotation();
+        loadRadioData();
+        loadTvData();
+        loadNewsData();
+        loadManifestData();
+        loadPoem();
+        loadMembership();
+        loadHelps();
+        loadBuilds();
+        loadStatistics();
+        loadTestimonials();
+        loadGallery();
+        loadSocialLinks();
+        setupNavigation();
+        console.log('✅ رادیوتلویزیون هوشمند با موفقیت بارگذاری شد.');
+    }
+
+    init();
+});
