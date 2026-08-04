@@ -1,8 +1,8 @@
-// ===== script.js - نسخه نهایی یکپارچه با تمام بخش‌ها =====
+// ===== script.js - نسخه کامل نهایی =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
-    // بخش اول: توابع اصلی و قدیمی (رادیو، تلویزیون، اخبار، رویدادها، و...)
+    // بخش اول: توابع اصلی و قدیمی
     // =============================================
 
     // ۱. چرخش شعارها
@@ -383,14 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ۱۴. ناوبری (نسخه اصلی و بدون تداخل)
+    // ۱۴. ناوبری
     function setupNavigation() {
         document.querySelectorAll('.art-toolbar a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const page = this.dataset.page;
                 if (page) {
-                    // مدیریت بخش‌های جدید (گنجینه دانش و مدیریت)
                     const knowledgeModule = document.getElementById('knowledge-module');
                     const adminModule = document.getElementById('admin-module');
                     
@@ -414,7 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (adminModule) adminModule.style.display = 'none';
                     }
                     
-                    // اسکرول به بخش‌های دیگر
                     const target = document.getElementById(page + '-module') || document.getElementById(page) || document.getElementById(page + '-tv');
                     if (target) {
                         target.scrollIntoView({ behavior: 'smooth' });
@@ -431,6 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ۱۵. گنجینه دانش
     let knowledgeBase = [];
     let interactions = [];
+    let userKnowledge = [];
 
     function loadKnowledgeBase() {
         const storedKB = localStorage.getItem('knowledgeBase');
@@ -451,8 +450,17 @@ document.addEventListener('DOMContentLoaded', function() {
             interactions = [];
             localStorage.setItem('interactions', JSON.stringify(interactions));
         }
+
+        const storedUserKnowledge = localStorage.getItem('userKnowledge');
+        if (storedUserKnowledge) {
+            userKnowledge = JSON.parse(storedUserKnowledge);
+        } else {
+            userKnowledge = [];
+            localStorage.setItem('userKnowledge', JSON.stringify(userKnowledge));
+        }
         
         displayKnowledgeBase();
+        displayUserKnowledgeBase();
     }
 
     function displayKnowledgeBase() {
@@ -498,7 +506,45 @@ document.addEventListener('DOMContentLoaded', function() {
         displayKnowledgeBase();
     }
 
-    // ۱۶. پنل مدیریت
+    // ۱۶. گنجینه دانش کاربر
+    function displayUserKnowledgeBase() {
+        const container = document.getElementById('user-knowledge-container');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (userKnowledge.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#7f8c8d;">هنوز محتوایی به گنجینه‌ی دانش شما اضافه نشده است.</p>';
+            return;
+        }
+        
+        userKnowledge.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'user-kb-item';
+            
+            const typeLabel = item.type === 'podcast' ? 'پادکست' : 'اسلایدشو';
+            const typeClass = item.type === 'podcast' ? 'ukb-type-podcast' : 'ukb-type-slideshow';
+            
+            div.innerHTML = `
+                <div>
+                    <span class="ukb-type ${typeClass}">${typeLabel}</span>
+                    <span class="ukb-title">${item.title || 'بدون عنوان'}</span>
+                </div>
+                <div style="color: #34495e; margin: 5px 0; font-size: 0.9rem;">${item.content || ''}</div>
+                <div class="ukb-meta">${item.date || ''}</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function addToUserKnowledgeBase(content) {
+        if (!content) return;
+        userKnowledge.unshift(content);
+        localStorage.setItem('userKnowledge', JSON.stringify(userKnowledge));
+        displayUserKnowledgeBase();
+        showNotification('✅ محتوا با موفقیت به گنجینه‌ی دانش شما اضافه شد.');
+    }
+
+    // ۱۷. پنل مدیریت
     window.loginAdmin = function() {
         const password = document.getElementById('admin-password').value;
         if (password === 'admin123') {
@@ -586,7 +632,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // ۱۷. دریافت تعاملات (متن، صدا، تصویر)
+    // ۱۸. دریافت تعاملات (متن، صدا، تصویر)
     window.sendInteraction = function(type) {
         const textarea = document.getElementById('interact-text');
         const message = textarea.value.trim();
@@ -703,63 +749,165 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsDataURL(file);
     };
 
-    // ۱۸. تولید پادکست از گنجینه
+    // ۱۹. تولید پادکست از گنجینه
+    let isGenerating = false;
+    let lastGeneratedContent = null;
+
     window.generatePodcast = function() {
+        if (isGenerating) return;
+        isGenerating = true;
+        
         const items = knowledgeBase.filter(item => item.type === 'text').slice(0, 5);
         if (items.length === 0) {
             showNotification('❌ هیچ محتوای متنی در گنجینه برای تولید پادکست وجود ندارد.');
+            isGenerating = false;
             return;
         }
         
-        const text = items.map(item => item.title + '. ' + item.content).join(' ');
-        const speech = new SpeechSynthesisUtterance(text);
-        speech.lang = 'fa-IR';
-        speech.rate = 0.9;
-        window.speechSynthesis.speak(speech);
-        showNotification('🎙️ پادکست از گنجینه در حال پخش است.');
+        showNotification('🎙️ در حال تولید پادکست از گنجینه دانش... لطفاً چند لحظه صبر کنید.');
+        
+        setTimeout(() => {
+            const text = items.map(item => item.title + '. ' + item.content).join(' ');
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'fa-IR';
+            speech.rate = 0.9;
+            window.speechSynthesis.speak(speech);
+            
+            lastGeneratedContent = {
+                type: 'podcast',
+                title: 'پادکست تولیدشده از گنجینه',
+                content: 'پادکستی شامل ' + items.length + ' مطلب از گنجینه دانش',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            showNotification('✅ پادکست با موفقیت تولید شد. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
+            
+            // نمایش دکمه ارسال (با یک المان موقت)
+            const sendBtn = document.createElement('button');
+            sendBtn.textContent = '📥 ارسال به گنجینه دانش';
+            sendBtn.style.cssText = 'padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px auto; display: block;';
+            sendBtn.onclick = function() {
+                addToUserKnowledgeBase(lastGeneratedContent);
+                this.remove();
+            };
+            
+            // پیدا کردن محل مناسب برای نمایش دکمه
+            const radioModule = document.getElementById('radio-module');
+            if (radioModule) {
+                const existingBtn = radioModule.querySelector('.temp-send-btn');
+                if (existingBtn) existingBtn.remove();
+                sendBtn.className = 'temp-send-btn';
+                radioModule.appendChild(sendBtn);
+            }
+            
+            isGenerating = false;
+        }, 2000);
     };
 
-    // ۱۹. تولید اسلایدشو از گنجینه
+    // ۲۰. تولید اسلایدشو از گنجینه
     window.generateSlideshow = function() {
+        if (isGenerating) return;
+        isGenerating = true;
+        
         const items = knowledgeBase.slice(0, 10);
         if (items.length === 0) {
             showNotification('❌ هیچ محتوایی در گنجینه برای تولید اسلایدشو وجود ندارد.');
+            isGenerating = false;
             return;
         }
         
-        let slideshowHTML = `
-            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
-                <button onclick="this.parentElement.remove()" style="position: absolute; top: 20px; right: 20px; background: #e74c3c; border: none; border-radius: 50%; color: #fff; font-size: 1.5rem; width: 50px; height: 50px; cursor: pointer; z-index: 10000;">✕</button>
-                <div style="max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 30px; color: #2c3e50;">
-        `;
+        showNotification('📺 در حال تولید اسلایدشو از گنجینه دانش... لطفاً چند لحظه صبر کنید.');
         
-        items.forEach((item, index) => {
+        setTimeout(() => {
+            let slideshowHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+                    <button onclick="this.parentElement.remove()" style="position: absolute; top: 20px; right: 20px; background: #e74c3c; border: none; border-radius: 50%; color: #fff; font-size: 1.5rem; width: 50px; height: 50px; cursor: pointer; z-index: 10000;">✕</button>
+                    <div style="max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 30px; color: #2c3e50;">
+            `;
+            
+            items.forEach((item, index) => {
+                slideshowHTML += `
+                    <div style="border-bottom: 2px solid #e0c9a6; padding: 20px 0; ${index === 0 ? 'padding-top: 0;' : ''}">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="background: #f39c12; color: #fff; padding: 2px 12px; border-radius: 20px; font-size: 0.8rem;">${index + 1}</span>
+                            <h3 style="margin: 0; color: #2c3e50;">${item.title || 'بدون عنوان'}</h3>
+                        </div>
+                        <p style="color: #34495e; line-height: 1.6;">${item.content || ''}</p>
+                        ${item.file ? `<div style="text-align: center;"><img src="${item.file}" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin: 10px 0;"></div>` : ''}
+                        <div style="background: #f8f4f0; padding: 10px; border-radius: 10px; margin-top: 10px;">
+                            <strong>پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}
+                        </div>
+                        <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 8px;">${item.date || ''}</div>
+                    </div>
+                `;
+            });
+            
             slideshowHTML += `
-                <div style="border-bottom: 2px solid #e0c9a6; padding: 20px 0; ${index === 0 ? 'padding-top: 0;' : ''}">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <span style="background: #f39c12; color: #fff; padding: 2px 12px; border-radius: 20px; font-size: 0.8rem;">${index + 1}</span>
-                        <h3 style="margin: 0; color: #2c3e50;">${item.title || 'بدون عنوان'}</h3>
                     </div>
-                    <p style="color: #34495e; line-height: 1.6;">${item.content || ''}</p>
-                    ${item.file ? `<div style="text-align: center;"><img src="${item.file}" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin: 10px 0;"></div>` : ''}
-                    <div style="background: #f8f4f0; padding: 10px; border-radius: 10px; margin-top: 10px;">
-                        <strong>پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}
-                    </div>
-                    <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 8px;">${item.date || ''}</div>
                 </div>
             `;
-        });
-        
-        slideshowHTML += `
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', slideshowHTML);
-        showNotification('📺 اسلایدشو از گنجینه نمایش داده شد.');
+            
+            document.body.insertAdjacentHTML('beforeend', slideshowHTML);
+            
+            lastGeneratedContent = {
+                type: 'slideshow',
+                title: 'اسلایدشو تولیدشده از گنجینه',
+                content: 'اسلایدشو شامل ' + items.length + ' محتوا از گنجینه دانش',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            showNotification('✅ اسلایدشو با موفقیت تولید شد. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
+            
+            // نمایش دکمه ارسال (با یک المان موقت)
+            const sendBtn = document.createElement('button');
+            sendBtn.textContent = '📥 ارسال به گنجینه دانش';
+            sendBtn.style.cssText = 'padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px auto; display: block;';
+            sendBtn.onclick = function() {
+                addToUserKnowledgeBase(lastGeneratedContent);
+                this.remove();
+            };
+            
+            const tvModule = document.getElementById('tv-module');
+            if (tvModule) {
+                const existingBtn = tvModule.querySelector('.temp-send-btn');
+                if (existingBtn) existingBtn.remove();
+                sendBtn.className = 'temp-send-btn';
+                tvModule.appendChild(sendBtn);
+            }
+            
+            isGenerating = false;
+        }, 2000);
     };
 
-    // ۲۰. ابزارهای کمکی
+    // ۲۱. توابع مدیریت تایمر برای دکمه‌های نگه‌دارید
+    let pressTimer = null;
+
+    window.startPressTimer = function(type) {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        
+        showNotification('⏳ در حال آماده‌سازی... دکمه را نگه دارید تا تولید آغاز شود.');
+        
+        pressTimer = setTimeout(() => {
+            if (type === 'podcast') {
+                generatePodcast();
+            } else if (type === 'slideshow') {
+                generateSlideshow();
+            }
+            pressTimer = null;
+        }, 2000);
+    };
+
+    window.cancelPressTimer = function() {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+    };
+
+    // ۲۲. ابزارهای کمکی
     window.exportKnowledgeBase = function() {
         const data = JSON.stringify(knowledgeBase, null, 2);
         const blob = new Blob([data], { type: 'application/json' });
@@ -782,7 +930,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // =============================================
-    // بخش سوم: نوار ابزار شناور (شب/روز و آسانسور)
+    // بخش سوم: نوار ابزار شناور
     // =============================================
     function setupFloatingToolbar() {
         const themeToggle = document.getElementById('themeToggle');
