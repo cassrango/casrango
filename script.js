@@ -520,26 +520,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۱۲. نظرات همراهان
-    // =============================================
-    function loadTestimonials() {
-        fetch('data/testimonials.json')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('testimonials-container');
-                if (!container || !data.items) return;
-                container.innerHTML = '';
-                data.items.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'testimonial-item';
-                    const imgSrc = item.image ? 'data/images/' + item.image : 'data/images/placeholder.jpg';
-                    div.innerHTML = `<img src="${imgSrc}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
-                    container.appendChild(div);
-                });
-            })
-            .catch(error => console.warn('⚠️ خطا در بارگذاری نظرات:', error));
-    }
-
+  // ۱۲. نظرات همراهان (اصلاح شده)
+// =============================================
+function loadTestimonials() {
+    fetch('data/testimonials.json')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('testimonials-container');
+            if (!container || !data.items) return;
+            container.innerHTML = '';
+            data.items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'testimonial-item';
+                // اگر item.image شروع با 'images/' دارد، آن را حذف می‌کنیم
+                let imageName = item.image || 'placeholder.jpg';
+                if (imageName.startsWith('images/')) {
+                    imageName = imageName.replace('images/', '');
+                }
+                const imgSrc = 'data/images/' + imageName;
+                div.innerHTML = `<img src="${imgSrc}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+                container.appendChild(div);
+            });
+        })
+        .catch(error => console.warn('⚠️ خطا در بارگذاری نظرات:', error));
+}
     // =============================================
     // ۱۳. گالری
     // =============================================
