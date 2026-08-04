@@ -963,7 +963,154 @@ document.addEventListener('DOMContentLoaded', function() {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
     }
+// =============================================
+// توابع ساده‌شده تولید پادکست و اسلایدشو
+// =============================================
 
+// ۱. تولید پادکست (نسخه ساده و بدون تایمر)
+window.generatePodcastSimple = function() {
+    const items = knowledgeBase.filter(item => item.type === 'text').slice(0, 5);
+    if (items.length === 0) {
+        showNotification('❌ هیچ محتوای متنی در گنجینه برای تولید پادکست وجود ندارد.');
+        return;
+    }
+    
+    // مرحله ۱: پیام شروع
+    showNotification('🎙️ مرحله ۱: در حال آماده‌سازی متن پادکست...');
+    
+    // شبیه‌سازی تولید با تأخیر
+    setTimeout(() => {
+        // مرحله ۲: پیام آماده‌سازی
+        showNotification('📝 مرحله ۲: متن پادکست آماده شد. در حال تبدیل به گفتار...');
+        
+        setTimeout(() => {
+            // تولید و پخش پادکست
+            const text = items.map(item => item.title + '. ' + item.content).join(' ');
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'fa-IR';
+            speech.rate = 0.9;
+            window.speechSynthesis.speak(speech);
+            
+            // ذخیره محتوای تولیدشده برای ارسال به گنجینه کاربر
+            lastGeneratedContent = {
+                type: 'podcast',
+                title: 'پادکست تولیدشده از گنجینه',
+                content: 'پادکستی شامل ' + items.length + ' مطلب از گنجینه دانش',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            // مرحله ۳: پیام موفقیت و نمایش دکمه ارسال
+            showNotification('✅ پادکست با موفقیت تولید و در حال پخش است. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
+            
+            // نمایش دکمه ارسال به گنجینه در بخش رادیو
+            const sendContainer = document.getElementById('radio-send-container');
+            if (sendContainer) {
+                sendContainer.innerHTML = `
+                    <button onclick="sendToUserKnowledge()" style="padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 5px;">
+                        <i class="fas fa-save"></i> ارسال به گنجینه دانش
+                    </button>
+                `;
+            }
+            
+        }, 1500);
+    }, 1500);
+};
+
+// ۲. تولید اسلایدشو (نسخه ساده و بدون تایمر)
+window.generateSlideshowSimple = function() {
+    const items = knowledgeBase.slice(0, 10);
+    if (items.length === 0) {
+        showNotification('❌ هیچ محتوایی در گنجینه برای تولید اسلایدشو وجود ندارد.');
+        return;
+    }
+    
+    // مرحله ۱: پیام شروع
+    showNotification('📺 مرحله ۱: در حال آماده‌سازی محتوای اسلایدشو...');
+    
+    setTimeout(() => {
+        // مرحله ۲: پیام آماده‌سازی
+        showNotification('🖼️ مرحله ۲: محتوا آماده شد. در حال ساخت اسلایدشو...');
+        
+        setTimeout(() => {
+            // تولید اسلایدشو
+            let slideshowHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+                    <button onclick="this.parentElement.remove()" style="position: absolute; top: 20px; right: 20px; background: #e74c3c; border: none; border-radius: 50%; color: #fff; font-size: 1.5rem; width: 50px; height: 50px; cursor: pointer; z-index: 10000;">✕</button>
+                    <div style="max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 30px; color: #2c3e50;">
+            `;
+            
+            items.forEach((item, index) => {
+                slideshowHTML += `
+                    <div style="border-bottom: 2px solid #e0c9a6; padding: 20px 0; ${index === 0 ? 'padding-top: 0;' : ''}">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="background: #f39c12; color: #fff; padding: 2px 12px; border-radius: 20px; font-size: 0.8rem;">${index + 1}</span>
+                            <h3 style="margin: 0; color: #2c3e50;">${item.title || 'بدون عنوان'}</h3>
+                        </div>
+                        <p style="color: #34495e; line-height: 1.6;">${item.content || ''}</p>
+                        ${item.file ? `<div style="text-align: center;"><img src="${item.file}" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin: 10px 0;"></div>` : ''}
+                        <div style="background: #f8f4f0; padding: 10px; border-radius: 10px; margin-top: 10px;">
+                            <strong>پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}
+                        </div>
+                        <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 8px;">${item.date || ''}</div>
+                    </div>
+                `;
+            });
+            
+            slideshowHTML += `
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', slideshowHTML);
+            
+            // ذخیره محتوای تولیدشده برای ارسال به گنجینه کاربر
+            lastGeneratedContent = {
+                type: 'slideshow',
+                title: 'اسلایدشو تولیدشده از گنجینه',
+                content: 'اسلایدشو شامل ' + items.length + ' محتوا از گنجینه دانش',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            // مرحله ۳: پیام موفقیت و نمایش دکمه ارسال
+            showNotification('✅ اسلایدشو با موفقیت تولید و نمایش داده شد. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
+            
+            // نمایش دکمه ارسال به گنجینه در بخش تلویزیون
+            const sendContainer = document.getElementById('tv-send-container');
+            if (sendContainer) {
+                sendContainer.innerHTML = `
+                    <button onclick="sendToUserKnowledge()" style="padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 5px;">
+                        <i class="fas fa-save"></i> ارسال به گنجینه دانش
+                    </button>
+                `;
+            }
+            
+        }, 1500);
+    }, 1500);
+};
+
+// ۳. تابع ارسال به گنجینه دانش کاربر
+window.sendToUserKnowledge = function() {
+    if (lastGeneratedContent) {
+        addToUserKnowledgeBase(lastGeneratedContent);
+        // مخفی کردن دکمه ارسال پس از کلیک
+        document.querySelectorAll('#radio-send-container, #tv-send-container').forEach(container => {
+            container.innerHTML = '';
+        });
+    } else {
+        showNotification('❌ هیچ محتوایی برای ارسال وجود ندارد.');
+    }
+};
+
+// ۴. تابع کمک‌کننده برای افزودن به گنجینه کاربر (در صورت عدم وجود)
+if (typeof addToUserKnowledgeBase !== 'function') {
+    window.addToUserKnowledgeBase = function(content) {
+        const userKnowledge = JSON.parse(localStorage.getItem('userKnowledge') || '[]');
+        userKnowledge.unshift(content);
+        localStorage.setItem('userKnowledge', JSON.stringify(userKnowledge));
+        displayUserKnowledgeBase();
+        showNotification('✅ محتوا با موفقیت به گنجینه‌ی دانش شما اضافه شد.');
+    };
+}
     // =============================================
     // بخش چهارم: بارگذاری اولیه
     // =============================================
