@@ -5,15 +5,17 @@
   "tracks": [
     {
       "id": "r1",
-      "title": "برنامه شماره ۱ - مسئولیت اجتماعی",
+      "title": "بررسی دوره تربیت مشاوران مسئولیت اجتماعی",
       "file": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
-      "image": "images/radio1.jpg"
+      "image": "images/radio1.jpg",
+      "date": "۱۴۰۵/۰۴/۲۳"
     },
     {
       "id": "r2",
-      "title": "برنامه شماره ۲ - فرهنگ و جامعه",
+      "title": "گفت‌وگو درباره کارآفرینی اجتماعی در ایران",
       "file": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
-      "image": "images/radio2.jpg"
+      "image": "images/radio2.jpg",
+      "date": "۱۴۰۵/۰۵/۱۷"
     }
   ]
 }
