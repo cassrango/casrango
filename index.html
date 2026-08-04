@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <!-- ===== منوی اصلی با آیتم جدید ===== -->
+        <!-- ===== منوی اصلی ===== -->
         <nav class="art-toolbar" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: #f8f4f0; padding: 12px 20px; border-radius: 50px; margin: 15px 0;">
             <a href="#" data-page="radio" style="padding: 8px 18px; background: #d4a373; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-microphone"></i> رادیو</a>
             <a href="#" data-page="tv" style="padding: 8px 18px; background: #3498db; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-tv"></i> تلویزیون</a>
@@ -61,7 +61,7 @@
             <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
         </div>
 
-        <!-- ===== بخش ۱: رادیو هوشمند (با دکمه تولید پادکست) ===== -->
+        <!-- ===== بخش ۱: رادیو هوشمند ===== -->
         <div class="tv-module module-radio" id="radio-module">
             <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
             <div class="player-wrapper" style="margin: 15px 0;">
@@ -76,12 +76,16 @@
                 <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
                 <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
                 <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-                <button onclick="generatePodcast()" style="padding: 10px 20px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-podcast"></i> تولید پادکست</button>
+                
+                <!-- دکمه تولید پادکست با قابلیت نگه‌داشتن -->
+                <button onmousedown="startPressTimer('podcast')" onmouseup="cancelPressTimer()" onmouseleave="cancelPressTimer()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-podcast"></i> برای پادکست، چند ثانیه نگه دارید
+                </button>
             </div>
             <div id="radio-playlist" class="playlist"></div>
         </div>
 
-        <!-- ===== بخش ۲: تلویزیون هوشمند (با دکمه تولید اسلایدشو) ===== -->
+        <!-- ===== بخش ۲: تلویزیون هوشمند ===== -->
         <div class="tv-module module-tv" id="tv-module">
             <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
             <div class="player-wrapper" style="margin: 15px 0;">
@@ -96,7 +100,11 @@
                 <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
                 <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
                 <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-                <button onclick="generateSlideshow()" style="padding: 10px 20px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-slideshare"></i> تولید اسلایدشو</button>
+                
+                <!-- دکمه تولید اسلایدشو با قابلیت نگه‌داشتن -->
+                <button onmousedown="startPressTimer('slideshow')" onmouseup="cancelPressTimer()" onmouseleave="cancelPressTimer()" style="padding: 10px 20px; background: #2ecc71; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-slideshare"></i> برای اسلایدشو، چند ثانیه نگه دارید
+                </button>
             </div>
             <div id="tv-playlist" class="playlist"></div>
         </div>
@@ -192,7 +200,7 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۶: پرسش و پاسخ (تعامل هوشمند) با سه کانال ورودی ===== -->
+        <!-- ===== بخش ۶: پرسش و پاسخ (تعامل هوشمند) ===== -->
         <div class="tv-module module-interact" id="interact-module">
             <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> پرسش و پاسخ</div>
             <div class="interact-box">
@@ -213,15 +221,13 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۷: گنجینه دانش (جدید) ===== -->
+        <!-- ===== بخش ۷: گنجینه دانش (عمومی) ===== -->
         <div class="tv-module module-knowledge" id="knowledge-module" style="display: none;">
             <div class="module-title"><i class="fas fa-database" style="color: #f39c12;"></i> گنجینه دانش</div>
-            <div id="knowledge-base-container" style="max-height: 600px; overflow-y: auto; padding: 10px;">
-                <!-- توسط جاوااسکریپت پر می‌شود -->
-            </div>
+            <div id="knowledge-base-container" style="max-height: 600px; overflow-y: auto; padding: 10px;"></div>
         </div>
 
-        <!-- ===== بخش ۸: پنل مدیریت (جدید) ===== -->
+        <!-- ===== بخش ۸: پنل مدیریت ===== -->
         <div class="tv-module module-admin" id="admin-module" style="display: none;">
             <div class="module-title"><i class="fas fa-user-cog" style="color: #e67e22;"></i> پنل مدیریت</div>
             <div id="admin-login" style="text-align: center; padding: 20px;">
@@ -236,6 +242,14 @@
                     <button onclick="exportKnowledgeBase()" style="padding: 10px 30px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-download"></i> دانلود گنجینه</button>
                     <button onclick="clearKnowledgeBase()" style="padding: 10px 30px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-trash"></i> پاک کردن گنجینه</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- ===== بخش ۹: گنجینه‌ی دانش شما (کاربری) ===== -->
+        <div class="tv-module module-user-knowledge" id="user-knowledge-module">
+            <div class="module-title"><i class="fas fa-user-graduate" style="color: #8e44ad;"></i> گنجینه‌ی دانش شما</div>
+            <div id="user-knowledge-container" style="max-height: 400px; overflow-y: auto; padding: 10px;">
+                <p style="text-align:center; color:#7f8c8d;">هنوز محتوایی به گنجینه‌ی دانش شما اضافه نشده است.</p>
             </div>
         </div>
 
