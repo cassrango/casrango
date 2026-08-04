@@ -1,1 +1,34 @@
-
+{
+  "manifest": [
+    {
+      "id": "m1",
+      "title": "مانیفست انجمن",
+      "image": "images/کاتالوگ-انجمن-تما-1_Page1.jpg",
+      "description": "بیانیه گام اول"
+    },
+    {
+      "id": "m2",
+      "title": "مانیفست انجمن",
+      "image": "images/کاتالوگ-انجمن-تما-1_Page2.jpg",
+      "description": "بیانیه گام دوم"
+    },
+    {
+      "id": "m3",
+      "title": "مانیفست انجمن",
+      "image": "images/کاتالوگ-انجمن-تما-1_Page3.jpg",
+      "description": "بیانیه گام سوم"
+    },
+    {
+      "id": "m4",
+      "title": "مانیفست انجمن",
+      "image": "images/کاتالوگ-انجمن-تما-1_Page4.jpg",
+      "description": "بیانیه گام چهارم"
+    },
+    {
+      "id": "m5",
+      "title": "مانیفست انجمن",
+      "image": "images/کاتالوگ-انجمن-تما-1_Page5.jpg",
+      "description": "بیانیه گام پنجم"
+    }
+  ]
+}
