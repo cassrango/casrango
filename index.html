@@ -61,53 +61,57 @@
             <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
         </div>
 
-        <!-- ===== بخش ۱: رادیو هوشمند ===== -->
-        <div class="tv-module module-radio" id="radio-module">
-            <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
-            <div class="player-wrapper" style="margin: 15px 0;">
-                <audio id="radio-player" controls style="width: 100%;">
-                    <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
-                    <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
-                <button onclick="playRadio()" style="padding: 10px 20px; background: #d4a373; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
-                <button onclick="stopRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
-                <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
-                <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
-                <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-                
-                <!-- دکمه تولید پادکست با قابلیت نگه‌داشتن -->
-                <button onmousedown="startPressTimer('podcast')" onmouseup="cancelPressTimer()" onmouseleave="cancelPressTimer()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
-                    <i class="fas fa-podcast"></i> برای پادکست، چند ثانیه نگه دارید
-                </button>
-            </div>
-            <div id="radio-playlist" class="playlist"></div>
-        </div>
+       <!-- ===== بخش رادیو هوشمند (دکمه اصلاح‌شده) ===== -->
+<div class="tv-module module-radio" id="radio-module">
+    <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
+    <div class="player-wrapper" style="margin: 15px 0;">
+        <audio id="radio-player" controls style="width: 100%;">
+            <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
+            <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
+        <button onclick="playRadio()" style="padding: 10px 20px; background: #d4a373; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
+        <button onclick="stopRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
+        <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+        <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+        <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
+        
+        <!-- دکمه ساده پادکست -->
+        <button onclick="generatePodcastSimple()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
+            <i class="fas fa-podcast"></i> تولید پادکست
+        </button>
+    </div>
+    <div id="radio-playlist" class="playlist"></div>
+    <!-- محل نمایش دکمه ارسال به گنجینه -->
+    <div id="radio-send-container" style="text-align: center; margin-top: 10px;"></div>
+</div>
 
-        <!-- ===== بخش ۲: تلویزیون هوشمند ===== -->
-        <div class="tv-module module-tv" id="tv-module">
-            <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
-            <div class="player-wrapper" style="margin: 15px 0;">
-                <video id="tv-player" controls style="width: 100%; max-height: 450px; border-radius: 16px;">
-                    <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
-                    <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
-                <button onclick="playTv()" style="padding: 10px 20px; background: #3498db; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
-                <button onclick="stopTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
-                <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
-                <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
-                <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-                
-                <!-- دکمه تولید اسلایدشو با قابلیت نگه‌داشتن -->
-                <button onmousedown="startPressTimer('slideshow')" onmouseup="cancelPressTimer()" onmouseleave="cancelPressTimer()" style="padding: 10px 20px; background: #2ecc71; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
-                    <i class="fas fa-slideshare"></i> برای اسلایدشو، چند ثانیه نگه دارید
-                </button>
-            </div>
-            <div id="tv-playlist" class="playlist"></div>
-        </div>
+<!-- ===== بخش تلویزیون هوشمند (دکمه اصلاح‌شده) ===== -->
+<div class="tv-module module-tv" id="tv-module">
+    <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
+    <div class="player-wrapper" style="margin: 15px 0;">
+        <video id="tv-player" controls style="width: 100%; max-height: 450px; border-radius: 16px;">
+            <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
+            <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
+        <button onclick="playTv()" style="padding: 10px 20px; background: #3498db; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
+        <button onclick="stopTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
+        <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+        <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+        <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
+        
+        <!-- دکمه ساده اسلایدشو -->
+        <button onclick="generateSlideshowSimple()" style="padding: 10px 20px; background: #2ecc71; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
+            <i class="fas fa-slideshare"></i> تولید اسلایدشو
+        </button>
+    </div>
+    <div id="tv-playlist" class="playlist"></div>
+    <!-- محل نمایش دکمه ارسال به گنجینه -->
+    <div id="tv-send-container" style="text-align: center; margin-top: 10px;"></div>
+</div>
 
         <!-- ===== بخش ۳: تلویزیون اخبار ===== -->
         <div class="tv-module module-news" id="news-tv">
