@@ -1,0 +1,29 @@
+{
+  "title": "آمار و دستاوردها",
+  "items": [
+    {
+      "id": "s1",
+      "label": "مقالات علمی-نظری",
+      "value": "20",
+      "icon": "fa-file-alt"
+    },
+    {
+      "id": "s2",
+      "label": "یادداشت‌های روزانه",
+      "value": "2000+",
+      "icon": "fa-pen-fancy"
+    },
+    {
+      "id": "s3",
+      "label": "نظریه‌های جدید",
+      "value": "38+",
+      "icon": "fa-lightbulb"
+    },
+    {
+      "id": "s4",
+      "label": "کتاب‌های منتشر شده",
+      "value": "4",
+      "icon": "fa-book"
+    }
+  ]
+}
