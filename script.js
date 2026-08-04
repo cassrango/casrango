@@ -1,4 +1,4 @@
-// ===== script.js - نسخه به‌روزشده با مدیریت چهار پخش‌کننده =====
+// ===== script.js - نسخه نهایی با چهار پخش‌کننده و داده‌های جدید =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
@@ -27,15 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // ۲. نوار ابزار متحرک (Ticker)
+    // ۲. نوار ابزار متحرک (Ticker) - شروع خودکار
     // =============================================
-    let tickerInterval = null;
-
     function startTickerRotation() {
-        if (tickerInterval) {
-            clearInterval(tickerInterval);
-            tickerInterval = null;
-        }
         const tickerContent = document.getElementById('ticker-content');
         if (!tickerContent) return;
         const items = tickerContent.querySelectorAll('span');
@@ -44,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         items.forEach((el, i) => {
             el.style.display = i === 0 ? 'inline-block' : 'none';
         });
-        tickerInterval = setInterval(() => {
+        setInterval(() => {
             currentIndex = (currentIndex + 1) % items.length;
             items.forEach((el, i) => {
                 el.style.display = i === currentIndex ? 'inline-block' : 'none';
@@ -74,10 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const radioPlayer = document.getElementById('radio-player');
 
     function loadRadioData() {
-        // داده‌های آزمایشی
+        // داده‌های رادیو با دو فایل mp3 جدید
         radioData = [
-            { id: 'r1', title: 'برنامه اول - معرفی انجمن', file: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3', date: '۱۴۰۵/۰۴/۲۵' },
-            { id: 'r2', title: 'برنامه دوم - مسئولیت اجتماعی', file: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/audio1.mp3.mp3', date: '۱۴۰۵/۰۴/۲۰' }
+            { id: 'r1', title: 'آهنگ اول - Ayrilik', file: 'data/images/Ayrilik_aleftab.ir.mp3', date: '۱۴۰۵/۰۵/۰۴' },
+            { id: 'r2', title: 'آهنگ دوم - Careless Whisper', file: 'data/images/Careless Whisper2.mp3', date: '۱۴۰۵/۰۵/۰۴' }
         ];
         renderRadioPlaylist(radioData);
         loadRadioTrack(radioData[0]);
@@ -90,7 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
         tracks.forEach((track, index) => {
             const div = document.createElement('div');
             div.className = 'playlist-item' + (index === currentRadioIndex ? ' active' : '');
-            div.innerHTML = `<span class="title">${track.title}</span><span class="date">${track.date || ''}</span>`;
+            div.style.cssText = 'padding: 8px 12px; margin: 4px 0; background: ' + (index === currentRadioIndex ? '#e0c9a6' : '#f8f4f0') + '; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between;';
+            div.innerHTML = `<span class="title">${track.title}</span><span class="date" style="font-size: 0.8rem; color: #7f8c8d;">${track.date || ''}</span>`;
             div.onclick = () => {
                 currentRadioIndex = index;
                 loadRadioTrack(track);
@@ -123,10 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const tvPlayer = document.getElementById('tv-player');
 
     function loadTvData() {
-        // داده‌های آزمایشی
+        // داده‌های تلویزیون با دو فایل ویدئویی جدید
         tvData = [
-            { id: 't1', title: 'کانال اول - معرفی انجمن', video: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/video1.mp4.mp4' },
-            { id: 't2', title: 'کانال دوم - نشست تخصصی', video: 'https://github.com/ghrezaei1399/ghrezaei1399.github.io/raw/refs/heads/main/house/ai/video1.mp4.mp4' }
+            { id: 't1', title: 'ویدئوی طرح همگام‌سازی خدمات هوشمند', video: 'data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4' },
+            { id: 't2', title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', video: 'data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4' }
         ];
         renderTvPlaylist(tvData);
         loadTvChannel(tvData[0]);
@@ -139,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         channels.forEach((channel, index) => {
             const div = document.createElement('div');
             div.className = 'playlist-item' + (index === currentTvIndex ? ' active' : '');
+            div.style.cssText = 'padding: 8px 12px; margin: 4px 0; background: ' + (index === currentTvIndex ? '#e0c9a6' : '#f8f4f0') + '; border-radius: 8px; cursor: pointer;';
             div.innerHTML = `<span class="title">${channel.title}</span>`;
             div.onclick = () => {
                 currentTvIndex = index;
@@ -171,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentNewsIndex = 0;
 
     function loadNewsData() {
-        // داده‌های آزمایشی
+        // داده‌های آزمایشی اخبار (قابل جایگزینی با محتوای واقعی)
         newsData = [
             { 
                 id: 'n1', 
@@ -200,12 +196,12 @@ document.addEventListener('DOMContentLoaded', function() {
         listContainer.innerHTML = '';
         newsArray.forEach((item, index) => {
             const div = document.createElement('div');
-            div.style.cssText = 'padding: 10px 12px; background: rgba(255,255,255,0.6); border-radius: 10px; cursor: pointer; transition: 0.2s; border-right: 3px solid #f1c40f; margin-bottom: 6px;';
+            div.style.cssText = 'padding: 10px 12px; background: ' + (index === currentNewsIndex ? 'rgba(224, 201, 166, 0.3)' : 'rgba(255,255,255,0.6)') + '; border-radius: 10px; cursor: pointer; transition: 0.2s; border-right: 3px solid #f1c40f; margin-bottom: 6px;';
             div.innerHTML = `<strong>${item.title}</strong><br><span style="font-size: 0.8rem; color: #3a5e77;">${item.date}</span>`;
             div.onclick = function() {
                 loadNews(item);
                 document.querySelectorAll('#news-list div').forEach(el => { el.style.background = 'rgba(255,255,255,0.6)'; });
-                this.style.background = 'rgba(241, 196, 15, 0.15)';
+                this.style.background = 'rgba(224, 201, 166, 0.3)';
                 currentNewsIndex = index;
             };
             listContainer.appendChild(div);
@@ -227,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text) text.textContent = news.summary || news.text || '';
     }
 
-    window.prevNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex - 1 + newsData.length) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(241, 196, 15, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
-    window.nextNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex + 1) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(241, 196, 15, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.prevNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex - 1 + newsData.length) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(224, 201, 166, 0.3)' : 'rgba(255,255,255,0.6)'; }); };
+    window.nextNews = function() { if (newsData.length === 0) return; currentNewsIndex = (currentNewsIndex + 1) % newsData.length; loadNews(newsData[currentNewsIndex]); document.querySelectorAll('#news-list div').forEach((el, i) => { el.style.background = i === currentNewsIndex ? 'rgba(224, 201, 166, 0.3)' : 'rgba(255,255,255,0.6)'; }); };
     window.showFullNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; const date = document.getElementById('news-player-date')?.textContent || ''; const text = document.getElementById('news-player-text')?.textContent || ''; showNotification(`📰 ${title}\n📅 ${date}\n\n${text}`); };
     window.openComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_comments', { newsTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد.'); } };
     window.likeNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_likes', { newsTitle: title }); showNotification('❤️ خبر مورد پسند شما قرار گرفت!'); };
@@ -240,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentEventIndex = 0;
 
     function loadEventsData() {
-        // داده‌های آزمایشی
+        // داده‌های آزمایشی رویدادها (قابل جایگزینی با محتوای واقعی)
         eventsData = [
             { 
                 id: 'e1', 
@@ -269,12 +265,12 @@ document.addEventListener('DOMContentLoaded', function() {
         listContainer.innerHTML = '';
         eventsArray.forEach((item, index) => {
             const div = document.createElement('div');
-            div.style.cssText = 'padding: 10px 12px; background: rgba(255,255,255,0.6); border-radius: 10px; cursor: pointer; transition: 0.2s; border-right: 3px solid #2ecc71; margin-bottom: 6px;';
+            div.style.cssText = 'padding: 10px 12px; background: ' + (index === currentEventIndex ? 'rgba(46, 204, 113, 0.2)' : 'rgba(255,255,255,0.6)') + '; border-radius: 10px; cursor: pointer; transition: 0.2s; border-right: 3px solid #2ecc71; margin-bottom: 6px;';
             div.innerHTML = `<strong>${item.title}</strong><br><span style="font-size: 0.8rem; color: #3a5e77;">${item.date}</span>`;
             div.onclick = function() {
                 loadEvent(item);
                 document.querySelectorAll('#events-list div').forEach(el => { el.style.background = 'rgba(255,255,255,0.6)'; });
-                this.style.background = 'rgba(46, 204, 113, 0.15)';
+                this.style.background = 'rgba(46, 204, 113, 0.2)';
                 currentEventIndex = index;
             };
             listContainer.appendChild(div);
@@ -296,8 +292,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text) text.textContent = event.summary || event.text || '';
     }
 
-    window.prevEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex - 1 + eventsData.length) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
-    window.nextEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex + 1) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255,255,255,0.6)'; }); };
+    window.prevEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex - 1 + eventsData.length) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.2)' : 'rgba(255,255,255,0.6)'; }); };
+    window.nextEvent = function() { if (eventsData.length === 0) return; currentEventIndex = (currentEventIndex + 1) % eventsData.length; loadEvent(eventsData[currentEventIndex]); document.querySelectorAll('#events-list div').forEach((el, i) => { el.style.background = i === currentEventIndex ? 'rgba(46, 204, 113, 0.2)' : 'rgba(255,255,255,0.6)'; }); };
     window.showFullEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; const date = document.getElementById('events-player-date')?.textContent || ''; const text = document.getElementById('events-player-text')?.textContent || ''; showNotification(`📅 ${title}\n📅 ${date}\n\n${text}`); };
     window.openEventComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_comments', { eventTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد.'); } };
     window.likeEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_likes', { eventTitle: title }); showNotification('❤️ رویداد مورد پسند شما قرار گرفت!'); };
@@ -391,7 +387,8 @@ document.addEventListener('DOMContentLoaded', function() {
         helps.forEach(item => {
             const div = document.createElement('div');
             div.className = 'help-item';
-            div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div><span class="admin-response"><i class="fas fa-user-check"></i> مدیر پاسخگو</span></div>`;
+            div.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8f4f0; border-radius: 12px; margin-bottom: 10px; cursor: pointer;';
+            div.innerHTML = `<i class="fas ${item.icon}" style="font-size: 1.5rem; color: #d4a373;"></i><div><div class="help-title" style="font-weight: bold;">${item.title}</div><div class="help-desc" style="color: #7f8c8d;">${item.desc}</div><span class="admin-response" style="font-size: 0.8rem; color: #d4a373;"><i class="fas fa-user-check"></i> مدیر پاسخگو</span></div>`;
             div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
             container.appendChild(div);
         });
@@ -411,7 +408,8 @@ document.addEventListener('DOMContentLoaded', function() {
         builds.forEach(item => {
             const div = document.createElement('div');
             div.className = 'help-item';
-            div.innerHTML = `<i class="fas ${item.icon}"></i><div><div class="help-title">${item.title}</div><div class="help-desc">${item.desc}</div></div>`;
+            div.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8f4f0; border-radius: 12px; margin-bottom: 10px; cursor: pointer;';
+            div.innerHTML = `<i class="fas ${item.icon}" style="font-size: 1.5rem; color: #d4a373;"></i><div><div class="help-title" style="font-weight: bold;">${item.title}</div><div class="help-desc" style="color: #7f8c8d;">${item.desc}</div></div>`;
             div.addEventListener('click', function() { showNotification(`📌 ${item.title}\n\n${item.details || 'توضیحات کامل در دسترس است.'}`); });
             container.appendChild(div);
         });
@@ -430,7 +428,8 @@ document.addEventListener('DOMContentLoaded', function() {
         testimonials.forEach(item => {
             const div = document.createElement('div');
             div.className = 'testimonial-item';
-            div.innerHTML = `<img src="data/images/${item.image}" alt="${item.name}" onerror="this.src='data/images/placeholder.jpg'"><div class="name">${item.name}</div><div class="role">${item.role}</div><div class="text">"${item.text}"</div>`;
+            div.style.cssText = 'text-align: center; padding: 15px; background: #f8f4f0; border-radius: 12px;';
+            div.innerHTML = `<img src="data/images/${item.image}" alt="${item.name}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" onerror="this.src='data/images/placeholder.jpg'"><div class="name" style="font-weight: bold; margin-top: 8px;">${item.name}</div><div class="role" style="color: #7f8c8d; font-size: 0.9rem;">${item.role}</div><div class="text" style="margin-top: 8px; color: #34495e;">"${item.text}"</div>`;
             container.appendChild(div);
         });
     }
@@ -449,7 +448,8 @@ document.addEventListener('DOMContentLoaded', function() {
         images.forEach(item => {
             const div = document.createElement('div');
             div.className = 'gallery-item';
-            div.innerHTML = `<img src="${item.src}" alt="${item.title}" onerror="this.src='data/images/placeholder.jpg'"><div class="gallery-info"><h4>${item.title}</h4><p>${item.type}</p></div>`;
+            div.style.cssText = 'border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer;';
+            div.innerHTML = `<img src="${item.src}" alt="${item.title}" style="width: 100%; height: 200px; object-fit: cover;" onerror="this.src='data/images/placeholder.jpg'"><div class="gallery-info" style="padding: 10px; background: #f8f4f0;"><h4 style="margin: 0; color: #2c3e50;">${item.title}</h4><p style="margin: 4px 0 0; color: #7f8c8d; font-size: 0.9rem;">${item.type}</p></div>`;
             div.addEventListener('click', function() { showNotification(`🖼️ ${item.title}\nنوع: ${item.type}`); });
             container.appendChild(div);
         });
@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const responseArea = document.getElementById('response-area');
         const message = textarea.value.trim();
         if (!message) {
-            responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> لطفاً یک متن برای ارسال وارد کنید.`;
+            responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag" style="font-weight: bold; color: #d4a373;">مدیر پاسخگو</span> لطفاً یک متن برای ارسال وارد کنید.`;
             return;
         }
         const responses = [
@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'سوال شما به تیم تخصصی ارجاع داده شد. پاسخ کامل اعلام می‌شود.'
         ];
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag">مدیر پاسخگو</span> ${randomResponse}`;
+        responseArea.innerHTML = `<i class="fas fa-robot" style="margin-left:8px;"></i><span class="admin-tag" style="font-weight: bold; color: #d4a373;">مدیر پاسخگو</span> ${randomResponse}`;
         saveInteraction('general', { message: message, response: randomResponse });
         textarea.value = '';
     };
@@ -485,16 +485,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!container) return;
         container.innerHTML = '';
         const platforms = [
-            { key: 'telegram', icon: 'fa-telegram', color: '#0088cc', url: '#' },
-            { key: 'linkedin', icon: 'fa-linkedin', color: '#0a66c2', url: '#' },
-            { key: 'instagram', icon: 'fa-instagram', color: '#e4405f', url: '#' },
-            { key: 'aparat', icon: 'fa-play-circle', color: '#e30613', url: '#' }
+            { icon: 'fa-telegram', color: '#0088cc', url: '#' },
+            { icon: 'fa-linkedin', color: '#0a66c2', url: '#' },
+            { icon: 'fa-instagram', color: '#e4405f', url: '#' },
+            { icon: 'fa-play-circle', color: '#e30613', url: '#' }
         ];
         platforms.forEach(p => {
             const a = document.createElement('a');
             a.href = p.url;
             a.target = '_blank';
             a.style.color = p.color;
+            a.style.fontSize = '1.5rem';
             a.innerHTML = `<i class="fab ${p.icon}"></i>`;
             container.appendChild(a);
         });
