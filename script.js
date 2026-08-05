@@ -1,4 +1,4 @@
-// ===== script.js - نسخه نهایی با گنجینه چهاربخشی =====
+// ===== script.js - نسخه اصلاح‌شده =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.likeTv = function() { const channel = tvData[currentTvIndex]; if (!channel) return; saveInteraction('tv_likes', { title: channel.title }); showNotification('❤️ کانال مورد پسند شما قرار گرفت!'); };
 
     // =============================================
-    // تلویزیون اخبار و رویدادها (خلاصه)
+    // تلویزیون اخبار و رویدادها
     // =============================================
     let newsData = [];
     let currentNewsIndex = 0;
@@ -166,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_comments', { newsTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد.'); } };
     window.likeNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_likes', { newsTitle: title }); showNotification('❤️ خبر مورد پسند شما قرار گرفت!'); };
 
-    // رویدادها
     let eventsData = [];
     let currentEventIndex = 0;
     function loadEventsData() {
@@ -428,13 +427,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // گنجینه دان و مهارت‌های کاربردی (چهار بخش)
+    // گنجینه دان و مهارت‌های کاربردی
     // =============================================
     let knowledgeBase = [];
     let interactions = [];
     let userKnowledge = [];
 
     function loadKnowledgeBase() {
+        // بارگذاری از فایل
         fetch('data/knowledge-base.json')
             .then(response => {
                 if (!response.ok) throw new Error('فایل پیدا نشد');
@@ -447,12 +447,22 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.warn('⚠️ خطا در بارگذاری گنجینه:', error);
-                const stored = localStorage.getItem('knowledgeBase');
-                if (stored) {
-                    knowledgeBase = JSON.parse(stored);
-                } else {
-                    knowledgeBase = [];
-                }
+                // استفاده از داده‌های نمونه در صورت عدم وجود فایل
+                knowledgeBase = [
+                    {
+                        id: 'sample1',
+                        type: 'text',
+                        section: 'دانستنی‌ها',
+                        title: 'مسئولیت اجتماعی چیست؟',
+                        content: 'مسئولیت اجتماعی به معنای تعهد فرد یا سازمان به جامعه و محیط زیست است...',
+                        source: 'انجمن',
+                        date: '۱۴۰۵/۰۱/۰۱',
+                        image: 'data/images/placeholder.jpg',
+                        tags: ['مسئولیت اجتماعی'],
+                        response: 'این یک نمونه محتوای آزمایشی است.'
+                    }
+                ];
+                localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
                 displayKnowledgeBase();
             });
         
