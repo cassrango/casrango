@@ -1,11 +1,10 @@
-// ===== script.js - نسخه کامل نهایی =====
+// ===== script.js - نسخه نهایی با گنجینه چهاربخشی =====
 document.addEventListener('DOMContentLoaded', function() {
 
     // =============================================
-    // بخش اول: توابع اصلی و قدیمی
+    // بخش اول: توابع اصلی
     // =============================================
 
-    // ۱. چرخش شعارها
     let sloganInterval = null;
     function startSloganRotation() {
         if (sloganInterval) { clearInterval(sloganInterval); sloganInterval = null; }
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ۲. توابع کمکی
     function saveInteraction(type, data) {
         const key = 'interactions_' + type;
         const items = JSON.parse(localStorage.getItem(key) || '[]');
@@ -29,7 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     function showNotification(message) { alert(message); }
 
-    // ۳. رادیو هوشمند
+    // =============================================
+    // رادیو هوشمند
+    // =============================================
     let radioData = [];
     let currentRadioIndex = 0;
     const radioPlayer = document.getElementById('radio-player');
@@ -65,7 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.prevRadio = function() { if (radioData.length === 0) return; currentRadioIndex = (currentRadioIndex - 1 + radioData.length) % radioData.length; loadRadioTrack(radioData[currentRadioIndex]); renderRadioPlaylist(radioData); };
     window.likeRadio = function() { const track = radioData[currentRadioIndex]; if (!track) return; saveInteraction('radio_likes', { title: track.title }); showNotification('❤️ برنامه مورد پسند شما قرار گرفت!'); };
 
-    // ۴. تلویزیون هوشمند
+    // =============================================
+    // تلویزیون هوشمند
+    // =============================================
     let tvData = [];
     let currentTvIndex = 0;
     const tvPlayer = document.getElementById('tv-player');
@@ -101,7 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.prevTv = function() { if (tvData.length === 0) return; currentTvIndex = (currentTvIndex - 1 + tvData.length) % tvData.length; loadTvChannel(tvData[currentTvIndex]); renderTvPlaylist(tvData); };
     window.likeTv = function() { const channel = tvData[currentTvIndex]; if (!channel) return; saveInteraction('tv_likes', { title: channel.title }); showNotification('❤️ کانال مورد پسند شما قرار گرفت!'); };
 
-    // ۵. تلویزیون اخبار
+    // =============================================
+    // تلویزیون اخبار و رویدادها (خلاصه)
+    // =============================================
     let newsData = [];
     let currentNewsIndex = 0;
     function loadNewsData() {
@@ -111,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'افتتاحیه دوره تربیت مشاوران مسئولیت اجتماعی', 
                 date: '۲۹ تیر ۱۴۰۵', 
                 summary: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» با حضور مدیران ارشد برگزار شد.', 
-                text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد پژوهشگاه میراث فرهنگی و گردشگری و انجمن ترویج فرهنگ مسئولیت اجتماعی در محل پژوهشگاه برگزار شد. در ابتدای این نشست، دکتر ناصر رضایی رئیس گروه پژوهشی گردشگری، دکتر حسینعلی متولی رئیس هیات مدیره انجمن و دکتر محمدابراهیم زارعی رئیس پژوهشگاه میراث‌فرهنگی و گردشگری به ایراد سخن پرداختند. دکتر رضایی، با اشاره به اهمیت مسئولیت اجتماعی در صنعت گردشگری گفت: «گردشگری تنها یک فعالیت اقتصادی نیست، بلکه پدیده‌ای عمیقاً اجتماعی است و مسئولیت اجتماعی باید به عنوان یکی از ارکان اصلی آن مورد توجه قرار گیرد.»', 
+                text: 'نخستین جلسه دوره پایه «مشاور مسئولیت اجتماعی در صنعت گردشگری» صبح سه‌شنبه ۲۳ تیر ماه ۱۴۰۵ با حضور مدیران ارشد پژوهشگاه میراث فرهنگی و گردشگری و انجمن ترویج فرهنگ مسئولیت اجتماعی در محل پژوهشگاه برگزار شد...', 
                 image: 'data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg' 
             },
             { 
@@ -119,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'بیانیه انجمن به‌مناسبت پایان تخاصم نظامی', 
                 date: '۲۵ تیر ۱۴۰۵', 
                 summary: 'انجمن ترویج فرهنگ مسئولیت اجتماعی با صدور بیانیه‌ای، پایان تخاصم نظامی را به فال نیک گرفت.', 
-                text: 'انجمن ترویج فرهنگ مسئولیت اجتماعی با صدور بیانیه‌ای، پایان تخاصم نظامی با آمریکا را به فال نیک گرفت و بر ضرورت بازسازی اعتماد عمومی و تقویت همبستگی ملی تأکید کرد. در این بیانیه آمده است: «مسئولیت اجتماعی، فراتر از مرزهای سیاسی است و ما وظیفه داریم از هر فرصتی برای کاهش تنش‌ها و افزایش همدلی در جامعه استفاده کنیم.»', 
+                text: 'انجمن ترویج فرهنگ مسئولیت اجتماعی با صدور بیانیه‌ای، پایان تخاصم نظامی با آمریکا را به فال نیک گرفت و بر ضرورت بازسازی اعتماد عمومی و تقویت همبستگی ملی تأکید کرد...', 
                 image: 'data/images/507bc7e4-02f4-4e20-bb9c-1f343ab4493a-600x400.jpg' 
             }
         ];
@@ -162,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_comments', { newsTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد.'); } };
     window.likeNews = function() { const title = document.getElementById('news-player-title')?.textContent || ''; saveInteraction('news_likes', { newsTitle: title }); showNotification('❤️ خبر مورد پسند شما قرار گرفت!'); };
 
-    // ۶. تلویزیون رویدادها
+    // رویدادها
     let eventsData = [];
     let currentEventIndex = 0;
     function loadEventsData() {
@@ -172,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'کارگاه مسئولیت اجتماعی در صنعت گردشگری', 
                 date: '۵ مرداد ۱۴۰۵', 
                 summary: 'کارگاه آموزشی با حضور متخصصان صنعت گردشگری برگزار می‌شود.', 
-                text: 'این کارگاه با هدف آشنایی فعالان صنعت گردشگری با مفاهیم و کاربردهای مسئولیت اجتماعی برگزار می‌شود. در این کارگاه، مباحثی مانند توسعه پایدار، حفاظت از میراث فرهنگی و توانمندسازی جوامع محلی مورد بررسی قرار خواهد گرفت. شرکت‌کنندگان با نمونه‌های موفق مسئولیت اجتماعی در صنعت گردشگری آشنا می‌شوند.', 
+                text: 'این کارگاه با هدف آشنایی فعالان صنعت گردشگری با مفاهیم و کاربردهای مسئولیت اجتماعی برگزار می‌شود...', 
                 image: 'data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg' 
             },
             { 
@@ -180,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'نشست تخصصی مسئولیت اجتماعی در مدیریت شهری', 
                 date: '۱۲ مرداد ۱۴۰۵', 
                 summary: 'نشست تخصصی با موضوع نقش مسئولیت اجتماعی در مدیریت شهری برگزار می‌شود.', 
-                text: 'این نشست با حضور مدیران شهری و فعالان حوزه مسئولیت اجتماعی برگزار می‌شود. موضوعات محوری نشست شامل: عدالت شهری، مشارکت شهروندان، توسعه پایدار و شفافیت در مدیریت شهری است. هدف این نشست، ارائه راهکارهای عملی برای ارتقای کیفیت زندگی شهروندان از طریق مسئولیت اجتماعی است.', 
+                text: 'این نشست با حضور مدیران شهری و فعالان حوزه مسئولیت اجتماعی برگزار می‌شود...', 
                 image: 'data/images/5d77aa63-8167-46b7-a40d-58f80391ddd3-600x422.jpg' 
             }
         ];
@@ -223,7 +227,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openEventComment = function() { const comment = prompt('لطفاً نظر خود را بنویسید:'); if (comment) { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_comments', { eventTitle: title, comment: comment }); showNotification('✅ نظر شما ثبت شد.'); } };
     window.likeEvent = function() { const title = document.getElementById('events-player-title')?.textContent || ''; saveInteraction('event_likes', { eventTitle: title }); showNotification('❤️ رویداد مورد پسند شما قرار گرفت!'); };
 
-    // ۷. اسلایدشو مانیفست
+    // =============================================
+    // مانیفست اسلایدشو
+    // =============================================
     let manifestData = [];
     let slideIndex = 0;
     let autoSlideInterval;
@@ -284,7 +290,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.changeSlide = function(direction) { clearInterval(autoSlideInterval); showSlide(slideIndex + direction); startAutoSlide(); };
     function startAutoSlide() { if (manifestData.length > 1) { autoSlideInterval = setInterval(() => { showSlide(slideIndex + 1); }, 20000); } }
 
-    // ۸. شعر
+    // =============================================
+    // شعر و سایر بخش‌ها
+    // =============================================
     function loadPoem() {
         const img = document.getElementById('poem-image');
         if (img) img.src = 'data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg';
@@ -292,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.likePoem = function() { saveInteraction('poem_likes', {}); showNotification('❤️ شعر مورد پسند شما قرار گرفت!'); };
     window.sharePoem = function() { if (navigator.share) { navigator.share({ title: 'شعر انجمن', text: 'این شعر را ببینید:', url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href).then(() => showNotification('📤 لینک شعر کپی شد!')).catch(() => showNotification('📤 لینک: ' + window.location.href)); } };
 
-    // ۹. همیاری‌های اجتماعی
     function loadHelps() {
         const container = document.getElementById('helps-container');
         if (!container) return;
@@ -310,7 +317,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ۱۰. آنچه با هم می‌سازیم
     function loadBuilds() {
         const container = document.getElementById('builds-container');
         if (!container) return;
@@ -328,7 +334,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ۱۱. نظرات همراهان
     function loadTestimonials() {
         const container = document.getElementById('testimonials-container');
         if (!container) return;
@@ -344,7 +349,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ۱۲. گالری
     function loadGallery() {
         const container = document.getElementById('gallery-container');
         if (!container) return;
@@ -362,7 +366,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ۱۳. شبکه‌های اجتماعی
     function loadSocialLinks() {
         const container = document.getElementById('social-links');
         if (!container) return;
@@ -383,7 +386,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ۱۴. ناوبری
+    // =============================================
+    // ناوبری
+    // =============================================
     function setupNavigation() {
         document.querySelectorAll('.art-toolbar a').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -423,25 +428,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // بخش دوم: توابع جدید (گنجینه دانش، پنل مدیریت، تعاملات، و...)
+    // گنجینه دان و مهارت‌های کاربردی (چهار بخش)
     // =============================================
-
-    // ۱۵. گنجینه دانش
     let knowledgeBase = [];
     let interactions = [];
     let userKnowledge = [];
 
     function loadKnowledgeBase() {
-        const storedKB = localStorage.getItem('knowledgeBase');
-        if (storedKB) {
-            knowledgeBase = JSON.parse(storedKB);
-        } else {
-            // داده‌های پیش‌فرض (در صورت عدم وجود فایل)
-            knowledgeBase = [
-                { id: 1, type: 'text', title: 'مسئولیت اجتماعی در گردشگری', content: 'چگونه می‌توانیم مسئولیت اجتماعی را در صنعت گردشگری پیاده کنیم؟', response: 'با مشارکت جوامع محلی و حفظ محیط زیست.', date: '۱۴۰۵/۰۵/۰۱', source: 'انجمن', image: 'data/images/گردشگری-سبز-1.jpg', tags: ['گردشگری', 'مسئولیت اجتماعی'] }
-            ];
-            localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
-        }
+        fetch('data/knowledge-base.json')
+            .then(response => {
+                if (!response.ok) throw new Error('فایل پیدا نشد');
+                return response.json();
+            })
+            .then(data => {
+                knowledgeBase = data.items || [];
+                localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
+                displayKnowledgeBase();
+            })
+            .catch(error => {
+                console.warn('⚠️ خطا در بارگذاری گنجینه:', error);
+                const stored = localStorage.getItem('knowledgeBase');
+                if (stored) {
+                    knowledgeBase = JSON.parse(stored);
+                } else {
+                    knowledgeBase = [];
+                }
+                displayKnowledgeBase();
+            });
         
         const storedInteractions = localStorage.getItem('interactions');
         if (storedInteractions) {
@@ -459,7 +472,6 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('userKnowledge', JSON.stringify(userKnowledge));
         }
         
-        displayKnowledgeBase();
         displayUserKnowledgeBase();
     }
 
@@ -482,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function() {
         knowledgeBase.forEach(item => {
             const div = document.createElement('div');
             div.className = 'kb-item';
-            div.dataset.type = item.type || 'text';
+            div.dataset.section = item.section || 'دانستنی‌ها';
             div.style.cssText = `
                 background: #fff; border-radius: 20px; padding: 18px; 
                 box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
@@ -502,6 +514,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fas ${typeIcon[item.type] || 'fa-file-alt'}"></i>
                             ${typeLabel[item.type] || 'متن'}
                         </span>
+                        <span style="font-size: 0.7rem; background: ${item.section === 'دانستنی‌ها' ? '#3498db' : item.section === 'مهارت‌های کاربردی' ? '#2ecc71' : item.section === 'همراهان روشنایی' ? '#e74c3c' : '#9b59b6'}; padding: 2px 10px; border-radius: 20px; color: #fff;">${item.section || 'دانستنی‌ها'}</span>
                         <span style="font-size: 0.7rem; background: #ecf0f1; padding: 2px 10px; border-radius: 20px; color: #7f8c8d;">${item.date || ''}</span>
                     </div>
                     <span style="font-size: 0.7rem; color: #f39c12; background: rgba(243, 156, 18, 0.1); padding: 2px 10px; border-radius: 20px;">${item.source || 'انجمن'}</span>
@@ -528,20 +541,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // فیلتر کردن محتوا بر اساس نوع
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // فیلتر بر اساس بخش‌های چهارگانه
+    document.querySelectorAll('.section-filter').forEach(btn => {
         btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => {
+            document.querySelectorAll('.section-filter').forEach(b => {
                 b.style.background = '#ecf0f1';
                 b.style.color = '#2c3e50';
             });
             this.style.background = '#f39c12';
             this.style.color = '#fff';
             
-            const filter = this.dataset.filter;
+            const filter = this.dataset.section;
             const items = document.querySelectorAll('.kb-item');
             items.forEach(item => {
-                if (filter === 'all' || item.dataset.type === filter) {
+                if (filter === 'all' || item.dataset.section === filter) {
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';
@@ -550,24 +563,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function addToKnowledgeBase(title, content, response, type, file) {
-        const newItem = {
-            id: Date.now(),
-            type: type || 'text',
-            title: title || 'بدون عنوان',
-            content: content || '',
-            response: response || 'در انتظار پاسخ...',
-            date: new Date().toLocaleDateString('fa-IR'),
-            source: 'انجمن',
-            image: 'data/images/placeholder.jpg',
-            tags: ['مسئولیت اجتماعی']
-        };
-        knowledgeBase.unshift(newItem);
-        localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
-        displayKnowledgeBase();
-    }
-
-    // ۱۶. گنجینه دانش کاربر
+    // =============================================
+    // توابع مدیریت و تعاملات
+    // =============================================
     function displayUserKnowledgeBase() {
         const container = document.getElementById('user-knowledge-container');
         if (!container) return;
@@ -581,10 +579,8 @@ document.addEventListener('DOMContentLoaded', function() {
         userKnowledge.forEach(item => {
             const div = document.createElement('div');
             div.className = 'user-kb-item';
-            
             const typeLabel = item.type === 'podcast' ? 'پادکست' : 'اسلایدشو';
             const typeClass = item.type === 'podcast' ? 'ukb-type-podcast' : 'ukb-type-slideshow';
-            
             div.innerHTML = `
                 <div>
                     <span class="ukb-type ${typeClass}">${typeLabel}</span>
@@ -605,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('✅ محتوا با موفقیت به گنجینه‌ی دانش شما اضافه شد.');
     }
 
-    // ۱۷. پنل مدیریت
+    // پنل مدیریت
     window.loginAdmin = function() {
         const password = document.getElementById('admin-password').value;
         if (password === 'admin123') {
@@ -632,9 +628,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'admin-item';
             div.id = 'interaction-' + index;
-            
             const typeLabel = { text: 'متن', audio: 'صوتی', video: 'تصویری' };
-            
             div.innerHTML = `
                 <div><strong>نوع:</strong> ${typeLabel[item.type] || 'متن'}</div>
                 <div><strong>متن:</strong> ${item.text || 'بدون متن'}</div>
@@ -659,13 +653,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const responseText = document.getElementById('response-' + index).value;
         item.response = responseText || 'پاسخی ثبت نشده است.';
         
-        addToKnowledgeBase(
-            item.title || 'تعامل کاربر',
-            item.text || '',
-            item.response,
-            item.type || 'text',
-            item.file || null
-        );
+        const newItem = {
+            id: Date.now(),
+            type: 'text',
+            section: 'دانستنی‌ها',
+            title: item.title || 'تعامل کاربر',
+            content: item.text || '',
+            source: 'تعامل کاربران',
+            date: new Date().toLocaleDateString('fa-IR'),
+            image: 'data/images/placeholder.jpg',
+            tags: ['تعامل کاربران'],
+            response: item.response
+        };
+        knowledgeBase.unshift(newItem);
+        localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
+        displayKnowledgeBase();
         
         interactions.splice(index, 1);
         localStorage.setItem('interactions', JSON.stringify(interactions));
@@ -693,7 +695,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // ۱۸. دریافت تعاملات (متن، صدا، تصویر)
+    // دریافت تعاملات
     window.sendInteraction = function(type) {
         const textarea = document.getElementById('interact-text');
         const message = textarea.value.trim();
@@ -810,7 +812,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsDataURL(file);
     };
 
-    // ۱۹. تولید پادکست
+    // تولید پادکست
     let isGenerating = false;
     let lastGeneratedContent = null;
 
@@ -856,7 +858,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     };
 
-    // ۲۰. تولید اسلایدشو
+    // تولید اسلایدشو
     window.generateSlideshowSimple = function() {
         if (isGenerating) return;
         isGenerating = true;
@@ -923,7 +925,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     };
 
-    // ۲۱. ارسال به گنجینه دانش کاربر
+    // ارسال به گنجینه دانش کاربر
     window.sendToUserKnowledge = function() {
         if (lastGeneratedContent) {
             addToUserKnowledgeBase(lastGeneratedContent);
@@ -936,7 +938,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // ۲۲. ابزارهای کمکی
     window.exportKnowledgeBase = function() {
         const data = JSON.stringify(knowledgeBase, null, 2);
         const blob = new Blob([data], { type: 'application/json' });
@@ -959,7 +960,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // =============================================
-    // بخش سوم: نوار ابزار شناور
+    // نوار ابزار شناور
     // =============================================
     function setupFloatingToolbar() {
         const themeToggle = document.getElementById('themeToggle');
@@ -994,7 +995,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =============================================
-    // بخش چهارم: بارگذاری اولیه
+    // بارگذاری اولیه
     // =============================================
     function init() {
         startSloganRotation();
