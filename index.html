@@ -47,9 +47,9 @@
             <a href="#" data-page="tv" style="padding: 8px 18px; background: #3498db; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-tv"></i> تلویزیون</a>
             <a href="#" data-page="news-tv" style="padding: 8px 18px; background: #e74c3c; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-newspaper"></i> اخبار</a>
             <a href="#" data-page="events-tv" style="padding: 8px 18px; background: #2ecc71; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-calendar-alt"></i> رویدادها</a>
+            <a href="#" data-page="knowledge" style="padding: 8px 18px; background: #f39c12; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-graduation-cap"></i> گنجینه دان</a>
             <a href="#" data-page="membership" style="padding: 8px 18px; background: #9b59b6; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-user-plus"></i> عضویت</a>
             <a href="#" data-page="gallery" style="padding: 8px 18px; background: #00b894; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-images"></i> گالری</a>
-            <a href="#" data-page="knowledge" style="padding: 8px 18px; background: #f39c12; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-database"></i> گنجینه دانش</a>
             <a href="#" data-page="admin" style="padding: 8px 18px; background: #e67e22; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-user-cog"></i> مدیریت</a>
             <a href="#" data-page="contact" style="padding: 8px 18px; background: #636e72; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-phone"></i> تماس</a>
         </nav>
@@ -61,57 +61,47 @@
             <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
         </div>
 
-       <!-- ===== بخش رادیو هوشمند (دکمه اصلاح‌شده) ===== -->
-<div class="tv-module module-radio" id="radio-module">
-    <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
-    <div class="player-wrapper" style="margin: 15px 0;">
-        <audio id="radio-player" controls style="width: 100%;">
-            <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
-            <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
-        </audio>
-    </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
-        <button onclick="playRadio()" style="padding: 10px 20px; background: #d4a373; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
-        <button onclick="stopRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
-        <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
-        <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
-        <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-        
-        <!-- دکمه ساده پادکست -->
-        <button onclick="generatePodcastSimple()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
-            <i class="fas fa-podcast"></i> تولید پادکست
-        </button>
-    </div>
-    <div id="radio-playlist" class="playlist"></div>
-    <!-- محل نمایش دکمه ارسال به گنجینه -->
-    <div id="radio-send-container" style="text-align: center; margin-top: 10px;"></div>
-</div>
+        <!-- ===== بخش ۱: رادیو هوشمند ===== -->
+        <div class="tv-module module-radio" id="radio-module">
+            <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
+            <div class="player-wrapper" style="margin: 15px 0;">
+                <audio id="radio-player" controls style="width: 100%;">
+                    <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
+                    <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
+                <button onclick="playRadio()" style="padding: 10px 20px; background: #d4a373; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
+                <button onclick="stopRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
+                <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+                <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+                <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
+                <button onclick="generatePodcastSimple()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-podcast"></i> تولید پادکست</button>
+            </div>
+            <div id="radio-playlist" class="playlist"></div>
+            <div id="radio-send-container" style="text-align: center; margin-top: 10px;"></div>
+        </div>
 
-<!-- ===== بخش تلویزیون هوشمند (دکمه اصلاح‌شده) ===== -->
-<div class="tv-module module-tv" id="tv-module">
-    <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
-    <div class="player-wrapper" style="margin: 15px 0;">
-        <video id="tv-player" controls style="width: 100%; max-height: 450px; border-radius: 16px;">
-            <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
-            <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
-        <button onclick="playTv()" style="padding: 10px 20px; background: #3498db; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
-        <button onclick="stopTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
-        <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
-        <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
-        <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-        
-        <!-- دکمه ساده اسلایدشو -->
-        <button onclick="generateSlideshowSimple()" style="padding: 10px 20px; background: #2ecc71; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">
-            <i class="fas fa-slideshare"></i> تولید اسلایدشو
-        </button>
-    </div>
-    <div id="tv-playlist" class="playlist"></div>
-    <!-- محل نمایش دکمه ارسال به گنجینه -->
-    <div id="tv-send-container" style="text-align: center; margin-top: 10px;"></div>
-</div>
+        <!-- ===== بخش ۲: تلویزیون هوشمند ===== -->
+        <div class="tv-module module-tv" id="tv-module">
+            <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
+            <div class="player-wrapper" style="margin: 15px 0;">
+                <video id="tv-player" controls style="width: 100%; max-height: 450px; border-radius: 16px;">
+                    <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
+                    <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
+                <button onclick="playTv()" style="padding: 10px 20px; background: #3498db; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
+                <button onclick="stopTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
+                <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
+                <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
+                <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
+                <button onclick="generateSlideshowSimple()" style="padding: 10px 20px; background: #2ecc71; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-slideshare"></i> تولید اسلایدشو</button>
+            </div>
+            <div id="tv-playlist" class="playlist"></div>
+            <div id="tv-send-container" style="text-align: center; margin-top: 10px;"></div>
+        </div>
 
         <!-- ===== بخش ۳: تلویزیون اخبار ===== -->
         <div class="tv-module module-news" id="news-tv">
@@ -192,7 +182,7 @@
             <div style="text-align: center; margin-top: 15px;" id="manifest-dots"></div>
         </div>
 
-        <!-- ===== شعر ===== -->
+        <!-- ===== بخش ۶: شعر ===== -->
         <div class="tv-module" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
             <div class="module-title" style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-feather-alt" style="color: #d4a373;"></i> شعر</div>
             <div style="display: flex; justify-content: center; padding: 10px 0;">
@@ -204,31 +194,28 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۶: پرسش و پاسخ (تعامل هوشمند) ===== -->
-        <div class="tv-module module-interact" id="interact-module">
-            <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> پرسش و پاسخ</div>
-            <div class="interact-box">
-                <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-                    <button class="btn-send" onclick="sendInteraction('text')"><i class="fas fa-paper-plane"></i> ارسال متن</button>
-                    <button class="btn-send" onclick="startRecording()" style="background: #e74c3c;"><i class="fas fa-microphone"></i> ضبط صدا</button>
-                    <button class="btn-send" onclick="document.getElementById('fileInput').click();" style="background: #2ecc71;"><i class="fas fa-upload"></i> آپلود فایل</button>
-                    <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;" onchange="uploadFile(event)">
-                </div>
-                <div id="recording-status" style="margin: 10px 0; color: #e74c3c; font-weight: bold; display: none;">🔴 در حال ضبط... (برای توقف کلیک کنید)</div>
-                <button class="btn-send" onclick="stopRecording()" id="stopRecordingBtn" style="display: none; background: #e74c3c;"><i class="fas fa-stop"></i> توقف ضبط</button>
-                <div class="response-area" id="response-area">
-                    <i class="fas fa-robot" style="margin-left:8px;"></i>
-                    <span style="font-weight: 700; color: #d4a373;">مدیر پاسخگو</span>
-                    پاسخ هوشمند در اینجا نمایش داده می‌شود.
-                </div>
+        <!-- ===== بخش ۷: گنجینه دان و مهارت‌های کاربردی ===== -->
+        <div class="tv-module module-knowledge" id="knowledge-module" style="display: none; background: linear-gradient(145deg, #fef9f0, #fdf3e8); border: 2px solid #f39c12; border-radius: 30px; box-shadow: 0 12px 40px rgba(243, 156, 18, 0.15);">
+            <div class="module-title" style="color: #7d3c00; border-bottom-color: #f39c12;">
+                <i class="fas fa-graduation-cap" style="color: #f39c12;"></i> 
+                گنجینه دان و مهارت‌های کاربردی
+                <span style="font-size: 0.8rem; background: #f39c12; color: #fff; padding: 2px 12px; border-radius: 30px; margin-right: 12px;">جدید</span>
             </div>
-        </div>
-
-        <!-- ===== بخش ۷: گنجینه دانش (عمومی) ===== -->
-        <div class="tv-module module-knowledge" id="knowledge-module" style="display: none;">
-            <div class="module-title"><i class="fas fa-database" style="color: #f39c12;"></i> گنجینه دانش</div>
-            <div id="knowledge-base-container" style="max-height: 600px; overflow-y: auto; padding: 10px;"></div>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; justify-content: center;">
+                <button class="filter-btn active" data-filter="all" style="background: #f39c12; border: none; padding: 8px 20px; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">همه</button>
+                <button class="filter-btn" data-filter="text" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-file-alt"></i> متون</button>
+                <button class="filter-btn" data-filter="audio" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-headphones"></i> صوتی</button>
+                <button class="filter-btn" data-filter="video" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-video"></i> تصویری</button>
+                <button class="filter-btn" data-filter="image" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-image"></i> گالری</button>
+            </div>
+            <div id="knowledge-base-container" style="max-height: 600px; overflow-y: auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                <!-- توسط جاوااسکریپت پر می‌شود -->
+            </div>
+            <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(243, 156, 18, 0.08); border-radius: 16px; border-right: 4px solid #f39c12;">
+                <i class="fas fa-lightbulb" style="color: #f39c12; font-size: 1.2rem;"></i>
+                <span style="color: #7d3c00; font-weight: 600;">آیا می‌دانید؟ هر محتوای این گنجینه می‌تواند به یک پادکست یا اسلایدشو تبدیل شود!</span>
+                <span style="display: block; font-size: 0.85rem; color: #7f8c8d; margin-top: 4px;">برای تولید، به بخش رادیو یا تلویزیون بروید و دکمه «تولید» را فشار دهید.</span>
+            </div>
         </div>
 
         <!-- ===== بخش ۸: پنل مدیریت ===== -->
@@ -293,6 +280,27 @@
         <div class="tv-module module-gallery" id="gallery-module">
             <div class="module-title"><i class="fas fa-images" style="color: #00b894;"></i> گالری تصاویر</div>
             <div class="gallery-grid" id="gallery-container"></div>
+        </div>
+
+        <!-- ===== تعامل هوشمند ===== -->
+        <div class="tv-module module-interact" id="interact-module">
+            <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> پرسش و پاسخ</div>
+            <div class="interact-box">
+                <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                    <button class="btn-send" onclick="sendInteraction('text')"><i class="fas fa-paper-plane"></i> ارسال متن</button>
+                    <button class="btn-send" onclick="startRecording()" style="background: #e74c3c;"><i class="fas fa-microphone"></i> ضبط صدا</button>
+                    <button class="btn-send" onclick="document.getElementById('fileInput').click();" style="background: #2ecc71;"><i class="fas fa-upload"></i> آپلود فایل</button>
+                    <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;" onchange="uploadFile(event)">
+                </div>
+                <div id="recording-status" style="margin: 10px 0; color: #e74c3c; font-weight: bold; display: none;">🔴 در حال ضبط... (برای توقف کلیک کنید)</div>
+                <button class="btn-send" onclick="stopRecording()" id="stopRecordingBtn" style="display: none; background: #e74c3c;"><i class="fas fa-stop"></i> توقف ضبط</button>
+                <div class="response-area" id="response-area">
+                    <i class="fas fa-robot" style="margin-left:8px;"></i>
+                    <span style="font-weight: 700; color: #d4a373;">مدیر پاسخگو</span>
+                    پاسخ هوشمند در اینجا نمایش داده می‌شود.
+                </div>
+            </div>
         </div>
 
         <!-- ===== تماس ===== -->
