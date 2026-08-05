@@ -1003,6 +1003,27 @@ document.addEventListener('DOMContentLoaded', function() {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
     }
+// =============================================
+// بنرهای متحرک شعار (کد جدید را اینجا اضافه کن)
+// =============================================
+let bannerIndex = 0;
+const banners = document.querySelectorAll('.banner-slide');
+
+function showBanner(index) {
+    banners.forEach((b, i) => {
+        b.classList.toggle('active', i === index);
+    });
+}
+
+function nextBanner() {
+    bannerIndex = (bannerIndex + 1) % banners.length;
+    showBanner(bannerIndex);
+}
+
+if (banners.length > 0) {
+    showBanner(0);
+    setInterval(nextBanner, 4000);
+}
 
     // =============================================
     // بارگذاری اولیه
