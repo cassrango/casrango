@@ -6,10 +6,135 @@
     <title>رادیوتلویزیون هوشمند | انجمن ترویج فرهنگ مسئولیت اجتماعی</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#f4efe9;font-family:'Vazir','Segoe UI',sans-serif;transition:background .4s}
+        .container{max-width:1200px;margin:0 auto;padding:20px}
+        .floating-toolbar{position:fixed;bottom:120px;left:20px;display:flex;flex-direction:column;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);padding:12px 10px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+        .floating-toolbar button{width:44px;height:44px;border:none;border-radius:50%;background:rgba(44,62,80,0.08);color:#2c3e50;font-size:1.3rem;cursor:pointer;transition:.2s}
+        .floating-toolbar button:hover{background:#d4a373;color:#fff;transform:scale(1.1)}
+        .org-name{font-size:1.3rem !important;color:#e74c3c !important;font-style:italic !important;font-weight:700 !important}
+        .ticker-bar{background:#2c3e50;color:#ecf0f1;padding:10px 0;border-radius:50px;margin:15px 0;overflow:hidden;white-space:nowrap}
+        .ticker-content{display:inline-block;animation:scrollTicker 25s linear infinite;font-size:.95rem}
+        .ticker-content span{display:inline-block;margin:0 20px}
+        @keyframes scrollTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+        .banner-slider{width:100%;max-height:200px;overflow:hidden;border-radius:16px;margin:15px 0;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+        .banner-slide{display:none;width:100%}
+        .banner-slide img{width:100%;height:200px;object-fit:cover;border-radius:16px}
+        .banner-slide.active{display:block;animation:fadeIn 1s}
+        @keyframes fadeIn{0%{opacity:.4}100%{opacity:1}}
+        .art-toolbar{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;background:#f8f4f0;padding:12px 20px;border-radius:50px;margin:15px 0}
+        .art-toolbar a{padding:8px 18px;border-radius:30px;color:#fff;text-decoration:none;font-weight:600;transition:.2s}
+        .art-toolbar a:nth-child(1){background:#d4a373}
+        .art-toolbar a:nth-child(2){background:#3498db}
+        .art-toolbar a:nth-child(3){background:#e74c3c}
+        .art-toolbar a:nth-child(4){background:#2ecc71}
+        .art-toolbar a:nth-child(5){background:#f39c12}
+        .art-toolbar a:nth-child(6){background:#9b59b6}
+        .art-toolbar a:nth-child(7){background:#00b894}
+        .art-toolbar a:nth-child(8){background:#e67e22}
+        .art-toolbar a:nth-child(9){background:#636e72}
+        .slogan-bar{display:flex;justify-content:center;gap:30px;background:rgba(44,62,80,0.05);padding:12px;border-radius:50px;font-size:1.1rem;color:#2c3e50;margin:20px 0}
+        .slogan-item{display:none}
+        .slogan-item.show{display:inline-block}
+        .tv-module{background:#fff;border-radius:24px;padding:25px;margin-bottom:30px;box-shadow:0 10px 30px rgba(0,0,0,0.08);transition:transform .2s}
+        .tv-module:hover{transform:translateY(-5px)}
+        .module-title{font-size:1.6rem;font-weight:700;color:#2c3e50;border-bottom:3px solid #e0c9a6;padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+        .module-title i{font-size:1.8rem}
+        .module-radio{border-right:6px solid #d4a373}
+        .module-tv{border-right:6px solid #3498db}
+        .module-news{border-right:6px solid #e74c3c}
+        .module-events{border-right:6px solid #2ecc71}
+        .module-knowledge{background:linear-gradient(145deg,#fef9f0,#fdf3e8);border:2px solid #f39c12;border-radius:30px;box-shadow:0 12px 40px rgba(243,156,18,0.15)}
+        .module-admin{border-right:6px solid #e67e22}
+        .module-user-knowledge{border-right:6px solid #8e44ad}
+        .module-membership{border-right:6px solid #9b59b6}
+        .module-helps{border-right:6px solid #f39c12}
+        .module-builds{border-right:6px solid #1abc9c}
+        .module-gallery{border-right:6px solid #00b894}
+        .module-interact{border-right:6px solid #0984e3}
+        .playlist-item{padding:10px 15px;margin:6px 0;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;background:#f8f4f0;transition:.2s}
+        .playlist-item.active{background:#e0c9a6;color:#2c3e50;font-weight:600}
+        .playlist-item:hover{background:#e8e0d8}
+        .tv-news-container{display:flex;flex-wrap:wrap;gap:25px}
+        .tv-news-screen{flex:2;min-width:300px}
+        .tv-news-sidebar{flex:1;min-width:200px;background:#f8f4f0;padding:20px;border-radius:16px}
+        .tv-news-sidebar h4{color:#2c3e50;border-bottom:2px solid #e0c9a6;padding-bottom:10px}
+        .tv-news-controls button{padding:8px 16px;border:none;border-radius:30px;color:#fff;cursor:pointer;font-size:.9rem;font-weight:600;transition:.2s}
+        .tv-news-controls button:hover{opacity:.85}
+        .btn-play-pause{background:#2c3e50}
+        .btn-full{background:#d4a373}
+        .btn-comment{background:#3498db}
+        .btn-like{background:#e74c3c}
+        .btn-nav{background:#7f8c8d}
+        .help-item{display:flex;align-items:center;gap:15px;padding:15px;background:#f8f4f0;border-radius:16px;margin-bottom:12px;cursor:pointer;transition:.2s}
+        .help-item:hover{background:#efe8e0;transform:translateX(-5px)}
+        .help-item i{font-size:1.8rem;color:#d4a373;min-width:40px;text-align:center}
+        .help-title{font-weight:700;color:#2c3e50}
+        .help-desc{color:#7f8c8d;font-size:.95rem}
+        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+        .gallery-item{border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.05);cursor:pointer;transition:.2s;background:#fff}
+        .gallery-item:hover{transform:scale(1.02)}
+        .gallery-item img{width:100%;height:180px;object-fit:cover}
+        .gallery-info{padding:12px;background:#f8f4f0}
+        .gallery-info h4{margin:0;color:#2c3e50;font-size:.95rem}
+        .gallery-info p{margin:4px 0 0;color:#7f8c8d;font-size:.8rem}
+        .interact-box textarea{width:100%;padding:12px;border:2px solid #e0c9a6;border-radius:16px;min-height:80px;font-family:inherit}
+        .interact-box .btn-send{padding:10px 30px;background:#d4a373;border:none;border-radius:30px;color:#fff;font-weight:700;cursor:pointer;margin-top:10px}
+        .response-area{margin-top:15px;padding:15px;background:#f8f4f0;border-radius:16px;border-right:4px solid #d4a373}
+        .contact-box{background:linear-gradient(145deg,#2c3e50,#1a252f);border-radius:24px;padding:25px;margin:30px 0;box-shadow:0 8px 30px rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.1)}
+        .contact-box h3{color:#f39c12;border-bottom:2px solid #f39c12;padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-size:1.5rem}
+        .contact-box p{color:#ecf0f1;margin:8px 0;display:flex;align-items:center;gap:10px}
+        .contact-box p i{color:#f39c12;width:25px}
+        .contact-box a{color:#ecf0f1;transition:.3s}
+        .contact-box a:hover{color:#f39c12}
+        .social-links{display:flex;gap:15px;margin-top:8px}
+        .social-links a{font-size:1.8rem}
+        .footer-note{text-align:center;padding:25px 0;color:#7f8c8d;border-top:1px solid #ecf0f1;margin-top:20px}
+        .kb-item{background:#fff;border-radius:20px;padding:18px;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-right:5px solid #f39c12;transition:.3s}
+        .admin-item{background:#f8f4f0;border-radius:12px;padding:15px;margin-bottom:12px;border-right:4px solid #e67e22}
+        .admin-item .admin-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+        .admin-item .admin-actions button{padding:5px 15px;border:none;border-radius:20px;color:#fff;font-weight:600;cursor:pointer;font-size:.85rem}
+        .admin-item .admin-actions .btn-approve{background:#2ecc71}
+        .admin-item .admin-actions .btn-reject{background:#e74c3c}
+        .admin-item .admin-actions .btn-edit{background:#3498db}
+        .user-kb-item{background:#f8f4f0;border-radius:16px;padding:15px;margin-bottom:12px;border-right:4px solid #8e44ad}
+        .ukb-type-podcast{background:#e74c3c;color:#fff;padding:2px 10px;border-radius:20px;font-size:.7rem}
+        .ukb-type-slideshow{background:#2ecc71;color:#fff;padding:2px 10px;border-radius:20px;font-size:.7rem}
+        .kb-type{display:inline-block;padding:2px 12px;border-radius:20px;font-size:.75rem;font-weight:600;color:#fff;margin-bottom:8px}
+        .kb-type-text{background:#3498db}
+        .kb-type-audio{background:#e74c3c}
+        .kb-type-video{background:#2ecc71}
+        .kb-type-image{background:#9b59b6}
+        .section-filter.active{background:#f39c12;color:#fff}
+        .section-filter{background:#ecf0f1;border:none;padding:8px 20px;border-radius:30px;color:#2c3e50;font-weight:600;cursor:pointer}
+        @media(max-width:768px){.container{padding:12px}.tv-news-container{flex-direction:column}.floating-toolbar{bottom:80px;left:12px;padding:10px 8px;gap:10px}.floating-toolbar button{width:38px;height:38px;font-size:1rem}}
+        body.dark-mode{background:#1a1a2e;color:#e0e0e0}
+        body.dark-mode .tv-module{background:#16213e;border-color:#0f3460}
+        body.dark-mode .module-title{color:#e0e0e0}
+        body.dark-mode .org-name{color:#f39c12}
+        body.dark-mode .art-toolbar{background:#1a1a2e}
+        body.dark-mode .art-toolbar a{background:#0f3460;color:#e0e0e0}
+        body.dark-mode .floating-toolbar{background:rgba(26,26,46,0.9)}
+        body.dark-mode .playlist-item{background:#1a1a2e;color:#e0e0e0}
+        body.dark-mode .playlist-item.active{background:#d4a373;color:#1a1a2e}
+        body.dark-mode .tv-news-sidebar{background:#16213e}
+        body.dark-mode .help-item{background:#1a1a2e}
+        body.dark-mode .gallery-info{background:#1a1a2e}
+        body.dark-mode .gallery-info h4{color:#e0e0e0}
+        body.dark-mode .contact-box{background:linear-gradient(145deg,#0f3460,#1a1a2e)}
+        body.dark-mode .kb-item{background:#1a1a2e}
+        body.dark-mode .admin-item{background:#1a1a2e}
+        body.dark-mode .user-kb-item{background:#1a1a2e}
+        body.dark-mode .response-area{background:#1a1a2e}
+        body.dark-mode .interact-box textarea{background:#1a1a2e;color:#e0e0e0;border-color:#0f3460}
+        body.dark-mode .ticker-bar{background:#0f3460}
+        body.dark-mode .slogan-bar{background:rgba(255,255,255,0.05);color:#e0e0e0}
+        body.dark-mode .footer-note{border-top-color:#0f3460;color:#7f8c8d}
+    </style>
 </head>
 <body>
 
-    <!-- ===== نوار ابزار شناور ===== -->
     <div class="floating-toolbar" id="floatingToolbar">
         <button id="themeToggle" title="تغییر حالت شب/روز"><i class="fas fa-moon"></i></button>
         <button id="scrollToTop" title="رفتن به بالای صفحه"><i class="fas fa-arrow-up"></i></button>
@@ -18,121 +143,110 @@
 
     <div class="container">
 
-        <!-- ===== HEADER ===== -->
-        <header style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-block; width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 4px solid #d4a373; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
-                <video id="main-logo-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+        <header style="text-align:center;margin-bottom:25px;">
+            <div style="display:inline-block;width:180px;height:180px;border-radius:50%;overflow:hidden;border:4px solid #d4a373;box-shadow:0 8px 25px rgba(0,0,0,0.15)">
+                <video id="main-logo-video" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
                     <source src="data/images/video_2024-12-16_23-54-20.mp4" type="video/mp4">
                 </video>
-                <img id="logo-fallback" src="data/images/placeholder.jpg" alt="انجمن ترویج فرهنگ مسئولیت اجتماعی" style="width: 100%; height: 100%; object-fit: cover; display: none;" onerror="this.src='data/images/placeholder.jpg'">
+                <img id="logo-fallback" src="data/images/placeholder.jpg" alt="انجمن" style="width:100%;height:100%;object-fit:cover;display:none">
             </div>
-            <h1 style="font-size: 2.2rem; margin: 12px 0 2px; color: #2c3e50;">رادیوتلویزیون <span style="color: #d4a373;">هوشمند</span></h1>
+            <h1 style="font-size:2.2rem;margin:12px 0 2px;color:#2c3e50">رادیوتلویزیون <span style="color:#d4a373">هوشمند</span></h1>
             <div class="org-name">انجمن ترویج فرهنگ مسئولیت اجتماعی</div>
         </header>
 
-        <!-- ===== نوار ابزار متحرک (Ticker) ===== -->
-        <div class="ticker-bar">
-            <div class="ticker-content" id="ticker-content">
-                <span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>
-                <span>🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها</span>
-                <span>📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار</span>
-                <span>💬 نظرات و پیشنهادات خود را با ما در میان بگذارید</span>
-                <span>🔄 ارتباط دوطرفه با ادمین و مدیران انجمن</span>
-            </div>
-        </div>
+        <div class="ticker-bar"><div class="ticker-content" id="ticker-content">
+            <span>📢 به رادیوتلویزیون هوشمند انجمن خوش آمدید</span>
+            <span>🔹 همراه ما باشید برای اطلاع از آخرین اخبار و رویدادها</span>
+            <span>📻 رادیو هوشمند | 📺 تلویزیون هوشمند | 📰 تلویزیون اخبار</span>
+            <span>💬 نظرات و پیشنهادات خود را با ما در میان بگذارید</span>
+            <span>🔄 ارتباط دوطرفه با ادمین و مدیران انجمن</span>
+        </div></div>
 
-        <!-- ===== بنرهای متحرک شعار ===== -->
         <div class="banner-slider" id="bannerSlider">
-            <div class="banner-slide"><img src="data/images/baner-001b-1.png" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-4.jpg" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-5.jpg" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-6.jpg" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-7.jpg" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-8.jpg" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-9.jpg" alt="شعار انجمن"></div>
-            <div class="banner-slide"><img src="data/images/baner-001b-10.jpg" alt="شعار انجمن"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-1.png" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-4.jpg" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-5.jpg" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-6.jpg" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-7.jpg" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-8.jpg" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-9.jpg" alt="شعار"></div>
+            <div class="banner-slide"><img src="data/images/baner-001b-10.jpg" alt="شعار"></div>
         </div>
 
-        <!-- ===== منوی اصلی ===== -->
-        <nav class="art-toolbar" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: #f8f4f0; padding: 12px 20px; border-radius: 50px; margin: 15px 0;">
-            <a href="#" data-page="radio" style="padding: 8px 18px; background: #d4a373; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-microphone"></i> رادیو</a>
-            <a href="#" data-page="tv" style="padding: 8px 18px; background: #3498db; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-tv"></i> تلویزیون</a>
-            <a href="#" data-page="news-tv" style="padding: 8px 18px; background: #e74c3c; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-newspaper"></i> اخبار</a>
-            <a href="#" data-page="events-tv" style="padding: 8px 18px; background: #2ecc71; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-calendar-alt"></i> رویدادها</a>
-            <a href="#" data-page="knowledge" style="padding: 8px 18px; background: #f39c12; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-graduation-cap"></i> گنجینه دانش</a>
-            <a href="#" data-page="membership" style="padding: 8px 18px; background: #9b59b6; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-user-plus"></i> عضویت</a>
-            <a href="#" data-page="gallery" style="padding: 8px 18px; background: #00b894; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-images"></i> گالری</a>
-            <a href="#" data-page="admin" style="padding: 8px 18px; background: #e67e22; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-user-cog"></i> مدیریت</a>
-            <a href="#" data-page="contact" style="padding: 8px 18px; background: #636e72; border-radius: 30px; color: #fff; text-decoration: none; font-weight: 600; transition: 0.2s;"><i class="fas fa-phone"></i> ارتباط با انجمن</a>
+        <nav class="art-toolbar">
+            <a href="#" data-page="radio"><i class="fas fa-microphone"></i> رادیو</a>
+            <a href="#" data-page="tv"><i class="fas fa-tv"></i> تلویزیون</a>
+            <a href="#" data-page="news-tv"><i class="fas fa-newspaper"></i> اخبار</a>
+            <a href="#" data-page="events-tv"><i class="fas fa-calendar-alt"></i> رویدادها</a>
+            <a href="#" data-page="knowledge"><i class="fas fa-graduation-cap"></i> گنجینه دانش</a>
+            <a href="#" data-page="membership"><i class="fas fa-user-plus"></i> عضویت</a>
+            <a href="#" data-page="gallery"><i class="fas fa-images"></i> گالری</a>
+            <a href="#" data-page="admin"><i class="fas fa-user-cog"></i> مدیریت</a>
+            <a href="#" data-page="contact"><i class="fas fa-phone"></i> ارتباط با انجمن</a>
         </nav>
 
-        <!-- ===== شعار ===== -->
         <div class="slogan-bar">
-            <span class="slogan-item show" style="animation-delay:0s;">ما همه مسئولیم</span>
-            <span class="slogan-item" style="animation-delay:4.5s;">مسئولیت از من شروع می‌شود</span>
-            <span class="slogan-item" style="animation-delay:9s;">هر قدم کوچک، تأثیری بزرگ</span>
+            <span class="slogan-item show" style="animation-delay:0s">ما همه مسئولیم</span>
+            <span class="slogan-item" style="animation-delay:4.5s">مسئولیت از من شروع می‌شود</span>
+            <span class="slogan-item" style="animation-delay:9s">هر قدم کوچک، تأثیری بزرگ</span>
         </div>
 
-        <!-- ===== بخش ۱: رادیو هوشمند ===== -->
+        <!-- رادیو -->
         <div class="tv-module module-radio" id="radio-module">
-            <div class="module-title"><i class="fas fa-radio" style="color: #d4a373;"></i> رادیو هوشمند</div>
-            <div class="player-wrapper" style="margin: 15px 0;">
-                <audio id="radio-player" controls style="width: 100%;">
-                    <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
-                    <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
-                <button onclick="playRadio()" style="padding: 10px 20px; background: #d4a373; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
-                <button onclick="stopRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
-                <button onclick="nextRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
-                <button onclick="prevRadio()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
-                <button onclick="likeRadio()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-                <button onclick="generatePodcastSimple()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-podcast"></i> تولید پادکست</button>
+            <div class="module-title"><i class="fas fa-radio" style="color:#d4a373"></i> رادیو هوشمند</div>
+            <audio id="radio-player" controls style="width:100%">
+                <source src="data/images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
+                <source src="data/images/Careless Whisper2.mp3" type="audio/mpeg">
+            </audio>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0">
+                <button onclick="playRadio()" style="padding:10px 20px;background:#d4a373;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-play"></i> پخش</button>
+                <button onclick="stopRadio()" style="padding:10px 20px;background:#e74c3c;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-stop"></i> توقف</button>
+                <button onclick="nextRadio()" style="padding:10px 20px;background:#2c3e50;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-forward"></i> بعدی</button>
+                <button onclick="prevRadio()" style="padding:10px 20px;background:#2c3e50;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-backward"></i> قبلی</button>
+                <button onclick="likeRadio()" style="padding:10px 20px;background:#e74c3c;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-heart"></i> لایک</button>
+                <button onclick="generatePodcastSimple()" style="padding:10px 20px;background:#e74c3c;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-podcast"></i> تولید پادکست</button>
             </div>
             <div id="radio-playlist" class="playlist"></div>
-            <div id="radio-send-container" style="text-align: center; margin-top: 10px;"></div>
+            <div id="radio-send-container" style="text-align:center;margin-top:10px"></div>
         </div>
 
-        <!-- ===== بخش ۲: تلویزیون هوشمند ===== -->
+        <!-- تلویزیون -->
         <div class="tv-module module-tv" id="tv-module">
-            <div class="module-title"><i class="fas fa-tv" style="color: #3498db;"></i> تلویزیون هوشمند</div>
-            <div class="player-wrapper" style="margin: 15px 0;">
-                <video id="tv-player" controls style="width: 100%; max-height: 450px; border-radius: 16px;">
-                    <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
-                    <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0;">
-                <button onclick="playTv()" style="padding: 10px 20px; background: #3498db; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-play"></i> پخش</button>
-                <button onclick="stopTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-stop"></i> توقف</button>
-                <button onclick="nextTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-forward"></i> بعدی</button>
-                <button onclick="prevTv()" style="padding: 10px 20px; background: #2c3e50; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-backward"></i> قبلی</button>
-                <button onclick="likeTv()" style="padding: 10px 20px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-heart"></i> لایک</button>
-                <button onclick="generateSlideshowSimple()" style="padding: 10px 20px; background: #2ecc71; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-slideshare"></i> تولید اسلایدشو</button>
+            <div class="module-title"><i class="fas fa-tv" style="color:#3498db"></i> تلویزیون هوشمند</div>
+            <video id="tv-player" controls style="width:100%;max-height:450px;border-radius:16px">
+                <source src="data/images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
+                <source src="data/images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
+            </video>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0">
+                <button onclick="playTv()" style="padding:10px 20px;background:#3498db;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-play"></i> پخش</button>
+                <button onclick="stopTv()" style="padding:10px 20px;background:#e74c3c;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-stop"></i> توقف</button>
+                <button onclick="nextTv()" style="padding:10px 20px;background:#2c3e50;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-forward"></i> بعدی</button>
+                <button onclick="prevTv()" style="padding:10px 20px;background:#2c3e50;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-backward"></i> قبلی</button>
+                <button onclick="likeTv()" style="padding:10px 20px;background:#e74c3c;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-heart"></i> لایک</button>
+                <button onclick="generateSlideshowSimple()" style="padding:10px 20px;background:#2ecc71;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-slideshare"></i> تولید اسلایدشو</button>
             </div>
             <div id="tv-playlist" class="playlist"></div>
-            <div id="tv-send-container" style="text-align: center; margin-top: 10px;"></div>
+            <div id="tv-send-container" style="text-align:center;margin-top:10px"></div>
         </div>
 
-        <!-- ===== بخش ۳: تلویزیون اخبار ===== -->
+        <!-- اخبار -->
         <div class="tv-module module-news" id="news-tv">
-            <div class="module-title"><i class="fas fa-newspaper" style="color: #e74c3c;"></i> تلویزیون اخبار</div>
+            <div class="module-title"><i class="fas fa-newspaper" style="color:#e74c3c"></i> تلویزیون اخبار</div>
             <div class="tv-news-container">
                 <div class="tv-news-screen">
-                    <div style="display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #e0c9a6; padding-bottom: 12px; margin-bottom: 15px;">
-                        <span style="color: #e74c3c; font-weight: 700;">● زنده</span>
-                        <span style="font-size: 1.3rem; font-weight: 700; color: #2c3e50;">اخبار انجمن</span>
+                    <div style="display:flex;align-items:center;gap:12px;border-bottom:2px solid #e0c9a6;padding-bottom:12px;margin-bottom:15px">
+                        <span style="color:#e74c3c;font-weight:700">● زنده</span>
+                        <span style="font-size:1.3rem;font-weight:700;color:#2c3e50">اخبار انجمن</span>
                     </div>
                     <div>
-                        <img id="news-player-image" src="data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg" alt="خبر" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 16px;" onerror="this.src='data/images/placeholder.jpg'">
-                        <div style="margin-top: 12px;">
-                            <h2 id="news-player-title" style="font-size: 1.5rem; color: #2c3e50; margin: 0 0 5px;">عنوان خبر</h2>
-                            <p id="news-player-date" style="color: #7f8c8d; margin: 0 0 10px;">تاریخ</p>
-                            <p id="news-player-text" style="color: #34495e; line-height: 1.8; max-height: 100px; overflow: hidden; transition: max-height 0.4s ease;">خلاصه خبر در اینجا نمایش داده می‌شود.</p>
+                        <img id="news-player-image" src="data/images/3d58c07d-f5a3-4893-9fb1-3d801ef104a5-600x320.jpg" alt="خبر" style="width:100%;max-height:300px;object-fit:cover;border-radius:16px" onerror="this.src='data/images/placeholder.jpg'">
+                        <div style="margin-top:12px">
+                            <h2 id="news-player-title" style="font-size:1.5rem;color:#2c3e50;margin:0 0 5px">عنوان خبر</h2>
+                            <p id="news-player-date" style="color:#7f8c8d;margin:0 0 10px">تاریخ</p>
+                            <p id="news-player-text" style="color:#34495e;line-height:1.8;max-height:100px;overflow:hidden">خلاصه خبر</p>
                         </div>
                     </div>
-                    <div class="tv-news-controls" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;">
+                    <div class="tv-news-controls" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px">
                         <button class="btn-nav" onclick="prevNews()"><i class="fas fa-backward"></i> قبلی</button>
                         <button class="btn-nav" onclick="nextNews()"><i class="fas fa-forward"></i> بعدی</button>
                         <button class="btn-play-pause" onclick="playNews()"><i class="fas fa-play"></i> پخش</button>
@@ -149,24 +263,24 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۴: تلویزیون رویدادها ===== -->
+        <!-- رویدادها -->
         <div class="tv-module module-events" id="events-tv">
-            <div class="module-title"><i class="fas fa-calendar-alt" style="color: #2ecc71;"></i> تلویزیون رویدادها</div>
+            <div class="module-title"><i class="fas fa-calendar-alt" style="color:#2ecc71"></i> تلویزیون رویدادها</div>
             <div class="tv-news-container">
                 <div class="tv-news-screen">
-                    <div style="display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #e0c9a6; padding-bottom: 12px; margin-bottom: 15px;">
-                        <span style="color: #e74c3c; font-weight: 700;">● زنده</span>
-                        <span style="font-size: 1.3rem; font-weight: 700; color: #2c3e50;">رویدادهای انجمن</span>
+                    <div style="display:flex;align-items:center;gap:12px;border-bottom:2px solid #e0c9a6;padding-bottom:12px;margin-bottom:15px">
+                        <span style="color:#e74c3c;font-weight:700">● زنده</span>
+                        <span style="font-size:1.3rem;font-weight:700;color:#2c3e50">رویدادهای انجمن</span>
                     </div>
                     <div>
-                        <img id="events-player-image" src="data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg" alt="رویداد" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 16px;" onerror="this.src='data/images/placeholder.jpg'">
-                        <div style="margin-top: 12px;">
-                            <h2 id="events-player-title" style="font-size: 1.5rem; color: #2c3e50; margin: 0 0 5px;">عنوان رویداد</h2>
-                            <p id="events-player-date" style="color: #7f8c8d; margin: 0 0 10px;">تاریخ</p>
-                            <p id="events-player-text" style="color: #34495e; line-height: 1.8; max-height: 100px; overflow: hidden; transition: max-height 0.4s ease;">خلاصه رویداد در اینجا نمایش داده می‌شود.</p>
+                        <img id="events-player-image" src="data/images/301c12e1-4c2e-4d75-bb7e-204776b56a43-600x400.jpg" alt="رویداد" style="width:100%;max-height:300px;object-fit:cover;border-radius:16px" onerror="this.src='data/images/placeholder.jpg'">
+                        <div style="margin-top:12px">
+                            <h2 id="events-player-title" style="font-size:1.5rem;color:#2c3e50;margin:0 0 5px">عنوان رویداد</h2>
+                            <p id="events-player-date" style="color:#7f8c8d;margin:0 0 10px">تاریخ</p>
+                            <p id="events-player-text" style="color:#34495e;line-height:1.8;max-height:100px;overflow:hidden">خلاصه رویداد</p>
                         </div>
                     </div>
-                    <div class="tv-news-controls" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;">
+                    <div class="tv-news-controls" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px">
                         <button class="btn-nav" onclick="prevEvent()"><i class="fas fa-backward"></i> قبلی</button>
                         <button class="btn-nav" onclick="nextEvent()"><i class="fas fa-forward"></i> بعدی</button>
                         <button class="btn-play-pause" onclick="playEvent()"><i class="fas fa-play"></i> پخش</button>
@@ -183,155 +297,141 @@
             </div>
         </div>
 
-        <!-- ===== بخش ۵: مانیفست اسلایدشو ===== -->
-        <div class="tv-module" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
-            <div class="module-title" style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-scroll" style="color: #d4a373;"></i> مانیفست انجمن</div>
-            <div style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.06);">
-                <div id="manifest-slideshow" style="display: flex; transition: transform 0.6s ease-in-out; will-change: transform;"></div>
-                <button onclick="changeSlide(-1)" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(2px); transition: 0.2s; z-index: 10;">❮</button>
-                <button onclick="changeSlide(1)" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(2px); transition: 0.2s; z-index: 10;">❯</button>
+        <!-- مانیفست -->
+        <div class="tv-module" style="background:linear-gradient(145deg,#f9f3e8,#f0e4d8)">
+            <div class="module-title" style="color:#4a2c1a;border-bottom-color:#d4a373"><i class="fas fa-scroll" style="color:#d4a373"></i> مانیفست انجمن</div>
+            <div style="position:relative;overflow:hidden;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.06)">
+                <div id="manifest-slideshow" style="display:flex;transition:transform 0.6s ease-in-out"></div>
+                <button onclick="changeSlide(-1)" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);background:rgba(0,0,0,0.4);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;z-index:10">❮</button>
+                <button onclick="changeSlide(1)" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(0,0,0,0.4);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;z-index:10">❯</button>
             </div>
-            <div style="text-align: center; margin-top: 15px;" id="manifest-dots"></div>
+            <div style="text-align:center;margin-top:15px" id="manifest-dots"></div>
         </div>
 
-        <!-- ===== بخش ۶: شعر ===== -->
-        <div class="tv-module" style="background: linear-gradient(145deg, #f9f3e8, #f0e4d8);">
-            <div class="module-title" style="color: #4a2c1a; border-bottom-color: #d4a373;"><i class="fas fa-feather-alt" style="color: #d4a373;"></i> شعر</div>
-            <div style="display: flex; justify-content: center; padding: 10px 0;">
-                <img id="poem-image" src="data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg" alt="شعر" style="max-width: 100%; max-height: 400px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid rgba(212, 163, 115, 0.2);" onerror="this.src='data/images/placeholder.jpg'">
-            </div>
-            <div style="text-align: center; margin-top: 10px;">
-                <button onclick="likePoem()" style="background: #e74c3c; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">❤️ لایک</button>
-                <button onclick="sharePoem()" style="background: #1a6a8a; border: none; color: #fff; padding: 6px 16px; border-radius: 30px; cursor: pointer;">📤 اشتراک</button>
-            </div>
-        </div>
-
-        <!-- ===== بخش ۷: گنجینه دانش (چهار بخش) ===== -->
-        <div class="tv-module module-knowledge" id="knowledge-module" style="display: none; background: linear-gradient(145deg, #fef9f0, #fdf3e8); border: 2px solid #f39c12; border-radius: 30px; box-shadow: 0 12px 40px rgba(243, 156, 18, 0.15);">
-            <div class="module-title" style="color: #7d3c00; border-bottom-color: #f39c12;">
-                <i class="fas fa-graduation-cap" style="color: #f39c12;"></i> 
-                گنجینه دانش
-                <span style="font-size: 0.8rem; background: #f39c12; color: #fff; padding: 2px 12px; border-radius: 30px; margin-right: 12px;">۴ بخش</span>
-            </div>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; justify-content: center;">
-                <button class="section-filter active" data-section="all" style="background: #f39c12; border: none; padding: 8px 20px; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">همه</button>
-                <button class="section-filter" data-section="دانستنی‌ها" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-book"></i> دانستنی‌ها</button>
-                <button class="section-filter" data-section="مهارت‌های کاربردی" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-tools"></i> مهارت‌های کاربردی</button>
-                <button class="section-filter" data-section="همراهان روشنایی" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-users"></i> همراهان روشنایی</button>
-                <button class="section-filter" data-section="مشارکت و تأثیر" style="background: #ecf0f1; border: none; padding: 8px 20px; border-radius: 30px; color: #2c3e50; font-weight: 600; cursor: pointer;"><i class="fas fa-handshake"></i> مشارکت و تأثیر</button>
-            </div>
-            
-            <div id="knowledge-base-container" style="max-height: 600px; overflow-y: auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;"></div>
-            
-            <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(243, 156, 18, 0.08); border-radius: 16px; border-right: 4px solid #f39c12;">
-                <i class="fas fa-lightbulb" style="color: #f39c12; font-size: 1.2rem;"></i>
-                <span style="color: #7d3c00; font-weight: 600;">آیا می‌دانید؟ هر محتوای این گنجینه می‌تواند به یک پادکست یا اسلایدشو تبدیل شود!</span>
-                <span style="display: block; font-size: 0.85rem; color: #7f8c8d; margin-top: 4px;">برای تولید، به بخش رادیو یا تلویزیون بروید و دکمه «تولید» را فشار دهید.</span>
+        <!-- شعر -->
+        <div class="tv-module" style="background:linear-gradient(145deg,#f9f3e8,#f0e4d8)">
+            <div class="module-title" style="color:#4a2c1a;border-bottom-color:#d4a373"><i class="fas fa-feather-alt" style="color:#d4a373"></i> شعر</div>
+            <img id="poem-image" src="data/images/photo_۲۰۲۴-۰۸-۱۳_۱۱-۵۶-۵۰.jpg" alt="شعر" style="max-width:100%;max-height:400px;border-radius:16px;display:block;margin:0 auto" onerror="this.src='data/images/placeholder.jpg'">
+            <div style="text-align:center;margin-top:10px">
+                <button onclick="likePoem()" style="background:#e74c3c;border:none;color:#fff;padding:6px 16px;border-radius:30px;cursor:pointer">❤️ لایک</button>
+                <button onclick="sharePoem()" style="background:#1a6a8a;border:none;color:#fff;padding:6px 16px;border-radius:30px;cursor:pointer">📤 اشتراک</button>
             </div>
         </div>
 
-        <!-- ===== بخش ۸: پنل مدیریت ===== -->
-        <div class="tv-module module-admin" id="admin-module" style="display: none;">
-            <div class="module-title"><i class="fas fa-user-cog" style="color: #e67e22;"></i> پنل مدیریت</div>
-            <div id="admin-login" style="text-align: center; padding: 20px;">
-                <input type="password" id="admin-password" placeholder="رمز ورود" style="padding: 10px; border-radius: 10px; border: 1px solid #ccc; margin: 10px;">
-                <button onclick="loginAdmin()" style="padding: 10px 30px; background: #e67e22; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;">ورود</button>
-                <div id="admin-error" style="color: #e74c3c; margin-top: 10px; display: none;">رمز اشتباه است!</div>
+        <!-- گنجینه دانش -->
+        <div class="tv-module module-knowledge" id="knowledge-module" style="display:none">
+            <div class="module-title" style="color:#7d3c00;border-bottom-color:#f39c12">
+                <i class="fas fa-graduation-cap" style="color:#f39c12"></i> گنجینه دانش
+                <span style="font-size:0.8rem;background:#f39c12;color:#fff;padding:2px 12px;border-radius:30px;margin-right:12px">۴ بخش</span>
             </div>
-            <div id="admin-panel" style="display: none; max-height: 600px; overflow-y: auto;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;justify-content:center">
+                <button class="section-filter active" data-section="all">همه</button>
+                <button class="section-filter" data-section="دانستنی‌ها"><i class="fas fa-book"></i> دانستنی‌ها</button>
+                <button class="section-filter" data-section="مهارت‌های کاربردی"><i class="fas fa-tools"></i> مهارت‌های کاربردی</button>
+                <button class="section-filter" data-section="همراهان روشنایی"><i class="fas fa-users"></i> همراهان روشنایی</button>
+                <button class="section-filter" data-section="مشارکت و تأثیر"><i class="fas fa-handshake"></i> مشارکت و تأثیر</button>
+            </div>
+            <div id="knowledge-base-container" style="max-height:600px;overflow-y:auto;padding:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px"></div>
+            <div style="text-align:center;margin-top:20px;padding:15px;background:rgba(243,156,18,0.08);border-radius:16px;border-right:4px solid #f39c12">
+                <i class="fas fa-lightbulb" style="color:#f39c12;font-size:1.2rem"></i>
+                <span style="color:#7d3c00;font-weight:600">هر محتوای این گنجینه می‌تواند به پادکست یا اسلایدشو تبدیل شود!</span>
+            </div>
+        </div>
+
+        <!-- مدیریت -->
+        <div class="tv-module module-admin" id="admin-module" style="display:none">
+            <div class="module-title"><i class="fas fa-user-cog" style="color:#e67e22"></i> پنل مدیریت</div>
+            <div id="admin-login" style="text-align:center;padding:20px">
+                <input type="password" id="admin-password" placeholder="رمز ورود" style="padding:10px;border-radius:10px;border:1px solid #ccc;margin:10px">
+                <button onclick="loginAdmin()" style="padding:10px 30px;background:#e67e22;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer">ورود</button>
+                <div id="admin-error" style="color:#e74c3c;margin-top:10px;display:none">رمز اشتباه است!</div>
+            </div>
+            <div id="admin-panel" style="display:none;max-height:600px;overflow-y:auto">
                 <h4>لیست تعاملات دریافتی</h4>
                 <div id="interactions-list"></div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <button onclick="exportKnowledgeBase()" style="padding: 10px 30px; background: #f39c12; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-download"></i> دانلود گنجینه</button>
-                    <button onclick="clearKnowledgeBase()" style="padding: 10px 30px; background: #e74c3c; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer;"><i class="fas fa-trash"></i> پاک کردن گنجینه</button>
+                <div style="margin-top:20px;text-align:center">
+                    <button onclick="exportKnowledgeBase()" style="padding:10px 30px;background:#f39c12;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-download"></i> دانلود گنجینه</button>
+                    <button onclick="clearKnowledgeBase()" style="padding:10px 30px;background:#e74c3c;border:none;border-radius:30px;color:#fff;font-weight:600;cursor:pointer"><i class="fas fa-trash"></i> پاک کردن گنجینه</button>
                 </div>
             </div>
         </div>
 
-        <!-- ===== بخش ۹: گنجینه دانش شما (کاربری) ===== -->
+        <!-- گنجینه دانش شما -->
         <div class="tv-module module-user-knowledge" id="user-knowledge-module">
-            <div class="module-title"><i class="fas fa-user-graduate" style="color: #8e44ad;"></i> گنجینه دانش شما</div>
-            <div id="user-knowledge-container" style="max-height: 400px; overflow-y: auto; padding: 10px;">
-                <p style="text-align:center; color:#7f8c8d;">هنوز محتوایی به گنجینه دانش شما اضافه نشده است.</p>
-            </div>
+            <div class="module-title"><i class="fas fa-user-graduate" style="color:#8e44ad"></i> گنجینه دانش شما</div>
+            <div id="user-knowledge-container" style="max-height:400px;overflow-y:auto;padding:10px"></div>
         </div>
 
-        <!-- ===== عضویت ===== -->
+        <!-- عضویت -->
         <div class="tv-module module-membership" id="membership">
-            <div class="module-title"><i class="fas fa-user-plus" style="color: #9b59b6;"></i> درخواست عضویت</div>
-            <div style="text-align:center; margin-bottom:16px;">
-                <p style="font-size:1.1rem; color:#2c3e50;"><i class="fas fa-hand-peace" style="color:#f1c40f;"></i> سلام بر شما فرهیختهٔ گرامی</p>
-                <p style="color:#3a5e77; margin-top:4px;">برای ثبت‌نام و عضویت در انجمن، لطفاً به وب‌سایت اصلی مراجعه فرمایید.</p>
+            <div class="module-title"><i class="fas fa-user-plus" style="color:#9b59b6"></i> درخواست عضویت</div>
+            <div style="text-align:center;margin-bottom:16px">
+                <p style="font-size:1.1rem;color:#2c3e50"><i class="fas fa-hand-peace" style="color:#f1c40f"></i> سلام بر شما فرهیختهٔ گرامی</p>
+                <p style="color:#3a5e77">برای ثبت‌نام و عضویت، به وب‌سایت اصلی مراجعه کنید</p>
             </div>
-            <div style="text-align:center;">
-                <a href="https://casraango.org" target="_blank" style="display: inline-block; padding: 12px 35px; background: #9b59b6; color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.2s; box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);">
-                    <i class="fas fa-external-link-alt"></i> عضویت در سایت اصلی
-                </a>
+            <div style="text-align:center">
+                <a href="https://casraango.org" target="_blank" style="display:inline-block;padding:12px 35px;background:#9b59b6;color:#fff;border-radius:50px;text-decoration:none;font-weight:700"><i class="fas fa-external-link-alt"></i> عضویت در سایت اصلی</a>
             </div>
         </div>
 
-        <!-- ===== همیاری‌های اجتماعی ===== -->
+        <!-- همیاری -->
         <div class="tv-module module-helps" id="helps-module">
-            <div class="module-title"><i class="fas fa-hands-helping" style="color: #f39c12;"></i> همیاری‌های اجتماعی</div>
-            <div class="help-items" id="helps-container"></div>
+            <div class="module-title"><i class="fas fa-hands-helping" style="color:#f39c12"></i> همیاری‌های اجتماعی</div>
+            <div id="helps-container" class="help-items"></div>
         </div>
 
-        <!-- ===== آنچه با هم می‌سازیم ===== -->
+        <!-- آنچه با هم می‌سازیم -->
         <div class="tv-module module-builds" id="builds-module">
-            <div class="module-title"><i class="fas fa-handshake" style="color: #1abc9c;"></i> آنچه با هم می‌سازیم</div>
-            <div class="help-items" id="builds-container"></div>
+            <div class="module-title"><i class="fas fa-handshake" style="color:#1abc9c"></i> آنچه با هم می‌سازیم</div>
+            <div id="builds-container" class="help-items"></div>
         </div>
 
-        <!-- ===== گالری تصاویر ===== -->
+        <!-- گالری -->
         <div class="tv-module module-gallery" id="gallery-module">
-            <div class="module-title"><i class="fas fa-images" style="color: #00b894;"></i> گالری تصاویر</div>
-            <div class="gallery-grid" id="gallery-container"></div>
+            <div class="module-title"><i class="fas fa-images" style="color:#00b894"></i> گالری تصاویر</div>
+            <div id="gallery-container" class="gallery-grid"></div>
         </div>
 
-        <!-- ===== تعامل هوشمند ===== -->
+        <!-- تعامل -->
         <div class="tv-module module-interact" id="interact-module">
-            <div class="module-title"><i class="fas fa-comment-dots" style="color: #0984e3;"></i> پرسش و پاسخ</div>
+            <div class="module-title"><i class="fas fa-comment-dots" style="color:#0984e3"></i> پرسش و پاسخ</div>
             <div class="interact-box">
                 <textarea id="interact-text" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..."></textarea>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
                     <button class="btn-send" onclick="sendInteraction('text')"><i class="fas fa-paper-plane"></i> ارسال متن</button>
-                    <button class="btn-send" onclick="startRecording()" style="background: #e74c3c;"><i class="fas fa-microphone"></i> ضبط صدا</button>
-                    <button class="btn-send" onclick="document.getElementById('fileInput').click();" style="background: #2ecc71;"><i class="fas fa-upload"></i> آپلود فایل</button>
-                    <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;" onchange="uploadFile(event)">
+                    <button class="btn-send" onclick="startRecording()" style="background:#e74c3c"><i class="fas fa-microphone"></i> ضبط صدا</button>
+                    <button class="btn-send" onclick="document.getElementById('fileInput').click();" style="background:#2ecc71"><i class="fas fa-upload"></i> آپلود فایل</button>
+                    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="uploadFile(event)">
                 </div>
-                <div id="recording-status" style="margin: 10px 0; color: #e74c3c; font-weight: bold; display: none;">🔴 در حال ضبط... (برای توقف کلیک کنید)</div>
-                <button class="btn-send" onclick="stopRecording()" id="stopRecordingBtn" style="display: none; background: #e74c3c;"><i class="fas fa-stop"></i> توقف ضبط</button>
+                <div id="recording-status" style="margin:10px 0;color:#e74c3c;font-weight:bold;display:none">🔴 در حال ضبط...</div>
+                <button class="btn-send" onclick="stopRecording()" id="stopRecordingBtn" style="display:none;background:#e74c3c"><i class="fas fa-stop"></i> توقف ضبط</button>
                 <div class="response-area" id="response-area">
-                    <i class="fas fa-robot" style="margin-left:8px;"></i>
-                    <span style="font-weight: 700; color: #d4a373;">مدیر پاسخگو</span>
+                    <i class="fas fa-robot"></i>
+                    <span style="font-weight:700;color:#d4a373">مدیر پاسخگو</span>
                     پاسخ هوشمند در اینجا نمایش داده می‌شود.
                 </div>
             </div>
         </div>
 
-        <!-- ===== ارتباط با انجمن ===== -->
-        <div class="contact-box" id="contact" style="background: linear-gradient(145deg, #2c3e50, #1a252f); border-radius: 24px; padding: 25px; margin: 30px 0; box-shadow: 0 8px 30px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);">
-            <h3 style="color: #f39c12; border-bottom: 2px solid #f39c12; padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; font-size: 1.5rem;">
-                <i class="fas fa-address-card"></i> ارتباط با انجمن
-            </h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between;">
-                <div style="flex: 1; min-width: 200px; color: #ecf0f1;">
-                    <p style="display: flex; align-items: center; gap: 10px; margin: 8px 0;"><i class="fas fa-phone-alt" style="color: #f39c12; width: 25px;"></i> ۰۲۱-۲۲۹۰۹۰۰۰</p>
-                    <p style="display: flex; align-items: center; gap: 10px; margin: 8px 0;"><i class="fas fa-envelope" style="color: #f39c12; width: 25px;"></i> info@casraango.org</p>
-                    <p style="display: flex; align-items: center; gap: 10px; margin: 8px 0;"><i class="fas fa-globe" style="color: #f39c12; width: 25px;"></i> casraango.org</p>
-                    <p style="display: flex; align-items: center; gap: 10px; margin: 8px 0;"><i class="fas fa-map-marker-alt" style="color: #f39c12; width: 25px;"></i> تهران، پاسداران، خیابان چهارم شرقی، خیابان شهید محمدرضا ربانی، پلاک ۱۲</p>
+        <!-- ارتباط با انجمن -->
+        <div class="contact-box" id="contact">
+            <h3><i class="fas fa-address-card"></i> ارتباط با انجمن</h3>
+            <div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:space-between">
+                <div style="flex:1;min-width:200px">
+                    <p><i class="fas fa-phone-alt"></i> ۰۲۱-۲۲۹۰۹۰۰۰</p>
+                    <p><i class="fas fa-envelope"></i> info@casraango.org</p>
+                    <p><i class="fas fa-globe"></i> casraango.org</p>
+                    <p><i class="fas fa-map-marker-alt"></i> تهران، پاسداران، خیابان چهارم شرقی، خیابان شهید محمدرضا ربانی، پلاک ۱۲</p>
                 </div>
-                <div style="flex: 1; min-width: 200px;">
-                    <div class="social-links" id="social-links" style="display: flex; gap: 15px; justify-content: flex-start; margin-top: 8px;"></div>
+                <div style="flex:1;min-width:200px">
+                    <div class="social-links" id="social-links"></div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== فوتر ===== -->
         <div class="footer-note">
             <p><i class="fas fa-sync-alt"></i> به‌روزرسانی خودکار از کتابخانه دانش</p>
-            <p style="margin-top:2px;"><i class="fas fa-heart" style="color:#e67e22;"></i> ما همه مسئولیم</p>
+            <p><i class="fas fa-heart" style="color:#e67e22"></i> ما همه مسئولیم</p>
         </div>
 
     </div>
