@@ -436,9 +436,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (storedKB) {
             knowledgeBase = JSON.parse(storedKB);
         } else {
+            // داده‌های پیش‌فرض (در صورت عدم وجود فایل)
             knowledgeBase = [
-                { id: 1, type: 'text', title: 'مسئولیت اجتماعی در گردشگری', content: 'چگونه می‌توانیم مسئولیت اجتماعی را در صنعت گردشگری پیاده کنیم؟', response: 'با مشارکت جوامع محلی و حفظ محیط زیست.', date: '۱۴۰۵/۰۵/۰۱' },
-                { id: 2, type: 'audio', title: 'پرسش صوتی درباره توسعه پایدار', content: 'صدای کاربر در مورد توسعه پایدار...', response: 'پاسخ مدیر: توسعه پایدار نیازمند...', date: '۱۴۰۵/۰۵/۰۲' }
+                { id: 1, type: 'text', title: 'مسئولیت اجتماعی در گردشگری', content: 'چگونه می‌توانیم مسئولیت اجتماعی را در صنعت گردشگری پیاده کنیم؟', response: 'با مشارکت جوامع محلی و حفظ محیط زیست.', date: '۱۴۰۵/۰۵/۰۱', source: 'انجمن', image: 'data/images/گردشگری-سبز-1.jpg', tags: ['گردشگری', 'مسئولیت اجتماعی'] }
             ];
             localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
         }
@@ -469,27 +469,86 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = '';
         
         if (knowledgeBase.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#7f8c8d;">هیچ محتوایی در گنجینه دانش یافت نشد.</p>';
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d;">
+                    <i class="fas fa-database" style="font-size: 3rem; color: #f39c12; display: block; margin-bottom: 15px;"></i>
+                    <p style="font-size: 1.2rem;">گنجینه دان و مهارت‌های کاربردی در حال تکمیل است...</p>
+                    <p>به زودی محتوای ارزشمندی از سوی همراهان روشنایی به این بخش اضافه خواهد شد.</p>
+                </div>
+            `;
             return;
         }
         
         knowledgeBase.forEach(item => {
             const div = document.createElement('div');
             div.className = 'kb-item';
+            div.dataset.type = item.type || 'text';
+            div.style.cssText = `
+                background: #fff; border-radius: 20px; padding: 18px; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+                border-right: 5px solid #f39c12;
+                transition: all 0.3s ease;
+                cursor: default;
+            `;
             
-            const typeLabel = { text: 'متن', audio: 'صوتی', video: 'تصویری' };
-            const typeClass = { text: 'kb-type-text', audio: 'kb-type-audio', video: 'kb-type-video' };
+            const typeLabel = { text: 'متن', audio: 'صوتی', video: 'تصویری', image: 'تصویر' };
+            const typeIcon = { text: 'fa-file-alt', audio: 'fa-headphones', video: 'fa-video', image: 'fa-image' };
+            const typeColors = { text: '#3498db', audio: '#e74c3c', video: '#2ecc71', image: '#9b59b6' };
             
             div.innerHTML = `
-                <span class="kb-type ${typeClass[item.type] || 'kb-type-text'}">${typeLabel[item.type] || 'متن'}</span>
-                <div class="kb-title">${item.title || 'بدون عنوان'}</div>
-                <div class="kb-content">${item.content || ''}</div>
-                <div class="kb-response"><strong>پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}</div>
-                <div class="kb-meta">${item.date || ''} ${item.file ? ' | <a href="' + item.file + '" target="_blank">دانلود فایل</a>' : ''}</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <span style="background: ${typeColors[item.type] || '#3498db'}; padding: 3px 12px; border-radius: 20px; font-size: 0.7rem; color: #fff; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+                            <i class="fas ${typeIcon[item.type] || 'fa-file-alt'}"></i>
+                            ${typeLabel[item.type] || 'متن'}
+                        </span>
+                        <span style="font-size: 0.7rem; background: #ecf0f1; padding: 2px 10px; border-radius: 20px; color: #7f8c8d;">${item.date || ''}</span>
+                    </div>
+                    <span style="font-size: 0.7rem; color: #f39c12; background: rgba(243, 156, 18, 0.1); padding: 2px 10px; border-radius: 20px;">${item.source || 'انجمن'}</span>
+                </div>
+                ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 12px; margin-bottom: 10px;" onerror="this.src='data/images/placeholder.jpg'">` : ''}
+                <div style="font-size: 1.1rem; font-weight: 700; color: #2c3e50; margin: 5px 0;">${item.title || 'بدون عنوان'}</div>
+                <div style="color: #34495e; font-size: 0.95rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${item.content || ''}</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px;">
+                    ${(item.tags || []).map(tag => `<span style="background: #f8f4f0; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; color: #7f8c8d;">#${tag}</span>`).join('')}
+                </div>
+                <div style="background: #fdf3e8; padding: 10px; border-radius: 12px; margin-top: 10px; border-right: 3px solid #f39c12; font-size: 0.9rem;">
+                    <strong style="color: #f39c12;"><i class="fas fa-user-check"></i> پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+                    <button onclick="window.location.href='#radio-module'" style="background: #3498db; border: none; padding: 4px 12px; border-radius: 30px; color: #fff; font-size: 0.75rem; cursor: pointer; transition: 0.2s;">
+                        <i class="fas fa-podcast"></i> ساخت پادکست
+                    </button>
+                    <button onclick="window.location.href='#tv-module'" style="background: #2ecc71; border: none; padding: 4px 12px; border-radius: 30px; color: #fff; font-size: 0.75rem; cursor: pointer; transition: 0.2s;">
+                        <i class="fas fa-slideshare"></i> ساخت اسلایدشو
+                    </button>
+                </div>
             `;
             container.appendChild(div);
         });
     }
+
+    // فیلتر کردن محتوا بر اساس نوع
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.style.background = '#ecf0f1';
+                b.style.color = '#2c3e50';
+            });
+            this.style.background = '#f39c12';
+            this.style.color = '#fff';
+            
+            const filter = this.dataset.filter;
+            const items = document.querySelectorAll('.kb-item');
+            items.forEach(item => {
+                if (filter === 'all' || item.dataset.type === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
 
     function addToKnowledgeBase(title, content, response, type, file) {
         const newItem = {
@@ -499,7 +558,9 @@ document.addEventListener('DOMContentLoaded', function() {
             content: content || '',
             response: response || 'در انتظار پاسخ...',
             date: new Date().toLocaleDateString('fa-IR'),
-            file: file || null
+            source: 'انجمن',
+            image: 'data/images/placeholder.jpg',
+            tags: ['مسئولیت اجتماعی']
         };
         knowledgeBase.unshift(newItem);
         localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
@@ -749,11 +810,11 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsDataURL(file);
     };
 
-    // ۱۹. تولید پادکست از گنجینه
+    // ۱۹. تولید پادکست
     let isGenerating = false;
     let lastGeneratedContent = null;
 
-    window.generatePodcast = function() {
+    window.generatePodcastSimple = function() {
         if (isGenerating) return;
         isGenerating = true;
         
@@ -782,30 +843,21 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showNotification('✅ پادکست با موفقیت تولید شد. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
             
-            // نمایش دکمه ارسال (با یک المان موقت)
-            const sendBtn = document.createElement('button');
-            sendBtn.textContent = '📥 ارسال به گنجینه دانش';
-            sendBtn.style.cssText = 'padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px auto; display: block;';
-            sendBtn.onclick = function() {
-                addToUserKnowledgeBase(lastGeneratedContent);
-                this.remove();
-            };
-            
-            // پیدا کردن محل مناسب برای نمایش دکمه
-            const radioModule = document.getElementById('radio-module');
-            if (radioModule) {
-                const existingBtn = radioModule.querySelector('.temp-send-btn');
-                if (existingBtn) existingBtn.remove();
-                sendBtn.className = 'temp-send-btn';
-                radioModule.appendChild(sendBtn);
+            const sendContainer = document.getElementById('radio-send-container');
+            if (sendContainer) {
+                sendContainer.innerHTML = `
+                    <button onclick="sendToUserKnowledge()" style="padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 5px;">
+                        <i class="fas fa-save"></i> ارسال به گنجینه دانش
+                    </button>
+                `;
             }
             
             isGenerating = false;
         }, 2000);
     };
 
-    // ۲۰. تولید اسلایدشو از گنجینه
-    window.generateSlideshow = function() {
+    // ۲۰. تولید اسلایدشو
+    window.generateSlideshowSimple = function() {
         if (isGenerating) return;
         isGenerating = true;
         
@@ -833,7 +885,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <h3 style="margin: 0; color: #2c3e50;">${item.title || 'بدون عنوان'}</h3>
                         </div>
                         <p style="color: #34495e; line-height: 1.6;">${item.content || ''}</p>
-                        ${item.file ? `<div style="text-align: center;"><img src="${item.file}" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin: 10px 0;"></div>` : ''}
+                        ${item.image ? `<div style="text-align: center;"><img src="${item.image}" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin: 10px 0;"></div>` : ''}
                         <div style="background: #f8f4f0; padding: 10px; border-radius: 10px; margin-top: 10px;">
                             <strong>پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}
                         </div>
@@ -858,52 +910,29 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showNotification('✅ اسلایدشو با موفقیت تولید شد. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
             
-            // نمایش دکمه ارسال (با یک المان موقت)
-            const sendBtn = document.createElement('button');
-            sendBtn.textContent = '📥 ارسال به گنجینه دانش';
-            sendBtn.style.cssText = 'padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px auto; display: block;';
-            sendBtn.onclick = function() {
-                addToUserKnowledgeBase(lastGeneratedContent);
-                this.remove();
-            };
-            
-            const tvModule = document.getElementById('tv-module');
-            if (tvModule) {
-                const existingBtn = tvModule.querySelector('.temp-send-btn');
-                if (existingBtn) existingBtn.remove();
-                sendBtn.className = 'temp-send-btn';
-                tvModule.appendChild(sendBtn);
+            const sendContainer = document.getElementById('tv-send-container');
+            if (sendContainer) {
+                sendContainer.innerHTML = `
+                    <button onclick="sendToUserKnowledge()" style="padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 5px;">
+                        <i class="fas fa-save"></i> ارسال به گنجینه دانش
+                    </button>
+                `;
             }
             
             isGenerating = false;
         }, 2000);
     };
 
-    // ۲۱. توابع مدیریت تایمر برای دکمه‌های نگه‌دارید
-    let pressTimer = null;
-
-    window.startPressTimer = function(type) {
-        if (pressTimer) {
-            clearTimeout(pressTimer);
-            pressTimer = null;
-        }
-        
-        showNotification('⏳ در حال آماده‌سازی... دکمه را نگه دارید تا تولید آغاز شود.');
-        
-        pressTimer = setTimeout(() => {
-            if (type === 'podcast') {
-                generatePodcast();
-            } else if (type === 'slideshow') {
-                generateSlideshow();
-            }
-            pressTimer = null;
-        }, 2000);
-    };
-
-    window.cancelPressTimer = function() {
-        if (pressTimer) {
-            clearTimeout(pressTimer);
-            pressTimer = null;
+    // ۲۱. ارسال به گنجینه دانش کاربر
+    window.sendToUserKnowledge = function() {
+        if (lastGeneratedContent) {
+            addToUserKnowledgeBase(lastGeneratedContent);
+            document.querySelectorAll('#radio-send-container, #tv-send-container').forEach(container => {
+                container.innerHTML = '';
+            });
+            showNotification('✅ محتوا با موفقیت به گنجینه دانش شما اضافه شد.');
+        } else {
+            showNotification('❌ هیچ محتوایی برای ارسال وجود ندارد.');
         }
     };
 
@@ -963,154 +992,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
     }
-// =============================================
-// توابع ساده‌شده تولید پادکست و اسلایدشو
-// =============================================
 
-// ۱. تولید پادکست (نسخه ساده و بدون تایمر)
-window.generatePodcastSimple = function() {
-    const items = knowledgeBase.filter(item => item.type === 'text').slice(0, 5);
-    if (items.length === 0) {
-        showNotification('❌ هیچ محتوای متنی در گنجینه برای تولید پادکست وجود ندارد.');
-        return;
-    }
-    
-    // مرحله ۱: پیام شروع
-    showNotification('🎙️ مرحله ۱: در حال آماده‌سازی متن پادکست...');
-    
-    // شبیه‌سازی تولید با تأخیر
-    setTimeout(() => {
-        // مرحله ۲: پیام آماده‌سازی
-        showNotification('📝 مرحله ۲: متن پادکست آماده شد. در حال تبدیل به گفتار...');
-        
-        setTimeout(() => {
-            // تولید و پخش پادکست
-            const text = items.map(item => item.title + '. ' + item.content).join(' ');
-            const speech = new SpeechSynthesisUtterance(text);
-            speech.lang = 'fa-IR';
-            speech.rate = 0.9;
-            window.speechSynthesis.speak(speech);
-            
-            // ذخیره محتوای تولیدشده برای ارسال به گنجینه کاربر
-            lastGeneratedContent = {
-                type: 'podcast',
-                title: 'پادکست تولیدشده از گنجینه',
-                content: 'پادکستی شامل ' + items.length + ' مطلب از گنجینه دانش',
-                date: new Date().toLocaleDateString('fa-IR')
-            };
-            
-            // مرحله ۳: پیام موفقیت و نمایش دکمه ارسال
-            showNotification('✅ پادکست با موفقیت تولید و در حال پخش است. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
-            
-            // نمایش دکمه ارسال به گنجینه در بخش رادیو
-            const sendContainer = document.getElementById('radio-send-container');
-            if (sendContainer) {
-                sendContainer.innerHTML = `
-                    <button onclick="sendToUserKnowledge()" style="padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 5px;">
-                        <i class="fas fa-save"></i> ارسال به گنجینه دانش
-                    </button>
-                `;
-            }
-            
-        }, 1500);
-    }, 1500);
-};
-
-// ۲. تولید اسلایدشو (نسخه ساده و بدون تایمر)
-window.generateSlideshowSimple = function() {
-    const items = knowledgeBase.slice(0, 10);
-    if (items.length === 0) {
-        showNotification('❌ هیچ محتوایی در گنجینه برای تولید اسلایدشو وجود ندارد.');
-        return;
-    }
-    
-    // مرحله ۱: پیام شروع
-    showNotification('📺 مرحله ۱: در حال آماده‌سازی محتوای اسلایدشو...');
-    
-    setTimeout(() => {
-        // مرحله ۲: پیام آماده‌سازی
-        showNotification('🖼️ مرحله ۲: محتوا آماده شد. در حال ساخت اسلایدشو...');
-        
-        setTimeout(() => {
-            // تولید اسلایدشو
-            let slideshowHTML = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
-                    <button onclick="this.parentElement.remove()" style="position: absolute; top: 20px; right: 20px; background: #e74c3c; border: none; border-radius: 50%; color: #fff; font-size: 1.5rem; width: 50px; height: 50px; cursor: pointer; z-index: 10000;">✕</button>
-                    <div style="max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 30px; color: #2c3e50;">
-            `;
-            
-            items.forEach((item, index) => {
-                slideshowHTML += `
-                    <div style="border-bottom: 2px solid #e0c9a6; padding: 20px 0; ${index === 0 ? 'padding-top: 0;' : ''}">
-                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                            <span style="background: #f39c12; color: #fff; padding: 2px 12px; border-radius: 20px; font-size: 0.8rem;">${index + 1}</span>
-                            <h3 style="margin: 0; color: #2c3e50;">${item.title || 'بدون عنوان'}</h3>
-                        </div>
-                        <p style="color: #34495e; line-height: 1.6;">${item.content || ''}</p>
-                        ${item.file ? `<div style="text-align: center;"><img src="${item.file}" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin: 10px 0;"></div>` : ''}
-                        <div style="background: #f8f4f0; padding: 10px; border-radius: 10px; margin-top: 10px;">
-                            <strong>پاسخ مدیر:</strong> ${item.response || 'در انتظار پاسخ...'}
-                        </div>
-                        <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 8px;">${item.date || ''}</div>
-                    </div>
-                `;
-            });
-            
-            slideshowHTML += `
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', slideshowHTML);
-            
-            // ذخیره محتوای تولیدشده برای ارسال به گنجینه کاربر
-            lastGeneratedContent = {
-                type: 'slideshow',
-                title: 'اسلایدشو تولیدشده از گنجینه',
-                content: 'اسلایدشو شامل ' + items.length + ' محتوا از گنجینه دانش',
-                date: new Date().toLocaleDateString('fa-IR')
-            };
-            
-            // مرحله ۳: پیام موفقیت و نمایش دکمه ارسال
-            showNotification('✅ اسلایدشو با موفقیت تولید و نمایش داده شد. اگر مفید بود، روی دکمه "ارسال به گنجینه دانش" کلیک کنید.');
-            
-            // نمایش دکمه ارسال به گنجینه در بخش تلویزیون
-            const sendContainer = document.getElementById('tv-send-container');
-            if (sendContainer) {
-                sendContainer.innerHTML = `
-                    <button onclick="sendToUserKnowledge()" style="padding: 10px 20px; background: #8e44ad; border: none; border-radius: 30px; color: #fff; font-weight: 600; cursor: pointer; margin: 5px;">
-                        <i class="fas fa-save"></i> ارسال به گنجینه دانش
-                    </button>
-                `;
-            }
-            
-        }, 1500);
-    }, 1500);
-};
-
-// ۳. تابع ارسال به گنجینه دانش کاربر
-window.sendToUserKnowledge = function() {
-    if (lastGeneratedContent) {
-        addToUserKnowledgeBase(lastGeneratedContent);
-        // مخفی کردن دکمه ارسال پس از کلیک
-        document.querySelectorAll('#radio-send-container, #tv-send-container').forEach(container => {
-            container.innerHTML = '';
-        });
-    } else {
-        showNotification('❌ هیچ محتوایی برای ارسال وجود ندارد.');
-    }
-};
-
-// ۴. تابع کمک‌کننده برای افزودن به گنجینه کاربر (در صورت عدم وجود)
-if (typeof addToUserKnowledgeBase !== 'function') {
-    window.addToUserKnowledgeBase = function(content) {
-        const userKnowledge = JSON.parse(localStorage.getItem('userKnowledge') || '[]');
-        userKnowledge.unshift(content);
-        localStorage.setItem('userKnowledge', JSON.stringify(userKnowledge));
-        displayUserKnowledgeBase();
-        showNotification('✅ محتوا با موفقیت به گنجینه‌ی دانش شما اضافه شد.');
-    };
-}
     // =============================================
     // بخش چهارم: بارگذاری اولیه
     // =============================================
